@@ -1,6 +1,10 @@
-import LandingPageNavbar from "../components/navigation/LandingPageNavbar"
+import React from "react";
+import {useNavigate} from 'react-router-dom';
+
+import LandingPageNavbar from "../components/LandingPageNavbar";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-900">
       <LandingPageNavbar />
@@ -19,6 +23,7 @@ const LandingPage = () => {
             <a
               href="javascript:void(0)"
               className="px-7 py-3 w-full bg-white text-gray-800 text-center rounded-md shadow-md block sm:w-auto"
+              onClick={() => navigate('/closet')}
             >
               Get started
             </a>
