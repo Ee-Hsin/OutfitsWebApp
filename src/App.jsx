@@ -1,27 +1,25 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import LandingPage from "./pages/LandingPage";
-import Closet from "./pages/Closet";
-import Outfits from "./pages/Outfits";
-import Upload from "./pages/Upload";
-import Navbar from './components/Navbar';
-
+import LandingPage from "./pages/LandingPage"
+import Closet from "./pages/Closet"
+import Outfits from "./pages/Outfits"
+import Upload from "./pages/Upload"
+// import Navbar from "./components/Navbar"
 
 function App() {
   return (
-    <div className='App'>
-      
+    <div className="App">
       <BrowserRouter>
-        <Navbar/>
+        {/* <Navbar /> */}
         <Routes>
-            <Route path="/closet" element={<Closet/>}/>
-            <Route path="/outfits" element={<Outfits/>}/>
-            <Route path="/upload" element={<Upload/>}/>
-            <Route path="/" element={<LandingPage/>}/>
+          <Route path="/closet" element={<Closet />} />
+          <Route path="/outfits" element={<Outfits />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
 export default App
