@@ -1,5 +1,5 @@
 // import React from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 import LandingPageNavbar from "../components/LandingPageNavbar"
 
@@ -20,13 +20,13 @@ const LandingPage = () => {
             effortlessly express your unique fashion sense.
           </p>
           <div className="pt-10 items-center justify-center space-y-3 sm:space-x-6 sm:space-y-0 sm:flex lg:justify-start">
-            <a
-              href="javascript:void(0)"
+            <Link
+              to="/signup"
               className="px-7 py-3 w-full bg-white text-gray-800 text-center rounded-md shadow-md block sm:w-auto"
               onClick={() => navigate("/closet")}
             >
               Get started
-            </a>
+            </Link>
             {/* <a
               href="javascript:void(0)"
               className="px-7 py-3 w-full bg-gray-700 text-gray-200 text-center rounded-md block sm:w-auto"
