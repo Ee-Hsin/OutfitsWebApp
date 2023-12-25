@@ -6,6 +6,7 @@ import Outfits from "./pages/Outfits"
 import Upload from "./pages/Upload"
 import Navbar from "./components/Navbar"
 import LoginPage from "./pages/LoginPage"
+import Signup from "./pages/Signup"
 
 function App() {
   return (
@@ -23,10 +24,12 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="signup" element={<Signup />} />
         <Route path="/app" element={<NavbarWithOutlet />}>
           <Route path="closet" element={<Closet />} />
           <Route path="outfits" element={<Outfits />} />
           <Route path="upload" element={<Upload />} />
+
         </Route>
       </Routes>
     </>
