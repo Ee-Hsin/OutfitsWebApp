@@ -5,6 +5,7 @@ import Closet from "./pages/Closet"
 import Outfits from "./pages/Outfits"
 import Upload from "./pages/Upload"
 import Navbar from "./components/Navbar"
+import LoginPage from "./pages/LoginPage"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function AppRoutes() {
     <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/app" element={<NavbarWithOutlet />}>
           <Route path="closet" element={<Closet />} />
           <Route path="outfits" element={<Outfits />} />
