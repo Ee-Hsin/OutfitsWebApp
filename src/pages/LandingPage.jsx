@@ -35,7 +35,7 @@ const LandingPage = () => {
         </div>
         <div className="flex-1 text-center mt-7 lg:mt-0 lg:ml-3">
           <img
-            src="https://i.postimg.cc/HxHyt53c/undraw-heatmap-uyye.png"
+            src="https://img.freepik.com/premium-vector/hand-drawn-dress-code-illustrated_52683-94768.jpg"
             className="w-full mx-auto sm:w-10/12  lg:w-full"
           />
         </div>
