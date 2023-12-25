@@ -15,6 +15,7 @@ const Navbar = () =>{
         <ul className='flex font-montserrat text-lg'>
           <button onClick={() => navigate('/closet')} className='p-8 hover:text-[#d6ccde]'>Closet</button>
           <button onClick={() => navigate('/outfits')}className='p-8 hover:text-[#d6ccde]'>Outfits</button>
+          <button onClick={() => navigate('/signup')}className='p-8 hover:text-[#d6ccde]'>Signup</button>
         </ul>
       </div>
       
