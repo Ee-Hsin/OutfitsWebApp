@@ -1,30 +1,47 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom"
 
-import LandingPage from "./pages/LandingPage";
-import Closet from "./pages/Closet";
-import Outfits from "./pages/Outfits";
-import Upload from "./pages/Upload";
-import Navbar from './components/Navbar';
-import Signup from './pages/Signup';
-
+import LandingPage from "./pages/LandingPage"
+import Closet from "./pages/Closet"
+import Outfits from "./pages/Outfits"
+import Upload from "./pages/Upload"
+import Navbar from "./components/Navbar"
+import LoginPage from "./pages/LoginPage"
 
 function App() {
   return (
-    <div className='App'>
-      
+    <div className="App">
       <BrowserRouter>
-        <Navbar/>
-        <Routes>
-            <Route path="/closet" element={<Closet/>}/>
-            <Route path="/outfits" element={<Outfits/>}/>
-            <Route path="/upload" element={<Upload/>}/>
-            <Route path="/" element={<LandingPage/>}/>
-            <Route path="/signup" element={<Signup/>}/>
-
-        </Routes>
+        <AppRoutes />
       </BrowserRouter>
     </div>
-  );
+  )
+}
+
+function AppRoutes() {
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/app" element={<NavbarWithOutlet />}>
+          <Route path="closet" element={<Closet />} />
+          <Route path="outfits" element={<Outfits />} />
+          <Route path="upload" element={<Upload />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
+      </Routes>
+    </>
+  )
+}
+
+function NavbarWithOutlet() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />{" "}
+      {/* This is where Closet, Outfits, and Upload components will render */}
+    </>
+  )
 }
 
 export default App
