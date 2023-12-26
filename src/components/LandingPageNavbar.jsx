@@ -36,14 +36,14 @@ const LandingPageNavbar = () => {
   return (
     <nav
       ref={navRef}
-      className="bg-[#201B21] bg-opacity-60 w-full top-0 z-20 border-none"
+      className="bg-[#201B21] bg-opacity-60 w-full h-28 top-0 z-20 border-none"
     >
-      <div className="items-center px-4 max-w-screen-xl mx-auto md:px-8 lg:flex">
-        <div className="flex items-center justify-between py-3 lg:py-4 lg:block">
+      <div className="items-center px-4 pt-5 max-w-screen-xl mx-auto md:px-8 md:flex">
+        <div className="flex items-center justify-between py-3 md:py-4 md:block">
           <Link to="/">
-            <h1 className="font-monoton text-3xl text-indigo-400">Fitsss</h1>
+            <h1 className="font-monoton text-3xl text-white hover:text-[#d6ccde]">Fitsss</h1>
           </Link>
-          <div className="lg:hidden">
+          <div className="md:hidden">
             <button
               className="text-gray-700 outline-none p-2 rounded-md focus:border-gray-400 focus:border"
               onClick={() => setState(!state)}
@@ -81,12 +81,12 @@ const LandingPageNavbar = () => {
           </div>
         </div>
         <div
-          className={`flex-1 justify-between flex-row-reverse lg:overflow-visible lg:flex lg:pb-0 lg:pr-0 lg:h-auto ${
+          className={`flex-1 justify-between flex-row-reverse md:overflow-visible md:flex md:pb-0 md:pr-0 md:h-auto ${
             state ? "h-screen pb-20 overflow-auto pr-4" : "hidden"
           }`}
         >
           <div>
-            <ul className="flex flex-col-reverse space-x-0 lg:space-x-6 lg:flex-row">
+            <ul className="flex flex-col-reverse space-x-0 md:space-x-6 md:flex-row">
               {/* <li className="mt-8 mb-8 lg:mt-0 lg:mb-0">
                 <a
                   href="javascript:void(0)"
@@ -95,18 +95,18 @@ const LandingPageNavbar = () => {
                   Contact
                 </a>
               </li> */}
-              <li className="mt-4 lg:mt-0">
+              <li className="mt-4 md:mt-0">
                 <Link
                   to="/login"
-                  className="py-3 px-4 text-center border text-white hover:text-indigo-600 rounded-md block lg:inline lg:border-0"
+                  className="py-3 px-4 bg-[#ddd8e6]  text-center bordertext-[#201B21] md:text-white hover:bg-white md:hover:bg-opacity-0 shadow-md hover:shadow-xl rounded-md mx-auto block md:inline md:border-0 md:bg-opacity-0 w-[40%] "
                 >
                   Login
                 </Link>
               </li>
-              <li className="mt-8 lg:mt-0">
+              <li className="mt-8 md:mt-0">
                 <Link
                   to="/signup"
-                  className="py-3 px-4 text-center text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow block lg:inline"
+                  className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%]"
                 >
                   Sign Up
                 </Link>

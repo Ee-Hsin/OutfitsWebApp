@@ -15,12 +15,6 @@ const Navbar = () => {
           <Link to="outfits" className="p-8 hover:text-[#d6ccde]">
             Outfits
           </Link>
-          <Link to="login" className="p-8 hover:text-[#d6ccde]">
-            Sign in
-          </Link>
-          <Link to="signup" className="p-8 hover:text-[#d6ccde]">
-            Sign up
-          </Link>
         </ul>
       </div>
 
