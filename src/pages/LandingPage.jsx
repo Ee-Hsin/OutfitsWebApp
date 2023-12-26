@@ -2,6 +2,7 @@
 import { useNavigate, Link } from "react-router-dom"
 
 import LandingPageNavbar from "../components/LandingPageNavbar"
+import Footer from "../components/Footer"
 
 const LandingPage = () => {
   const navigate = useNavigate()
@@ -70,6 +71,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import Closet from "./pages/Closet"
 import Outfits from "./pages/Outfits"
 import Upload from "./pages/Upload"
 import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
 import LoginPage from "./pages/LoginPage"
 import Signup from "./pages/Signup"
 
