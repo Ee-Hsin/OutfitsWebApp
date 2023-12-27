@@ -1,7 +1,10 @@
 // Signup.jsx
-import { Link } from "react-router-dom";
-import { GoogleIcon } from "../assets/icons/GoogleIcon";
+import { Link, useNavigate } from "react-router-dom";
+//import { GoogleIcon } from "../assets/icons/GoogleIcon";
+const API_URL = "https://fitss.up.railway.app/";
+
 function Signup() {
+  const navigate = useNavigate();
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
@@ -24,10 +27,33 @@ function Signup() {
             </p>
           </div>
         </div>
-        <form onSubmit={(e) => e.preventDefault()} className="mt-8 space-y-5">
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            const formJson = Object.fromEntries(formData.entries());
+            const jsonBody = JSON.stringify(formJson);
+            const response = await fetch(`${API_URL}/users`, {
+              method: "POST",
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+              },
+              body: jsonBody,
+            });
+
+            if (response.ok) {
+              navigate("/verify"); // no actual email verification
+            }
+          }}
+          className="mt-8 space-y-5"
+        >
           <div>
             <label className="font-medium">Email</label>
             <input
+              name="email"
               type="email"
               required
               className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
@@ -36,6 +62,7 @@ function Signup() {
           <div>
             <label className="font-medium">Password</label>
             <input
+              name="password"
               type="password"
               required
               className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"

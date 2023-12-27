@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleIcon } from "../assets/icons/GoogleIcon";
+import { GoogleLogin } from "@react-oauth/google";
 const API_URL = "https://fitss.up.railway.app/";
 
 function LoginPage() {
@@ -39,7 +39,6 @@ function LoginPage() {
             const response = await fetch(`${API_URL}/users/login`, {
               method: "POST",
               headers: {
-                api_key: "ebb4f508-zyrj-4087-tgnu-a5a8441b3ca4",
                 Accept: "*/*",
                 "Content-Type": "application/json",
               },
@@ -74,13 +73,10 @@ function LoginPage() {
           <button className="w-full text-gray-800 bg-gray-100 hover:bg-gray-200 ring-offset-2 focus:ring rounded-lg">
             Sign in
           </button>
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-x-3 py-2.5 border border-gray-800 rounded-lg text-sm font-medium bg-gray-800/40 hover:bg-gray-800 ring-purple-500 focus:ring duration-150"
-          >
-            <GoogleIcon />
-            Continue with Google
-          </button>
+          <GoogleLogin
+            onSuccess={() => navigate("/closet")}
+            onError={(e) => console.error(e)}
+          />
         </form>
       </div>
     </main>
