@@ -7,6 +7,7 @@
 //   export default Footer;
 
 import React from 'react';
+import
 
 const Footer = () => {
   const footerNavs = [
@@ -14,13 +15,13 @@ const Footer = () => {
       href: 'javascript:void()',
       name: 'Terms',
     },
+    // {
+    //   href: 'javascript:void()',
+    //   name: 'License',
+    // },
     {
       href: 'javascript:void()',
-      name: 'License',
-    },
-    {
-      href: 'javascript:void()',
-      name: 'Privacy',
+      name: 'Help',
     },
     {
       href: 'javascript:void()',
@@ -39,6 +40,7 @@ const Footer = () => {
               href="javascript:void(0)"
               className="block py-2 px-4 text-center text-white font-medium bg-indigo-600 duration-150 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg shadow-lg hover:shadow-none"
             >
+            
               Let's get started
             </a>
             <a
@@ -62,7 +64,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-10 py-10 border-t items-center justify-between sm:flex">
-          <p>© 2022 Float UI Inc. All rights reserved.</p>
+          <p>© 2023 Fitsss. All rights reserved.</p>
           <ul className="flex flex-wrap items-center gap-4 mt-6 sm:text-sm sm:mt-0">
             {footerNavs.map((item, idx) => (
               <li className="text-gray-800 hover:text-gray-500 duration-150" key={idx}>
