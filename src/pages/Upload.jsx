@@ -158,7 +158,11 @@ const Upload = () => {
             </div>
             <div className="flex py-8 px-10 items-center text-lg">
               {/* Content for Container 5 */}
-              <button className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8">cancel</button>
+              <button 
+                onClick={() => navigate("/app/closet")} 
+                className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8">
+                  cancel
+              </button>
               <button className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8">upload</button>
             </div>
           </div>
