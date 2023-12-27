@@ -7,9 +7,12 @@
 //   export default Footer;
 
 import React from 'react';
-import
+import { useNavigate, Link } from "react-router-dom";
+import Logo from "../assets/locker.png"
+
 
 const Footer = () => {
+    const navigate = useNavigate()
   const footerNavs = [
     {
       href: 'javascript:void()',
@@ -33,19 +36,22 @@ const Footer = () => {
     <footer className="pt-10">
       <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
         <div className="space-y-6 sm:max-w-md sm:mx-auto sm:text-center">
-          <img src="https://www.floatui.com/logo.svg" className="w-32 sm:mx-auto" alt="Logo" />
+          <img src={Logo} className="w-32 sm:mx-auto" alt="Logo" />
           <p></p>
           <div className="items-center gap-x-3 space-y-3 sm:flex sm:justify-center sm:space-y-0">
-            <a
-              href="javascript:void(0)"
-              className="block py-2 px-4 text-center text-white font-medium bg-indigo-600 duration-150 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg shadow-lg hover:shadow-none"
-            >
             
+          <Link
+              to="/signup"
+              className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%] transition-all duration-100"
+              onClick={() => navigate("/signup")}
+            >
               Let's get started
-            </a>
-            <a
-              href="javascript:void(0)"
+            </Link>
+            <Link
+                to="/signup"
+            
               className="flex items-center justify-center gap-x-2 py-2 px-4 text-gray-700 hover:text-gray-500 font-medium duration-150 active:bg-gray-100 border rounded-lg md:inline-flex"
+              onClick={() => navigate("/signup")}
             >
               Get access
               <svg
@@ -60,7 +66,8 @@ const Footer = () => {
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
+
+            </Link>
           </div>
         </div>
         <div className="mt-10 py-10 border-t items-center justify-between sm:flex">

@@ -1,11 +1,16 @@
-// import React from "react"
+//import React from "react"
 import { useNavigate, Link } from "react-router-dom"
 
 import LandingPageNavbar from "../components/LandingPageNavbar"
 import Footer from "../components/Footer"
+import Preview from "../assets/preview.png"
 
 const LandingPage = () => {
   const navigate = useNavigate()
+  const imageStyle = {
+    border: '2px solid #000', // Adjust the border style as needed
+    borderRadius: '8px', // Optional: Add border-radius for rounded corners
+  };
   return (
     <div>
       <LandingPageNavbar />
@@ -24,7 +29,7 @@ const LandingPage = () => {
             <Link
               to="/signup"
               className="px-7 py-3 w-full bg-white text-gray-800 text-center rounded-md shadow-md block sm:w-auto"
-              onClick={() => navigate("/closet")}
+              onClick={() => navigate("/signup")}
             >
               Get started
             </Link>
@@ -38,8 +43,8 @@ const LandingPage = () => {
         </div>
         <div className="flex-1 text-center mt-7 lg:mt-0 lg:ml-3">
           <img
-            src="https://png.pngtree.com/element_pic/17/03/16/d5f5354bb7a6fe02bb4775d55afca27c.png"
-            className="w-full mx-auto sm:w-10/12  lg:w-full"
+          src={Preview} alt="" style={imageStyle}
+          className="w-full mx-auto sm:w-10/12  lg:w-full"
           />
         </div>
       </section>
