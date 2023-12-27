@@ -106,7 +106,7 @@ const LandingPageNavbar = () => {
               <li className="mt-8 md:mt-0">
                 <Link
                   to="/signup"
-                  className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%]"
+                  className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%] transition-all duration-100"
                 >
                   Sign Up
                 </Link>

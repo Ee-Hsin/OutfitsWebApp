@@ -1,4 +1,4 @@
-//import React from "react";
+import React,{ useState }from "react";
 import { useLocation, useNavigate } from "react-router";
 import { IoIosArrowBack } from "react-icons/io";
 
@@ -7,6 +7,49 @@ const Upload = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { file } = location.state || {};
+  const [firstSelect, setFirstSelect] = useState('');
+  const [secondSelect, setSecondSelect] = useState([]);
+  const [checkboxYes, setCheckboxYes] = useState(false);
+  const [checkboxNo, setCheckboxNo] = useState(false);
+
+  const handleFirstSelect = (event) => {
+    const selectedValue = event.target.value;
+    setFirstSelect(selectedValue);
+
+    // Update the options for the second select based on the value of the first select
+    // may fetch the options from an API or define them based on some logic
+    const newOptions = getSecondOptions(selectedValue);
+    setSecondSelect(newOptions);
+  };
+
+  const getSecondOptions = (selectedValue) => {
+    if (selectedValue === 'top') {
+      return ['shirt', 'sweater', 'jacket', 'winter jacket'];
+    } else if (selectedValue === 'bottom') {
+      return ['pants', 'jeans', 'shorts', 'sweatpants', 'legging'];
+    } else if (selectedValue === 'shoes') {
+      return ['running', 'sneakers', 'boots'];
+    } else {
+      return [];
+    }
+  };
+
+  const handleCheckboxYes = () => {
+    setCheckboxYes(!checkboxYes);
+    // Clear checkbox2 when checkbox1 is checked
+    if (!checkboxYes) {
+      setCheckboxNo(false);
+    }
+  };
+
+  const handleCheckboxNo = () => {
+    setCheckboxNo(!checkboxNo);
+    // Clear checkbox1 when checkbox2 is checked
+    if (!checkboxNo) {
+      setCheckboxYes(false);
+    }
+  };
+
 
   if(!file){    // when file is not available in the state
     return <div>No image selected</div>
@@ -22,22 +65,107 @@ const Upload = () => {
           Categorize your item
         </div>
       </div>
-      <div className="flex items-center justify-between px-36 py-24">
-        <div className="relative w-96 h-96 bg-white rounded-2xl shadow-3xl">
+      <div className="flex sm:flex-col md:flex-col lg:flex-row items-center pl-36 py-24 text-white font-montserrat">
+        <div className="relative w-96 h-96 bg-white rounded-2xl shadow-3xl mr-72">
           <img 
             src={URL.createObjectURL(file)} 
-            alt="selected image"
+            alt="selected image"  
             className="w-full h-full object-cover rounded-2xl"
             style={{ objectFit: 'contain' }}
           />
         </div>
-        <div>
-          hi
+        
+        <div className="flex-col bg-white bg-opacity-0">
+            <div className="flex py-6 items-center">
+              {/* Content for Container 1 */}
+              <div className="w-32 text-lg">
+                Name:
+              </div>
+              <input
+                type="text"
+                placeholder="enter"
+                className="bg-white bg-opacity-40 p-2 rounded-3xl text-center placeholder-[#EBEBF5] placeholder-opacity-60 focus:outline-none shadow-xl hover:bg-opacity-30 transition-all duration-100"
+              />
+            </div>
+            <div className="flex py-6 items-center">
+              {/* Content for Container 2 */}
+              <div className="w-32 text-lg">
+                Type:
+              </div>
+              <select 
+                id="firstSelect"
+                value={firstSelect}
+                onChange={handleFirstSelect}
+                className="p-2 mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100">
+                <option value="top">top</option>
+                <option value="bottom">bottom</option>
+                <option value="shoes">shoes</option>
+              </select>
+              <select 
+                id="secondSelect"
+                disabled={secondSelect.length === 0}
+                className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100">
+                {secondSelect.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex py-6 items-center">
+              {/* Content for Container 3 */}
+              <div className="w-32 text-lg">
+                Color:
+              </div>
+              <select className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100 w-40">
+                <option value="black">black</option>
+                <option value="white">white</option>
+                <option value="grey">grey</option>
+                <option value="beige">beige</option>
+                <option value="red">red</option>
+                <option value="blue">blue</option>
+                <option value="yellow">yellow</option>
+                <option value="brown">brown</option>
+                <option value="green">green</option>
+              </select>
+            </div>
+            <div className="flex py-6 items-center">
+              {/* Content for Container 4 */}
+              <div className="w-32 text-lg">
+                Graphic:
+              </div>
+              <div className="flex pr-12">
+                <div className="p-2">yes</div>
+                <input
+                  type="checkbox"
+                  id="yesCheckbox"
+                  checked={checkboxYes}
+                  onChange={handleCheckboxYes}
+                  className="border border-gray-200 p-2 rounded-md bg-black bg-opacity-30"
+                />
+              </div>
+              <div className="flex">
+                <div className="p-2">no</div>
+                <input
+                  type="checkbox"
+                  id="noCheckbox"
+                  checked={checkboxNo}
+                  onChange={handleCheckboxNo}
+                  className="border border-gray-200 p-2 rounded-md bg-black bg-opacity-30"
+                />
+              </div>
+
+            </div>
+            <div className="flex py-8 px-10 items-center text-lg">
+              {/* Content for Container 5 */}
+              <button className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8">cancel</button>
+              <button className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8">upload</button>
+            </div>
+          </div>
         </div>
 
 
 
-      </div>
     </div>
   )
 }
