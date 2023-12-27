@@ -38,7 +38,7 @@ const Footer = () => {
         <div className="space-y-6 sm:max-w-md sm:mx-auto sm:text-center">
           <img src={Logo} className="w-32 sm:mx-auto" alt="Logo" />
           <p></p>
-          <div className="items-center gap-x-3 space-y-3 sm:flex sm:justify-center sm:space-y-0">
+          {/* <div className="items-center gap-x-3 space-y-3 sm:flex sm:justify-center sm:space-y-0">
             
           <Link
               to="/signup"
@@ -68,7 +68,7 @@ const Footer = () => {
               </svg>
 
             </Link>
-          </div>
+          </div> */}
         </div>
         <div className="mt-10 py-10 border-t items-center justify-between sm:flex">
           <p>© 2023 Fitsss. All rights reserved.</p>

@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom"
 import LandingPageNavbar from "../components/LandingPageNavbar"
 import Footer from "../components/Footer"
 import Preview from "../assets/preview.png"
+import Upload from "../assets/upload.png"
 
 const LandingPage = () => {
   const navigate = useNavigate()
@@ -11,6 +12,7 @@ const LandingPage = () => {
     border: '2px solid #000', // Adjust the border style as needed
     borderRadius: '8px', // Optional: Add border-radius for rounded corners
   };
+  
   return (
     <div>
       <LandingPageNavbar />
@@ -53,7 +55,7 @@ const LandingPage = () => {
           <div className="items-center gap-x-12 sm:px-4 md:px-0 lg:flex">
             <div className="flex-1 sm:hidden lg:block">
               <img
-                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                src={Upload} style={imageStyle}
                 className="md:max-w-lg sm:rounded-lg"
                 alt=""
               />
@@ -63,7 +65,7 @@ const LandingPage = () => {
                 Professional services
               </h3>
               <p className="text-white text-3xl font-semibold sm:text-4xl">
-                Build your SaaS solution with help from our experts
+                Free outfit organizer with customized clothing recommendations
               </p>
               <p className="mt-3 text-gray-300">
                 Duis aute irure dolor in reprehenderit in voluptate velit esse
