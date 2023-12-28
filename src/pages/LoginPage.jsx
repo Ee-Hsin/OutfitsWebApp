@@ -73,7 +73,7 @@ function LoginPage() {
             Sign in
           </button>
           <GoogleLogin
-            onSuccess={() => navigate("/closet")}
+            onSuccess={() => navigate("/app/closet")}
             onError={(e) => console.error(e)}
           />
         </form>

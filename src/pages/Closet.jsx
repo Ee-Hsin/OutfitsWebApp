@@ -1,18 +1,36 @@
 //import React from "react";
-import { useNavigate } from "react-router"
-import { IoIosAdd } from "react-icons/io"
+import { useNavigate } from "react-router";
+import { IoIosAdd } from "react-icons/io";
+import { API_URL } from "../constants";
 
 const Closet = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleFileInput = (e) => {
+  const handleFileInput = async (e) => {
     const file = e.target.files[0];
 
-    if(file){
+    if (file) {
       console.log(file);
-      navigate("/app/upload", {state:{file: file}});
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async function () {
+        const response = await fetch(`${API_URL}/uploadItem`, {
+          method: "POST",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            image: reader.result,
+            email: "collander@gmail.com", //placeholder for testing
+          }),
+        });
+        console.log(response);
+      };
+
+      navigate("/app/upload", { state: { file: file } });
     }
-  }
+  };
 
   return (
     <div className="flex justify-between text-white font-montserrat px-36 py-4">
@@ -23,8 +41,8 @@ const Closet = () => {
         type="file"
         id="fileInput"
         onChange={handleFileInput}
-        accept="image/*"  // only accept image
-        style={{display:"none"}}  // hide default input style
+        accept="image/*" // only accept image
+        style={{ display: "none" }} // hide default input style
       />
       <button
         onClick={() => document.getElementById("fileInput").click()}
@@ -34,7 +52,7 @@ const Closet = () => {
         <IoIosAdd className="text-2xl" />
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Closet
+export default Closet;

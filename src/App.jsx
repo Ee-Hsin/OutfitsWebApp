@@ -45,31 +45,4 @@ function NavbarWithOutlet() {
   );
 }
 
-function AppRoutes() {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/app" element={<NavbarWithOutlet />}>
-          <Route path="closet" element={<Closet />} />
-          <Route path="outfits" element={<Outfits />} />
-          <Route path="upload" element={<Upload />} />
-          <Route path="signup" element={<Signup />} />
-        </Route>
-      </Routes>
-    </>
-  );
-}
-
-function NavbarWithOutlet() {
-  return (
-    <>
-      <Navbar />
-      <Outlet />{" "}
-      {/* This is where Closet, Outfits, and Upload components will render */}
-    </>
-  );
-}
-
 export default App;

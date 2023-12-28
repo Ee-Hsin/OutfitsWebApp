@@ -10,13 +10,13 @@ const Navbar = () => {
 
         <ul className="flex font-montserrat text-lg">
           <button
-            onClick={() => navigate("/closet")}
+            onClick={() => navigate("/app/closet")}
             className="p-8 hover:text-[#d6ccde]"
           >
             Closet
           </button>
           <button
-            onClick={() => navigate("/outfits")}
+            onClick={() => navigate("/app/outfits")}
             className="p-8 hover:text-[#d6ccde]"
           >
             Outfits
