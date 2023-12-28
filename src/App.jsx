@@ -1,13 +1,12 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
-import LandingPage from "./pages/LandingPage"
-import Closet from "./pages/Closet"
-import Outfits from "./pages/Outfits"
-import Upload from "./pages/Upload"
-import Navbar from "./components/Navbar"
-import Footer from "./components/Footer"
-import LoginPage from "./pages/LoginPage"
-import Signup from "./pages/Signup"
+import LandingPage from "./pages/LandingPage";
+import Closet from "./pages/Closet";
+import Outfits from "./pages/Outfits";
+import Upload from "./pages/Upload";
+import Navbar from "./components/Navbar";
+import LoginPage from "./pages/LoginPage";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
@@ -16,7 +15,7 @@ function App() {
         <AppRoutes />
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
 function AppRoutes() {
@@ -30,11 +29,10 @@ function AppRoutes() {
           <Route path="closet" element={<Closet />} />
           <Route path="outfits" element={<Outfits />} />
           <Route path="upload" element={<Upload />} />
-
         </Route>
       </Routes>
     </>
-  )
+  );
 }
 
 function NavbarWithOutlet() {
@@ -44,7 +42,34 @@ function NavbarWithOutlet() {
       <Outlet />{" "}
       {/* This is where Closet, Outfits, and Upload components will render */}
     </>
-  )
+  );
 }
 
-export default App
+function AppRoutes() {
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/app" element={<NavbarWithOutlet />}>
+          <Route path="closet" element={<Closet />} />
+          <Route path="outfits" element={<Outfits />} />
+          <Route path="upload" element={<Upload />} />
+          <Route path="signup" element={<Signup />} />
+        </Route>
+      </Routes>
+    </>
+  );
+}
+
+function NavbarWithOutlet() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />{" "}
+      {/* This is where Closet, Outfits, and Upload components will render */}
+    </>
+  );
+}
+
+export default App;

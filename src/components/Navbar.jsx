@@ -1,20 +1,38 @@
 // import React from 'react';
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex justify-between items-center text-white bg-[#201B21] bg-opacity-60 h-28 px-10">
       <div className="flex items-center justify-between w-[40%]">
-        <Link to="/app" className="p-8 hover:text-[#d6ccde]">
-          <h1 className="font-monoton text-3xl">Fitsss</h1>
-        </Link>
+        <h1 className="font-monoton text-3xl">Fitsss</h1>
+
         <ul className="flex font-montserrat text-lg">
-          <Link to="closet" className="p-8 hover:text-[#d6ccde]">
+          <button
+            onClick={() => navigate("/closet")}
+            className="p-8 hover:text-[#d6ccde]"
+          >
             Closet
-          </Link>
-          <Link to="outfits" className="p-8 hover:text-[#d6ccde]">
+          </button>
+          <button
+            onClick={() => navigate("/outfits")}
+            className="p-8 hover:text-[#d6ccde]"
+          >
             Outfits
-          </Link>
+          </button>
+          <button
+            onClick={() => navigate("/signup")}
+            className="p-8 hover:text-[#d6ccde]"
+          >
+            Signup
+          </button>
+          <button
+            onClick={() => navigate("/login")}
+            className="p-8 hover:text-[#d6ccde]"
+          >
+            LoginPage
+          </button>
         </ul>
       </div>
 
@@ -22,7 +40,7 @@ const Navbar = () => {
         Logout
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
