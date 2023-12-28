@@ -78,11 +78,14 @@ function Signup() {
           >
             Continue with Google
           </button> */}
-          <GoogleLogin
-            onSuccess={(r) =>
-              navigate("/app/closet", { user: User.fromGoogleId(r.clientId) })
-            }
-          />
+
+          <div className="flex justify-center mt-4">
+            <GoogleLogin
+              onSuccess={(r) =>
+                navigate("/app/closet", { user: User.fromGoogleId(r.clientId) })
+              }
+            />
+          </div>
         </form>
       </div>
     </main>

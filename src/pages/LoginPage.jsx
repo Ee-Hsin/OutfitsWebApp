@@ -73,15 +73,17 @@ function LoginPage() {
           <button className="w-full text-gray-800 bg-gray-100 hover:bg-gray-200 ring-offset-2 focus:ring rounded-lg">
             Sign in
           </button>
-          <GoogleLogin
-            onSuccess={(r) => {
-              console.log(r);
-              return navigate("/app/closet", {
-                user: User.fromGoogleId(r.clientId),
-              });
-            }}
-            onError={(e) => console.error(e)}
-          />
+          <div className="flex justify-center mt-4">
+            <GoogleLogin
+              onSuccess={(r) => {
+                console.log(r);
+                return navigate("/app/closet", {
+                  user: User.fromGoogleId(r.clientId),
+                });
+              }}
+              onError={(e) => console.error(e)}
+            />
+          </div>
         </form>
       </div>
     </main>

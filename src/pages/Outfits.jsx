@@ -15,6 +15,10 @@ const Outfits = () => {
     }
   }
 
+  const handleButtonClick = () => {
+    // Handle button click
+  };
+
   const saved = [
     {
         title: "Outfit 1",
@@ -121,6 +125,12 @@ const Outfits = () => {
         Upload
         <IoIosAdd className="text-2xl" />
       </button>
+
+      <button
+      onClick={handleButtonClick}
+      className="fi fi-ts-circle-heart"
+      // Add any additional styling or attributes as needed
+    ></button>
     </div>
 
   <div className="mt-12 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
