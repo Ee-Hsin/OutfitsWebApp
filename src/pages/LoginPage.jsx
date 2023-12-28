@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-const API_URL = "https://fitss.up.railway.app/";
-
+import { API_URL } from "../constants";
 function LoginPage() {
   const navigate = useNavigate();
   return (

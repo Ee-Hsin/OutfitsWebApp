@@ -1,8 +1,7 @@
 // Signup.jsx
 import { Link, useNavigate } from "react-router-dom";
 //import { GoogleIcon } from "../assets/icons/GoogleIcon";
-const API_URL = "https://fitss.up.railway.app/";
-
+import { API_URL } from "../constants";
 function Signup() {
   const navigate = useNavigate();
   return (
