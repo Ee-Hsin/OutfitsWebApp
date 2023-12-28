@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { API_URL } from "../constants";
+import { User } from "../model/user";
 function LoginPage() {
   const navigate = useNavigate();
   return (
@@ -73,7 +74,12 @@ function LoginPage() {
             Sign in
           </button>
           <GoogleLogin
-            onSuccess={() => navigate("/app/closet")}
+            onSuccess={(r) => {
+              console.log(r);
+              return navigate("/app/closet", {
+                user: User.fromGoogleId(r.clientId),
+              });
+            }}
             onError={(e) => console.error(e)}
           />
         </form>

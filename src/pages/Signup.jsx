@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 //import { GoogleIcon } from "../assets/icons/GoogleIcon";
 import { API_URL } from "../constants";
 import { GoogleLogin } from "@react-oauth/google";
+import { User } from "../model/user";
 function Signup() {
   const navigate = useNavigate();
   return (
@@ -77,7 +78,11 @@ function Signup() {
           >
             Continue with Google
           </button> */}
-          <GoogleLogin onSuccess={() => navigate("/app/closet")} />
+          <GoogleLogin
+            onSuccess={(r) =>
+              navigate("/app/closet", { user: User.fromGoogleId(r.clientId) })
+            }
+          />
         </form>
       </div>
     </main>
