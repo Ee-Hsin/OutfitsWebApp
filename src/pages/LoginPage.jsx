@@ -75,8 +75,16 @@ function LoginPage() {
           </button>
           <div className="flex justify-center mt-4">
             <GoogleLogin
-              onSuccess={(r) => {
+              onSuccess={async (r) => {
                 console.log(r)
+                const response = await fetch(`${API_URL}/users/login/google`, {
+                  method: "POST",
+                  body: { googleId: r.clientId },
+                })
+                const responseJson = await response.json()
+                const token = responseJson["user"]
+                console.log(token)
+                localStorage.setItem("token", token)
                 return navigate("/app/closet", {
                   state: { user: User.fromGoogleId(r.clientId) },
                 })
