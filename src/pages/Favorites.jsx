@@ -3,6 +3,8 @@ import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom"
 
 const Favorites = () => {
+  const sampleImgUrl = "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170"
+
   return(
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
@@ -34,126 +36,189 @@ const Favorites = () => {
 
       <div className="flex justify-center">
         <div className="flex flex-wrap justify-left mx-[120px]">
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-2xl shadow-xl">
-            <div className='relative w-[240px] h-[240px] bg-white rounded-2xl shadow-3xl my-[16px] mx-[15px]'>
-              {/* sample content */}
+          {/* container for all cards */}
+          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+            {/* container for one card */}
+            <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+              {/* sample img */}
               <img 
-              src="https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170" 
-              alt="uploaded img" 
-              className="w-full h-full object-cover rounded-2xl"
-              style={{ objectFit: "contain" }}             
+                src ={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl} 
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
               />
             </div>
             <div className='font-montserrat text-white mx-[20px] h-[107px] overflow-hidden'>
                 {/* name and tag */}
-                <div className='mb-2'>
-                  FlowerShoe
+                <div className=' mb-[9px] mt-[5px] ml-[9px]'>
+                  outfit 1
                 </div>
-                <div className='text-[#EBEBF5] text-opacity-60'>
+                <div className='text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]'>
                   #sneaker #pink #graphic
                 </div>
               </div>
           </div>
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-2xl shadow-xl">
-            <div className='relative w-[240px] h-[240px] bg-white rounded-2xl shadow-3xl my-[16px] mx-[15px]'>
-              {/* sample content */}
+          
+          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+            {/* container for one card */}
+            <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+              {/* sample img */}
               <img 
-              src="https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170" 
-              alt="uploaded img" 
-              className="w-full h-full object-cover rounded-2xl"
-              style={{ objectFit: "contain" }}             
+                src ={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl} 
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
               />
             </div>
             <div className='font-montserrat text-white mx-[20px] h-[107px] overflow-hidden'>
                 {/* name and tag */}
-                <div className='mb-2'>
-                  FlowerShoe
+                <div className=' mb-[9px] mt-[5px] ml-[9px]'>
+                  outfit 2
                 </div>
-                <div className='text-[#EBEBF5] text-opacity-60'>
+                <div className='text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]'>
                   #sneaker #pink #graphic
                 </div>
               </div>
           </div>
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-2xl shadow-xl">
-            <div className='relative w-[240px] h-[240px] bg-white rounded-2xl shadow-3xl my-[16px] mx-[15px]'>
-              {/* sample content */}
+
+          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+            {/* container for one card */}
+            <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+              {/* sample img */}
               <img 
-              src="https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170" 
-              alt="uploaded img" 
-              className="w-full h-full object-cover rounded-2xl"
-              style={{ objectFit: "contain" }}             
+                src ={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl} 
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
               />
             </div>
             <div className='font-montserrat text-white mx-[20px] h-[107px] overflow-hidden'>
                 {/* name and tag */}
-                <div className='mb-2'>
-                  FlowerShoe
+                <div className=' mb-[9px] mt-[5px] ml-[9px]'>
+                  outfit 3
                 </div>
-                <div className='text-[#EBEBF5] text-opacity-60'>
+                <div className='text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]'>
                   #sneaker #pink #graphic
                 </div>
               </div>
           </div>
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-2xl shadow-xl">
-            <div className='relative w-[240px] h-[240px] bg-white rounded-2xl shadow-3xl my-[16px] mx-[15px]'>
-              {/* sample content */}
+
+          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+            {/* container for one card */}
+            <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+              {/* sample img */}
               <img 
-              src="https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170" 
-              alt="uploaded img" 
-              className="w-full h-full object-cover rounded-2xl"
-              style={{ objectFit: "contain" }}             
+                src ={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl} 
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
               />
             </div>
             <div className='font-montserrat text-white mx-[20px] h-[107px] overflow-hidden'>
                 {/* name and tag */}
-                <div className='mb-2'>
-                  FlowerShoe
+                <div className=' mb-[9px] mt-[5px] ml-[9px]'>
+                  outfit 4
                 </div>
-                <div className='text-[#EBEBF5] text-opacity-60'>
+                <div className='text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]'>
                   #sneaker #pink #graphic
                 </div>
               </div>
           </div>
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-2xl shadow-xl">
-            <div className='relative w-[240px] h-[240px] bg-white rounded-2xl shadow-3xl my-[16px] mx-[15px]'>
-              {/* sample content */}
+
+          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+            {/* container for one card */}
+            <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+              {/* sample img */}
               <img 
-              src="https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170" 
-              alt="uploaded img" 
-              className="w-full h-full object-cover rounded-2xl"
-              style={{ objectFit: "contain" }}             
+                src ={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl} 
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+              />
+              <img 
+                src={sampleImgUrl}
+                alt="uploaded img" 
+                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
               />
             </div>
             <div className='font-montserrat text-white mx-[20px] h-[107px] overflow-hidden'>
                 {/* name and tag */}
-                <div className='mb-2'>
-                  FlowerShoe
+                <div className=' mb-[9px] mt-[5px] ml-[9px]'>
+                  outfit 5
                 </div>
-                <div className='text-[#EBEBF5] text-opacity-60'>
+                <div className='text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]'>
                   #sneaker #pink #graphic
                 </div>
               </div>
           </div>
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-2xl shadow-xl">
-            <div className='relative w-[240px] h-[240px] bg-white rounded-2xl shadow-3xl my-[16px] mx-[15px]'>
-              {/* sample content */}
-              <img 
-              src="https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170" 
-              alt="uploaded img" 
-              className="w-full h-full object-cover rounded-2xl"
-              style={{ objectFit: "contain" }}             
-              />
-            </div>
-            <div className='font-montserrat text-white mx-[20px] h-[107px] overflow-hidden'>
-                {/* name and tag */}
-                <div className='mb-2'>
-                  FlowerShoe
-                </div>
-                <div className='text-[#EBEBF5] text-opacity-60'>
-                  #sneaker #pink #graphic
-                </div>
-              </div>
-          </div>
+          
+          
+          
         </div>
       </div>
     </div>
