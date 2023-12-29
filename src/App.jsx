@@ -43,14 +43,14 @@ function AppRoutes() {
 
 function NavbarWithOutlet() {
   //Just for testing purposes
-  // const { user } = useAuth()
+  const { user } = useAuth()
 
   return (
     <>
       <Navbar />
       <Outlet />
       {/* Just for testing purposes */}
-      {/* <h1>{user}</h1> */}
+      <h1>{user}</h1>
     </>
   )
 }

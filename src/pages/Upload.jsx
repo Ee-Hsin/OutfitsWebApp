@@ -3,6 +3,7 @@ import { useLocation } from "react-router"
 import { Link } from "react-router-dom"
 import { IoIosArrowBack } from "react-icons/io"
 import { API_URL } from "../services/constants"
+import { useAuth } from "../hooks/AuthContext"
 
 const Upload = () => {
   const location = useLocation()
@@ -14,6 +15,8 @@ const Upload = () => {
   const [color, setColor] = useState("")
   const [checkboxYes, setCheckboxYes] = useState(false)
   const [checkboxNo, setCheckboxNo] = useState(false)
+
+  const { user } = useAuth()
 
   const handleFirstSelect = (event) => {
     const selectedValue = event.target.value
@@ -216,11 +219,8 @@ const Upload = () => {
               to={"/app/closet"}
               className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8"
               onClick={async () => {
-                const { user } = location.state //still need to reliably get the user
-                console.log(user)
                 const field = user.googleId ? "googleId" : "email"
                 const value = user.googleId ? user.googleId : user.email
-
                 let formData = new FormData()
                 formData.append("image", file)
                 formData.append(field, value)
