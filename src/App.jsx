@@ -2,11 +2,13 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom"
 
 import LandingPage from "./pages/LandingPage"
 import Closet from "./pages/Closet"
-import Outfits from "./pages/Outfits"
+import Suggestions from "./pages/Suggestions"
+import Favorites from "./pages/Favorites"
 import Upload from "./pages/Upload"
 import Navbar from "./components/Navbar"
 import LoginPage from "./pages/LoginPage"
 import Signup from "./pages/Signup"
+import Create from "./pages/Create"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useAuth } from "./hooks/AuthContext"
 
@@ -33,8 +35,10 @@ function AppRoutes() {
         <Route path="signup" element={<Signup />} />
         <Route path="/app" element={<NavbarWithOutlet />}>
           <Route path="closet" element={<Closet />} />
-          <Route path="outfits" element={<Outfits />} />
+          <Route path="favorites" element={<Favorites />} />
+          <Route path="suggestions" element={<Suggestions />} />
           <Route path="upload" element={<Upload />} />
+          <Route path="create" element={<Create />} />
         </Route>
       </Routes>
     </>

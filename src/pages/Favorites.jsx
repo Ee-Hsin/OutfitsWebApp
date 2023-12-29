@@ -1,38 +1,35 @@
-//import React from "react";
-import { useNavigate } from "react-router";
+//import { useNavigate } from "react-router";
 import { IoIosAdd } from "react-icons/io";
+import { Link } from "react-router-dom"
 
-const Closet = () => {
-  const navigate = useNavigate();
-
-  const handleFileInput = async (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      navigate("/app/upload", { state: { file: file } });
-    }
-  };
-
-  return (
+const Favorites = () => {
+  return(
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
-        <div className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-2 sm:pl-4 pb-4">
-          Uploaded items
+        <div className="flex border-b-2 border-[#201B21] border-opacity-60 w-[220px] md:w-[300px] lg:w-[404px] pl-2 sm:pl-4 pb-4">
+          <div className="mr-6 md:mr-20">
+            favorites
+          </div>
+          <Link 
+            to={'/app/suggestions'}
+            className="text-white text-opacity-60 hover:text-opacity-70">
+            suggestions
+          </Link>
         </div>
         <input
           type="file"
           id="fileInput"
-          onChange={handleFileInput}
+          //onChange={handleFileInput}
           accept="image/*" // only accept image
           style={{ display: "none" }} // hide default input style
         />
-        <button
-          onClick={() => document.getElementById("fileInput").click()}
+        <Link
+          to={"/app/create"}
           className="flex items-center bg-white bg-opacity-40 w-32 pl-8 rounded-3xl shadow-xl hover:bg-opacity-50"
         >
-          upload
+          create
           <IoIosAdd className="text-2xl" />
-        </button>
+        </Link>
       </div>
 
       <div className="flex justify-center">
@@ -160,7 +157,7 @@ const Closet = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Closet;
+export default Favorites;
