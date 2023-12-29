@@ -1,12 +1,12 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom"
 
-import LandingPage from "./pages/LandingPage";
-import Closet from "./pages/Closet";
-import Outfits from "./pages/Outfits";
-import Upload from "./pages/Upload";
-import Navbar from "./components/Navbar";
-import LoginPage from "./pages/LoginPage";
-import Signup from "./pages/Signup";
+import LandingPage from "./pages/LandingPage"
+import Closet from "./pages/Closet"
+import Outfits from "./pages/Outfits"
+import Upload from "./pages/Upload"
+import Navbar from "./components/Navbar"
+import LoginPage from "./pages/LoginPage"
+import Signup from "./pages/Signup"
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <AppRoutes />
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
 function AppRoutes() {
@@ -32,7 +32,7 @@ function AppRoutes() {
         </Route>
       </Routes>
     </>
-  );
+  )
 }
 
 function NavbarWithOutlet() {
@@ -42,7 +42,7 @@ function NavbarWithOutlet() {
       <Outlet />{" "}
       {/* This is where Closet, Outfits, and Upload components will render */}
     </>
-  );
+  )
 }
 
-export default App;
+export default App
