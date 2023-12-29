@@ -1,10 +1,10 @@
-import React from "react";
-import { useNavigate } from "react-router"
-import { IoIosAdd } from "react-icons/io"
+//import React from "react";
+import { useNavigate , Link } from "react-router-dom"
+//import { IoIosAdd } from "react-icons/io"
 import { BsHeart } from 'react-icons/bs'
 
 
-const Outfits = () => {
+const Suggestions = () => {
   const navigate = useNavigate()
 
   const handleFileInput = (e) => {
@@ -56,43 +56,9 @@ const Outfits = () => {
     }
 ]
   return(
-  //   <div className="flex justify-between text-white font-montserrat px-36 py-4">
-  //   <div className="flex">
-  //     <button
-  //       className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-4 pb-4 focus:outline-none mr-5"
-  //       onClick={() => {
-  //         // Handle favorites button click
-  //       }}
-  //     >
-  //       Favorites
-  //     </button>
-  //     <button
-  //       className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-4 pb-4 focus:outline-none mr-5"
-  //       onClick={() => {
-  //         // Handle suggestion button click
-  //       }}
-  //     >
-  //       Suggestions
-  //     </button>
-  //   </div>
     
-  //   <input
-  //     type="file"
-  //     id="fileInput"
-  //     onChange={handleFileInput}
-  //     accept="image/*"  // only accept image
-  //     style={{display:"none"}}  // hide default input style
-  //   />
-  //   <button
-  //     onClick={() => document.getElementById("fileInput").click()}
-  //     className="flex items-center bg-white bg-opacity-40 w-32 pl-8 rounded-3xl shadow-xl hover:bg-opacity-50"
-  //   >
-  //     upload
-  //     <IoIosAdd className="text-2xl" />
-  //   </button>
-  // </div>
   <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
-  <div className="flex items-center justify-between">
+  {/*<div className="flex items-center justify-between">
     <div className="flex">
       <button
         className="border-b-2 border-[#201B21] border-opacity-60 text-sm px-3 pb-2 focus:outline-none transition duration-300 ease-in-out hover:border-indigo-500 focus:border-indigo-500"
@@ -125,7 +91,19 @@ const Outfits = () => {
       Create
       <IoIosAdd className="text-2xl ml-1" />
     </button>
-  </div>
+      </div>*/}
+    <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
+        <div className="flex border-b-2 border-[#201B21] border-opacity-60 w-[220px] md:w-[300px] lg:w-[404px] pl-2 sm:pl-4 pb-4">
+          <Link 
+            to={'/app/favorites'}
+            className="mr-6 md:mr-20 text-white text-opacity-60 hover:text-opacity-70">
+            favorites
+          </Link>
+          <div>
+            suggestions
+          </div>
+        </div>
+      </div>
 
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center mt-8">
   {saved.map((items, key) => (
@@ -173,4 +151,4 @@ const Outfits = () => {
   )
 }
 
-export default Outfits;
+export default Suggestions;
