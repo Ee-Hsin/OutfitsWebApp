@@ -1,7 +1,6 @@
 //import React from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { IoIosAdd } from "react-icons/io";
-import { API_URL } from "../constants";
 
 const Closet = () => {
   const navigate = useNavigate();
@@ -10,24 +9,6 @@ const Closet = () => {
     const file = e.target.files[0];
 
     if (file) {
-      console.log(file);
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async function () {
-        const response = await fetch(`${API_URL}/uploadItem`, {
-          method: "POST",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            image: reader.result,
-            email: "collander@gmail.com", //placeholder for testing
-          }),
-        });
-        console.log(response);
-      };
-
       navigate("/app/upload", { state: { file: file } });
     }
   };

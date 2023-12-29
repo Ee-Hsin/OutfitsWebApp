@@ -78,7 +78,7 @@ function LoginPage() {
               onSuccess={(r) => {
                 console.log(r);
                 return navigate("/app/closet", {
-                  user: User.fromGoogleId(r.clientId),
+                  state: { user: User.fromGoogleId(r.clientId) },
                 });
               }}
               onError={(e) => console.error(e)}

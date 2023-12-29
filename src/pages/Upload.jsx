@@ -202,7 +202,25 @@ const Upload = () => {
             >
               cancel
             </button>
-            <button className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8">
+            <button
+              className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8"
+              onClick={async () => {
+                const { user } = location.state;
+
+                const field = user.googleId ? "googleId" : "email";
+                const value = user.googleId ? user.googleId : user.email;
+
+                let formData = new FormData();
+                formData.append("image", file);
+                formData.append(field, value);
+                //TODO: Add details of image to formData
+                const response = await fetch(`${API_URL}/uploadItem`, {
+                  method: "POST",
+                  body: formData,
+                });
+                console.log(response);
+              }}
+            >
               upload
             </button>
           </div>

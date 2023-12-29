@@ -15,7 +15,7 @@ export class User {
   }
 
   // Getter method to check if the user is a Google user
-  is_google_user() {
+  get is_google_user() {
     return this.googleId !== null;
   }
 }

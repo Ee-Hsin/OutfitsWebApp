@@ -82,7 +82,9 @@ function Signup() {
           <div className="flex justify-center mt-4">
             <GoogleLogin
               onSuccess={(r) =>
-                navigate("/app/closet", { user: User.fromGoogleId(r.clientId) })
+                navigate("/app/closet", {
+                  state: { user: User.fromGoogleId(r.clientId) },
+                })
               }
             />
           </div>
