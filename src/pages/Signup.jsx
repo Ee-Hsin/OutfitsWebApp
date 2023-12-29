@@ -1,11 +1,30 @@
 // Signup.jsx
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 //import { GoogleIcon } from "../assets/icons/GoogleIcon";
-import { API_URL } from "../constants";
-import { GoogleLogin } from "@react-oauth/google";
-import { User } from "../model/user";
+// import { API_URL } from "../constants"
+import { GoogleLogin } from "@react-oauth/google"
+import { User } from "../model/user"
+import { useForm } from "react-hook-form"
+
 function Signup() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm()
+
+  const onSubmit = (data, e) => {
+    e.preventDefault()
+
+    //sends info to the server
+    console.log(data)
+
+    reset()
+  }
+
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
@@ -29,45 +48,83 @@ function Signup() {
           </div>
         </div>
         <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            const form = e.target;
-            const formData = new FormData(form);
+          onSubmit={handleSubmit(onSubmit)}
+          // onSubmit={async (e) => {
+          //   e.preventDefault();
+          //   const form = e.target;
+          //   const formData = new FormData(form);
 
-            const formJson = Object.fromEntries(formData.entries());
-            const jsonBody = JSON.stringify(formJson);
-            const response = await fetch(`${API_URL}/users`, {
-              method: "POST",
-              headers: {
-                Accept: "*/*",
-                "Content-Type": "application/json",
-              },
-              body: jsonBody,
-            });
+          //   const formJson = Object.fromEntries(formData.entries());
+          //   const jsonBody = JSON.stringify(formJson);
+          //   const response = await fetch(`${API_URL}/users`, {
+          //     method: "POST",
+          //     headers: {
+          //       Accept: "*/*",
+          //       "Content-Type": "application/json",
+          //     },
+          //     body: jsonBody,
+          //   });
 
-            if (response.ok) {
-              navigate("/verify"); // no actual email verification
-            }
-          }}
+          //   if (response.ok) {
+          //     navigate("/verify"); // no actual email verification
+          //   }
+          // }}
           className="mt-8 space-y-5"
         >
+          <div>
+            <label className="font-medium">Username</label>
+            <input
+              name="username"
+              type="text"
+              autoComplete="new-username"
+              {...register("username", {
+                required: "A username is required",
+              })}
+              className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
+            />
+            {errors.username && (
+              <p role="alert" className="text-red-500">
+                {errors.username.message}
+              </p>
+            )}
+          </div>
           <div>
             <label className="font-medium">Email</label>
             <input
               name="email"
               type="email"
-              required
+              autoComplete="email"
+              {...register("email", {
+                required: "An email is required",
+              })}
               className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
             />
+            {errors.email && (
+              <p role="alert" className="text-red-500">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           <div>
             <label className="font-medium">Password</label>
             <input
               name="password"
               type="password"
-              required
+              autoComplete="new-password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
               className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
             />
+            {errors.password && (
+              <p role="alert" className="text-red-500">
+                {errors.password.message}
+              </p>
+            )}
           </div>
           <button className="w-full text-gray-800 bg-gray-100 hover:bg-gray-200 ring-offset-2 focus:ring rounded-lg">
             Sign up
@@ -91,7 +148,7 @@ function Signup() {
         </form>
       </div>
     </main>
-  );
+  )
 }
 // const Signup = () => {
 //   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -209,4 +266,4 @@ function Signup() {
 //   );
 // }
 
-export default Signup;
+export default Signup
