@@ -7,14 +7,19 @@ import Upload from "./pages/Upload"
 import Navbar from "./components/Navbar"
 import LoginPage from "./pages/LoginPage"
 import Signup from "./pages/Signup"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="App">
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </div>
+    </QueryClientProvider>
   )
 }
 

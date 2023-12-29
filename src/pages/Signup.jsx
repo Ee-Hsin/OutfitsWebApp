@@ -5,9 +5,11 @@ import { Link, useNavigate } from "react-router-dom"
 import { GoogleLogin } from "@react-oauth/google"
 import { User } from "../model/user"
 import { useForm } from "react-hook-form"
+import { useCreateUser } from "../hooks/query"
 
 function Signup() {
   const navigate = useNavigate()
+  const mutation = useCreateUser()
 
   const {
     register,
@@ -21,6 +23,7 @@ function Signup() {
 
     //sends info to the server
     console.log(data)
+    mutation.mutate(data)
 
     reset()
   }
