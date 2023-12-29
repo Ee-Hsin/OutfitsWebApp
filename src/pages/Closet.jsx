@@ -14,8 +14,8 @@ const Closet = () => {
   };
 
   return (
-    <div className="flex justify-between text-white font-montserrat px-36 py-4">
-      <div className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-4 pb-4">
+    <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
+      <div className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-2 sm:pl-4 pb-4">
         Uploaded items
       </div>
       <input
