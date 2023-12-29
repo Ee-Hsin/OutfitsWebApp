@@ -1,20 +1,22 @@
-import React from "react";
-import { useNavigate } from "react-router"
-import { IoIosAdd } from "react-icons/io"
-import { BsHeart } from 'react-icons/bs'
+import { useState } from 'react';
+import { IoIosAdd } from 'react-icons/io';
+import { BsHeart } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 
 const Outfits = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const [activeSection, setActiveSection] = useState('suggestions');
 
   const handleFileInput = (e) => {
     const file = e.target.files[0];
 
-    if(file){
+    if (file) {
       console.log(file);
-      navigate("/app/upload", {state:{file: file}});
+      navigate('/app/upload', { state: { file: file } });
     }
-  }
+  };
 
   const saved = [
     {
@@ -56,76 +58,47 @@ const Outfits = () => {
     }
 ]
   return(
-  //   <div className="flex justify-between text-white font-montserrat px-36 py-4">
-  //   <div className="flex">
-  //     <button
-  //       className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-4 pb-4 focus:outline-none mr-5"
-  //       onClick={() => {
-  //         // Handle favorites button click
-  //       }}
-  //     >
-  //       Favorites
-  //     </button>
-  //     <button
-  //       className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-4 pb-4 focus:outline-none mr-5"
-  //       onClick={() => {
-  //         // Handle suggestion button click
-  //       }}
-  //     >
-  //       Suggestions
-  //     </button>
-  //   </div>
-    
-  //   <input
-  //     type="file"
-  //     id="fileInput"
-  //     onChange={handleFileInput}
-  //     accept="image/*"  // only accept image
-  //     style={{display:"none"}}  // hide default input style
-  //   />
-  //   <button
-  //     onClick={() => document.getElementById("fileInput").click()}
-  //     className="flex items-center bg-white bg-opacity-40 w-32 pl-8 rounded-3xl shadow-xl hover:bg-opacity-50"
-  //   >
-  //     upload
-  //     <IoIosAdd className="text-2xl" />
-  //   </button>
-  // </div>
-  <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
-  <div className="flex items-center justify-between">
-    <div className="flex">
-      <button
-        className="border-b-2 border-[#201B21] border-opacity-60 text-sm px-3 pb-2 focus:outline-none transition duration-300 ease-in-out hover:border-indigo-500 focus:border-indigo-500"
-        onClick={() => {
-          // Handle favorites button click
-        }}
-      >
-        Favorites
-      </button>
-      <button
-        className="border-b-2 border-[#201B21] border-opacity-60 text-sm px-3 pb-2 focus:outline-none ml-3 transition duration-300 ease-in-out hover:border-indigo-500 focus:border-indigo-500"
-        onClick={() => {
-          // Handle suggestion button click
-        }}
-      >
-        Suggestions
-      </button>
-    </div>
-    <input
-      type="file"
-      id="fileInput"
-      onChange={handleFileInput}
-      accept="image/*" // only accept image
-      style={{ display: 'none' }} // hide default input style
-    />
-    <button
-      onClick={() => document.getElementById('fileInput').click()}
-      className="flex items-center bg-white bg-opacity-40 text-sm px-3 py-2 rounded-3xl shadow-xl hover:bg-opacity-50 focus:outline-none"
-    >
-      Create
-      <IoIosAdd className="text-2xl ml-1" />
-    </button>
-  </div>
+      <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex">
+            <button
+              className={`border-b-2 border-[#201B21] border-opacity-60 text-sm px-3 pb-2 focus:outline-none transition duration-300 ease-in-out hover:border-indigo-500 focus:border-indigo-500 ${
+                activeSection === 'favorites' ? 'border-indigo-500' : ''
+              }`}
+              onClick={() => {
+                setActiveSection('favorites');
+                // Handle favorites button click
+              }}
+            >
+              Favorites
+            </button>
+            <button
+              className={`border-b-2 border-[#201B21] border-opacity-60 text-sm px-3 pb-2 focus:outline-none ml-3 transition duration-300 ease-in-out hover:border-indigo-500 focus:border-indigo-500 ${
+                activeSection === 'suggestions' ? 'border-indigo-500' : ''
+              }`}
+              onClick={() => {
+                setActiveSection('suggestions');
+                // Handle suggestion button click
+              }}
+            >
+              Suggestions
+            </button>
+          </div>
+          <input
+            type="file"
+            id="fileInput"
+            onChange={handleFileInput}
+            accept="image/*" // only accept image
+            style={{ display: 'none' }} // hide default input style
+          />
+          <button
+            onClick={() => document.getElementById('fileInput').click()}
+            className="flex items-center bg-white bg-opacity-40 text-sm px-3 py-2 rounded-3xl shadow-xl hover:bg-opacity-50 focus:outline-none"
+          >
+            Create
+            <IoIosAdd className="text-2xl ml-1" />
+          </button>
+        </div>
 
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center mt-8">
   {saved.map((items, key) => (
