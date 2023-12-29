@@ -1,5 +1,5 @@
 // Signup.jsx
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, Navigate } from "react-router-dom"
 //import { GoogleIcon } from "../assets/icons/GoogleIcon";
 // import { API_URL } from "../constants"
 import { GoogleLogin } from "@react-oauth/google"
@@ -30,6 +30,8 @@ function Signup() {
 
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
+      {/* TODO: Add mutation.isError and mutation.isLoading */}
+      {mutation.isSuccess && <Navigate to="/app/closet" />}
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
         <div className="text-center">
           <div className="mx-auto w-32">
@@ -140,6 +142,8 @@ function Signup() {
           </button> */}
 
           <div className="flex justify-center mt-4">
+            {/* TODO: Have to figure out what exactly Google Login returns on success and
+            how we can use it to update the user in AuthContext */}
             <GoogleLogin
               onSuccess={(r) =>
                 navigate("/app/closet", {

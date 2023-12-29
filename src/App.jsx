@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar"
 import LoginPage from "./pages/LoginPage"
 import Signup from "./pages/Signup"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { useAuth } from "./hooks/AuthContext"
 
 const queryClient = new QueryClient()
 
@@ -41,11 +42,15 @@ function AppRoutes() {
 }
 
 function NavbarWithOutlet() {
+  //Just for testing purposes
+  // const { user } = useAuth()
+
   return (
     <>
       <Navbar />
-      <Outlet />{" "}
-      {/* This is where Closet, Outfits, and Upload components will render */}
+      <Outlet />
+      {/* Just for testing purposes */}
+      {/* <h1>{user}</h1> */}
     </>
   )
 }
