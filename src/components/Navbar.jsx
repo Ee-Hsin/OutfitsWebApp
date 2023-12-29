@@ -94,7 +94,7 @@ const Navbar = () => {
                 )
               })} */}
               <div className="flex-1 items-center justify-end gap-x-6 space-y-3 md:flex md:space-y-0">
-                <button className="block max-md:w-full py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
+                <button className="block max-md:w-full py-3 px-4 font-medium text-center text-[#201B21] md:text-white bg-[#d6ccde] hover:bg-opacity-70 md:hover:bg-opacity-0 md:hover:shadow-xl md:bg-opacity-0 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
                   Logout
                 </button>
               </div>
