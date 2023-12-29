@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate} from "react-router";
+import { Link } from "react-router-dom"
 import { IoIosArrowBack } from "react-icons/io";
 import { API_URL } from "../constants";
 
@@ -96,18 +97,18 @@ const Upload = () => {
   return (
     <div>
       <div className="flex text-white font-montserrat py-4">
-        <button
-          onClick={() => navigate("/app/closet")}
-          className="pl-10 pr-16 text-xl"
+        <Link
+          to= {"/app/closet"}
+          className="pl-4 pr-6 md:pl-10 md:pr-16 text-xl"
         >
           <IoIosArrowBack />
-        </button>
-        <div className="border-b-2 border-[#201B21] border-opacity-60 w-[26%] pl-4 pb-4">
+        </Link>
+        <div className="border-b-2 border-[#201B21] border-opacity-60 w-52 md:w-[26%] pl-4 pb-4">
           Categorize your item
         </div>
       </div>
-      <div className="flex sm:flex-col md:flex-col lg:flex-row items-center pl-36 py-24 text-white font-montserrat">
-        <div className="relative w-96 h-96 bg-white rounded-2xl shadow-3xl mr-72">
+      <div className="flex flex-wrap items-center justify-center mx-4  my-24 text-white font-montserrat">
+        <div className="relative w-96 h-96 bg-white rounded-2xl shadow-xl mx-10 xl:mr-32 my-10">
           <img
             src={URL.createObjectURL(file)}
             alt="selected image"
@@ -116,7 +117,7 @@ const Upload = () => {
           />
         </div>
 
-        <div className="flex-col bg-white bg-opacity-0">
+        <div className="flex-col mx-10">
           <div className="flex py-6 items-center">
             {/* Content for Container 1 */}
             <div className="w-32 text-lg">Name:</div>
@@ -196,15 +197,18 @@ const Upload = () => {
           </div>
           <div className="flex py-8 px-10 items-center text-lg">
             {/* Content for Container 5 */}
-            <button
-              onClick={() => navigate("/app/closet")}
+            <Link
+              to={"/app/closet"}
               className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8"
             >
               cancel
-            </button>
-            <button
+            </Link>
+            <Link
+              to={"/app/closet"}
               className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8"
-              onClick={async () => {
+              onClick={
+          
+                async () => {
                 const { user } = location.state;
 
                 const field = user.googleId ? "googleId" : "email";
@@ -222,7 +226,7 @@ const Upload = () => {
               }}
             >
               upload
-            </button>
+            </Link>
           </div>
         </div>
       </div>
