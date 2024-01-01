@@ -54,7 +54,7 @@ function NavbarWithOutlet() {
       <Navbar />
       <Outlet />
       {/* Just for testing purposes */}
-      <h1>{user}</h1>
+      {console.log(user)}
     </>
   )
 }

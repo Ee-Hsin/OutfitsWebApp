@@ -1,8 +1,17 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useAuth } from "../hooks/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 const Navbar = () => {
   const [state, setState] = useState(false)
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogOut = () => {
+    signOut()
+    navigate("/")
+  }
 
   return (
     <>
@@ -67,7 +76,7 @@ const Navbar = () => {
               >
                 Outfits
               </Link>
-              <Link
+              {/* <Link
                 to={"/signup"}
                 className="block p-3 hover:text-[#d6ccde] text-center md:text-left"
               >
@@ -78,7 +87,7 @@ const Navbar = () => {
                 className="block p-3 hover:text-[#d6ccde] text-center md:text-left"
               >
                 LoginPage
-              </Link>
+              </Link> */}
               {/* {navigation.map((item, idx) => {
                 return (
                   <li key={idx}>
@@ -94,9 +103,21 @@ const Navbar = () => {
                 )
               })} */}
               <div className="flex-1 items-center justify-end gap-x-6 space-y-3 md:flex md:space-y-0">
-                <button className="block max-md:w-full py-3 px-4 font-medium text-center text-[#201B21] md:text-white bg-[#d6ccde] hover:bg-opacity-70 md:hover:bg-opacity-0 md:hover:shadow-xl md:bg-opacity-0 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
-                  Logout
-                </button>
+                {user ? (
+                  <button
+                    onClick={handleLogOut}
+                    className="block max-md:w-full py-3 px-4 font-medium text-center text-[#201B21] md:text-white bg-[#d6ccde] hover:bg-opacity-70 md:hover:bg-opacity-0 md:hover:shadow-xl md:bg-opacity-0 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    className="block max-md:w-full py-3 px-4 font-medium text-center text-[#201B21] md:text-white bg-[#d6ccde] hover:bg-opacity-70 md:hover:bg-opacity-0 md:hover:shadow-xl md:bg-opacity-0 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline"
+                    to="/login"
+                  >
+                    Login
+                  </Link>
+                )}
               </div>
             </ul>
           </div>

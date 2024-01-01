@@ -1,5 +1,5 @@
 //import React from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import LandingPageNavbar from "../components/LandingPageNavbar"
 import Footer from "../components/Footer"
@@ -7,13 +7,12 @@ import Preview from "../assets/preview.png"
 import Upload from "../assets/upload.png"
 
 const LandingPage = () => {
-  const navigate = useNavigate()
   const imageStyle = {
-    border: '2px solid #000', // Adjust the border style as needed
-    borderRadius: '8px', // Optional: Add border-radius for rounded corners
-    boxShadow: '0 20px 20px rgba(0, 0, 0, 0.1)',
-  };
-  
+    border: "2px solid #000", // Adjust the border style as needed
+    borderRadius: "8px", // Optional: Add border-radius for rounded corners
+    boxShadow: "0 20px 20px rgba(0, 0, 0, 0.1)",
+  }
+
   return (
     <div>
       <LandingPageNavbar />
@@ -32,22 +31,17 @@ const LandingPage = () => {
             <Link
               to="/signup"
               className="px-7 py-3 w-36 bg-white text-gray-800 text-center rounded-md shadow-md block sm:w-36 mx-auto  sm:mx-0 hover:bg-opacity-80"
-              onClick={() => navigate("/signup")}
             >
               Get started
             </Link>
-            {/* <a
-              href="javascript:void(0)"
-              className="px-7 py-3 w-full bg-gray-700 text-gray-200 text-center rounded-md block sm:w-auto"
-            >
-              Try it out
-            </a> */}
           </div>
         </div>
         <div className="flex-1 text-center mt-7 lg:mt-0 lg:ml-3">
           <img
-          src={Preview} alt="" style={imageStyle}
-          className="w-full mx-auto sm:w-10/12 lg:w-full"
+            src={Preview}
+            alt=""
+            style={imageStyle}
+            className="w-full mx-auto sm:w-10/12 lg:w-full"
           />
         </div>
       </section>
@@ -56,7 +50,8 @@ const LandingPage = () => {
           <div className="items-center gap-x-12 sm:px-4 md:px-0 lg:flex space-y-4">
             <div className="flex-1 text-center mt-7 lg:block lg:mt-0 lg:ml-3">
               <img
-                src={Upload} style={imageStyle}
+                src={Upload}
+                style={imageStyle}
                 className="w-full mx-auto sm:w-10/12 lg:w-full"
                 alt=""
               />
@@ -79,7 +74,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

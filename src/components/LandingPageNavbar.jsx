@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import "./LandingPageNavbar.css"
 import Logo from "../assets/locker.png"
-
+import { useAuth } from "../hooks/AuthContext"
 
 const LandingPageNavbar = () => {
   const [state, setState] = useState(false)
   const navRef = useRef()
+  const { user } = useAuth()
 
   // Replace javascript:void(0) path with your path
   //   const navigation = [
@@ -41,11 +42,14 @@ const LandingPageNavbar = () => {
       className="bg-[#201B21] bg-opacity-60 w-full h-28 top-0 z-20 border-none"
     >
       <div className="items-center px-4 pt-5 max-w-screen-xl mx-auto md:px-8 md:flex">
-      <div className="flex items-center justify-between p-4">
-      <Link to="/" className="flex items-center">
-        <h1 className="font-monoton text-4xl text-white hover:text-[#d6ccde]">Fitsss</h1>
-        <img src={Logo} className="w-16 h-16 ml-2" alt="Logo" /> {/* Adjust the width and height as needed */}
-      </Link>
+        <div className="flex items-center justify-between p-4">
+          <Link to="/" className="flex items-center">
+            <h1 className="font-monoton text-4xl text-white hover:text-[#d6ccde]">
+              Fitsss
+            </h1>
+            <img src={Logo} className="w-16 h-16 ml-2" alt="Logo" />{" "}
+            {/* Adjust the width and height as needed */}
+          </Link>
           <div className="md:hidden">
             <button
               className="text-gray-700 outline-none p-2 rounded-md focus:border-gray-400 focus:border"
@@ -89,31 +93,36 @@ const LandingPageNavbar = () => {
           }`}
         >
           <div>
-            <ul className="flex flex-col-reverse space-x-0 md:space-x-6 md:flex-row">
-              {/* <li className="mt-8 mb-8 lg:mt-0 lg:mb-0">
-                <a
-                  href="javascript:void(0)"
-                  className="text-gray-600 hover:text-indigo-600"
-                >
-                  Contact
-                </a>
-              </li> */}
-              <li className="mt-4 md:mt-0">
-                <Link
-                  to="/login"
-                  className="py-3 px-4 bg-[#ddd8e6]  text-center bordertext-[#201B21] md:text-white hover:bg-white md:hover:bg-opacity-0 shadow-md hover:shadow-xl rounded-md mx-auto block md:inline md:border-0 md:bg-opacity-0 w-[40%] "
-                >
-                  Login
-                </Link>
-              </li>
-              <li className="mt-8 md:mt-0">
-                <Link
-                  to="/signup"
-                  className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%] transition-all duration-100"
-                >
-                  Sign Up
-                </Link>
-              </li>
+            <ul className="flex flex-col-reverse space-x-0 md:space-x-6 md:flex-row ">
+              {user ? (
+                <li className="mt-8 md:mt-0">
+                  <Link
+                    to="/app"
+                    className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%] transition-all duration-100"
+                  >
+                    Enter App
+                  </Link>
+                </li>
+              ) : (
+                <>
+                  <li className="mt-4 md:mt-0">
+                    <Link
+                      to="/login"
+                      className="py-3 px-4 bg-[#ddd8e6]  text-center bordertext-[#201B21] md:text-white hover:bg-white md:hover:bg-opacity-0 shadow-md hover:shadow-xl rounded-md mx-auto block md:inline md:border-0 md:bg-opacity-0 w-[40%] "
+                    >
+                      Login
+                    </Link>
+                  </li>
+                  <li className="mt-8 md:mt-0">
+                    <Link
+                      to="/signup"
+                      className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%] transition-all duration-100"
+                    >
+                      Sign Up
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
           {/* <div className="flex-1">
