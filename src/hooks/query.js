@@ -13,6 +13,15 @@ const useSignInUser = () => {
   })
 }
 
+const useSignInGoogleUser = () => {
+  const { signIn } = useAuth()
+
+  return useMutation({
+    mutationFn: (data) => API.post("/users/login/google", data),
+    onSuccess: (data) => signIn(data.data.user),
+  })
+}
+
 //Sends post request to create user on backend. Then updates the frontend with the
 //token that is returned from the backend
 const useCreateUser = () => {
@@ -39,4 +48,9 @@ const useCreateGoogleUser = () => {
   })
 }
 
-export { useSignInUser, useCreateUser, useCreateGoogleUser }
+export {
+  useSignInUser,
+  useSignInGoogleUser,
+  useCreateUser,
+  useCreateGoogleUser,
+}
