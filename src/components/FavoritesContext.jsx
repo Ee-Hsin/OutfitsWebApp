@@ -1,13 +1,15 @@
-/// FavoritesContext.jsx
+// FavoritesContext.jsx
 import React, { createContext, useContext, useState } from 'react';
 
 const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
+
+
   const [favorites, setFavorites] = useState([]);
 
   const toggleFavorite = (item) => {
-    const isFavorite = favorites.some((fav) => fav.title === item.title);
+    const isFavorite = favorites.some((fav) => fav.id === item.id);
 
     if (isFavorite) {
       // Remove from favorites
@@ -18,8 +20,8 @@ export const FavoritesProvider = ({ children }) => {
     }
   };
 
-  const isInFavorites = (title) => {
-    return favorites.some((fav) => fav.title === title);
+  const isInFavorites = (id) => {
+    return favorites.some((fav) => fav.id === id);
   };
 
   return (

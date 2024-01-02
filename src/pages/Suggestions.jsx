@@ -3,27 +3,29 @@ import React, { useState, useEffect } from "react";
 import { useNavigate , Link } from "react-router-dom"
 //import { IoIosAdd } from "react-icons/io"
 import { BsHeart,BsHeartFill } from 'react-icons/bs'
+import { useFavorites } from "../components/FavoritesContext";
 
 
 const Suggestions = () => {
+  const { favorites, toggleFavorite, isInFavorites } = useFavorites();
 
-  const [favorites, setFavorites] = useState([]);
+  // const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
-    setFavorites(suggestions);
-  }, []);
+  // useEffect(() => {
+  //   setFavorites(suggestions);
+  // }, []);
 
-  useEffect(() => {
-    console.log(favorites);
-  }, [favorites]);
+  // useEffect(() => {
+  //   console.log(favorites);
+  // }, [favorites]);
 
-  function handleFavorite(id) {
-    const newFavorites = favorites.map(item => {
-      return item.id === id ? { ...item, favorite: !item.favorite } : item;
-    });
+  // function handleFavorite(id) {
+  //   const newFavorites = favorites.map(item => {
+  //     return item.id === id ? { ...item, favorite: !item.favorite } : item;
+  //   });
 
-    setFavorites(newFavorites);
-  }
+  //   setFavorites(newFavorites);
+  // }
 
   const suggestions = [
     {
@@ -132,26 +134,26 @@ const Suggestions = () => {
         <p className="text-[#EBEBF5] text-opacity-60">{item.desc}</p>
       </div>
       <button
-  className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
-  onClick={() => {
-    handleFavorite(item.id);
-  }}
->
-  {item.favorite ? (
-    <BsHeartFill className="text-white" />
-  ) : (
-    <BsHeart className="text-white opacity-100" />
-  )}
-</button>
+                className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
+                onClick={() => {
+                  toggleFavorite(item);
+                }}
+              >
+                {isInFavorites(item.id) ? (
+                  <BsHeartFill className="text-white" />
+                ) : (
+                  <BsHeart className="text-white opacity-100" />
+                )}
+              </button>
     </article>
   ))}
 </div>
-<h1>Favorite list</h1>
+{/* <h1>Favorite list</h1>
       <ul>
         {favorites.map(item =>
-          item.favorite === true ? <li key={item.id}>{item.title}</li> : null
+          isInFavorites(item.id) === true ? <li key={item.id}>{item.title}</li> : null
         )}
-      </ul>
+      </ul> */}
 </section>
   </div>
   )
