@@ -62,7 +62,7 @@ const Navbar = () => {
                 Closet
               </Link>
               <Link
-                to={"/app/outfits"}
+                to={"/app/favorites"}
                 className="block p-3 hover:text-[#d6ccde] text-center md:text-left"
               >
                 Outfits

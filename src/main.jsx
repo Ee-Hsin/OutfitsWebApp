@@ -3,10 +3,19 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { AuthContextProvider } from "./hooks/AuthContext.jsx";
+import { FavoritesProvider } from './components/FavoritesContext.jsx';
+
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId="11190237112-ocdfo045sg481ltiqs28fkcdfsjncufo.apps.googleusercontent.com">
     <React.StrictMode>
-      <App />
+      <AuthContextProvider>
+        <FavoritesProvider>
+          <App />
+        </FavoritesProvider>
+      </AuthContextProvider>
     </React.StrictMode>
-  </GoogleOAuthProvider>
+  </GoogleOAuthProvider>,
+  document.getElementById('root')
 );

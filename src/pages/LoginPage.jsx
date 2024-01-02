@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
-import { API_URL } from "../constants";
-import { User } from "../model/user";
+import { Link, useNavigate } from "react-router-dom"
+import { GoogleLogin } from "@react-oauth/google"
+import { API_URL } from "../services/constants"
+import { User } from "../model/user"
 function LoginPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
@@ -29,13 +29,13 @@ function LoginPage() {
         <form
           method="post"
           onSubmit={async (e) => {
-            e.preventDefault();
+            e.preventDefault()
 
-            const form = e.target;
-            const formData = new FormData(form);
+            const form = e.target
+            const formData = new FormData(form)
 
-            const formJson = Object.fromEntries(formData.entries());
-            const jsonBody = JSON.stringify(formJson);
+            const formJson = Object.fromEntries(formData.entries())
+            const jsonBody = JSON.stringify(formJson)
             const response = await fetch(`${API_URL}/users/login`, {
               method: "POST",
               headers: {
@@ -43,11 +43,11 @@ function LoginPage() {
                 "Content-Type": "application/json",
               },
               body: jsonBody,
-            });
+            })
             if (response.ok) {
-              console.log("User signed in");
+              console.log("User signed in")
               //redirect to main page
-              navigate("/closet");
+              navigate("/closet")
             }
           }}
           className="mt-8 space-y-5"
@@ -75,11 +75,19 @@ function LoginPage() {
           </button>
           <div className="flex justify-center mt-4">
             <GoogleLogin
-              onSuccess={(r) => {
-                console.log(r);
+              onSuccess={async (r) => {
+                console.log(r)
+                const response = await fetch(`${API_URL}/users/login/google`, {
+                  method: "POST",
+                  body: { googleId: r.clientId },
+                })
+                const responseJson = await response.json()
+                const token = responseJson["user"]
+                console.log(token)
+                localStorage.setItem("token", token)
                 return navigate("/app/closet", {
                   state: { user: User.fromGoogleId(r.clientId) },
-                });
+                })
               }}
               onError={(e) => console.error(e)}
             />
@@ -87,7 +95,7 @@ function LoginPage() {
         </form>
       </div>
     </main>
-  );
+  )
 }
 
-export default LoginPage;
+export default LoginPage

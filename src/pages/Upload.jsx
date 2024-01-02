@@ -1,29 +1,34 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate} from "react-router";
+import { useState } from "react"
+import { useLocation } from "react-router"
 import { Link } from "react-router-dom"
-import { IoIosArrowBack } from "react-icons/io";
-import { API_URL } from "../constants";
+import { IoIosArrowBack } from "react-icons/io"
+import { API_URL } from "../services/constants"
+import { useAuth } from "../hooks/AuthContext"
 
 const Upload = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { file } = location.state || {};
-  const [firstSelect, setFirstSelect] = useState("");
-  const [secondSelect, setSecondSelect] = useState([]);
-  const [checkboxYes, setCheckboxYes] = useState(false);
-  const [checkboxNo, setCheckboxNo] = useState(false);
+  const location = useLocation()
+  const { file } = location.state || {}
+  const [name, setName] = useState("")
+  const [category, setCategory] = useState("")
+  const [subcategories, setSubcategoryList] = useState([])
+  const [selectedSubcategory, setSelectedSub] = useState("")
+  const [color, setColor] = useState("")
+  const [checkboxYes, setCheckboxYes] = useState(false)
+  const [checkboxNo, setCheckboxNo] = useState(false)
+
+  const { user } = useAuth()
 
   const handleFirstSelect = (event) => {
-    const selectedValue = event.target.value;
-    setFirstSelect(selectedValue);
+    const selectedValue = event.target.value
+    setCategory(selectedValue)
 
     // Update the options for the second select based on the value of the first select
     // may fetch the options from an API or define them based on some logic
-    const newOptions = getSecondOptions(selectedValue);
-    setSecondSelect(newOptions);
-  };
+    const newOptions = getSubcategories(selectedValue)
+    setSubcategoryList(newOptions)
+  }
 
-  const getSecondOptions = (selectedValue) => {
+  const getSubcategories = (selectedValue) => {
     switch (selectedValue) {
       case "Tops":
         return [
@@ -34,7 +39,7 @@ const Upload = () => {
           "sweatshirt",
           "hoodie",
           "sweater",
-        ];
+        ]
 
       case "Bottoms":
         return [
@@ -44,13 +49,13 @@ const Upload = () => {
           "shorts",
           "skirt",
           "sweatpants",
-        ];
+        ]
 
       case "Dresses":
-        return ["casual", "formal", "maxi", "midi", "mini", "evening gown"];
+        return ["casual", "formal", "maxi", "midi", "mini", "evening gown"]
 
       case "Outerwear":
-        return ["coat", "jacket", "blazer", "vest", "parka", "poncho"];
+        return ["coat", "jacket", "blazer", "vest", "parka", "poncho"]
 
       case "Activewear":
         return [
@@ -60,45 +65,45 @@ const Upload = () => {
           "athletic short",
           "track suit",
           "performance top",
-        ];
+        ]
 
       case "Accessories":
-        return ["scarf", "hat", "glove", "belt", "sunglasses", "tie"];
+        return ["scarf", "hat", "glove", "belt", "sunglasses", "tie"]
 
       case "Footwear":
-        return ["sneakers", "boots", "sandals", "flats", "heels", "slippers"];
+        return ["sneakers", "boots", "sandals", "flats", "heels", "slippers"]
 
       default:
-        return []; // Invalid category
+        return [] // Invalid category
     }
-  };
+  }
 
   const handleCheckboxYes = () => {
-    setCheckboxYes(!checkboxYes);
+    setCheckboxYes(!checkboxYes)
     // Clear checkbox2 when checkbox1 is checked
     if (!checkboxYes) {
-      setCheckboxNo(false);
+      setCheckboxNo(false)
     }
-  };
+  }
 
   const handleCheckboxNo = () => {
-    setCheckboxNo(!checkboxNo);
+    setCheckboxNo(!checkboxNo)
     // Clear checkbox1 when checkbox2 is checked
     if (!checkboxNo) {
-      setCheckboxYes(false);
+      setCheckboxYes(false)
     }
-  };
+  }
 
   if (!file) {
     // when file is not available in the state
-    return <div>No image selected</div>;
+    return <div>No image selected</div>
   }
 
   return (
     <div>
       <div className="flex text-white font-montserrat py-4">
         <Link
-          to= {"/app/closet"}
+          to={"/app/closet"}
           className="pl-4 pr-6 md:pl-10 md:pr-16 text-xl"
         >
           <IoIosArrowBack />
@@ -122,6 +127,7 @@ const Upload = () => {
             {/* Content for Container 1 */}
             <div className="w-32 text-lg">Name:</div>
             <input
+              onChange={(e) => setName(e.target.value)}
               type="text"
               placeholder="enter"
               className="bg-white bg-opacity-40 p-2 rounded-3xl text-center placeholder-[#EBEBF5] placeholder-opacity-60 focus:outline-none shadow-xl hover:bg-opacity-30 transition-all duration-100"
@@ -132,7 +138,7 @@ const Upload = () => {
             <div className="w-32 text-lg">Type:</div>
             <select
               id="firstSelect"
-              value={firstSelect}
+              value={category}
               onChange={handleFirstSelect}
               className="p-2 mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
             >
@@ -145,11 +151,12 @@ const Upload = () => {
               <option value="Activewear">activewear</option>
             </select>
             <select
+              onChange={(e) => setSelectedSub(e.target.value)}
               id="secondSelect"
-              disabled={secondSelect.length === 0}
+              disabled={subcategories.length === 0}
               className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
             >
-              {secondSelect.map((option, index) => (
+              {subcategories.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
                 </option>
@@ -159,7 +166,12 @@ const Upload = () => {
           <div className="flex py-6 items-center">
             {/* Content for Container 3 */}
             <div className="w-32 text-lg">Color:</div>
-            <select className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100 w-40">
+            <select
+              className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100 w-40"
+              onChange={(e) => {
+                setColor(e.target.value)
+              }}
+            >
               <option value="black">black</option>
               <option value="white">white</option>
               <option value="grey">grey</option>
@@ -206,23 +218,25 @@ const Upload = () => {
             <Link
               to={"/app/closet"}
               className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8"
-              onClick={
-          
-                async () => {
-                const { user } = location.state;
-
-                const field = user.googleId ? "googleId" : "email";
-                const value = user.googleId ? user.googleId : user.email;
-
-                let formData = new FormData();
-                formData.append("image", file);
-                formData.append(field, value);
-                //TODO: Add details of image to formData
+              onClick={async () => {
+                const field = user.googleId ? "googleId" : "email"
+                const value = user.googleId ? user.googleId : user.email
+                let formData = new FormData()
+                formData.append("image", file)
+                formData.append(field, value)
+                const details = {
+                  name: name,
+                  category: category,
+                  subcategory: selectedSubcategory,
+                  color: color,
+                  hasGraphic: checkboxYes,
+                }
+                formData.append("details", details)
                 const response = await fetch(`${API_URL}/uploadItem`, {
                   method: "POST",
                   body: formData,
-                });
-                console.log(response);
+                })
+                console.log(response)
               }}
             >
               upload
@@ -231,7 +245,7 @@ const Upload = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Upload;
+export default Upload
