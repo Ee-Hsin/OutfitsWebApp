@@ -9,23 +9,7 @@ import { useFavorites } from "../components/FavoritesContext";
 const Suggestions = () => {
   const { favorites, toggleFavorite, isInFavorites } = useFavorites();
 
-  // const [favorites, setFavorites] = useState([]);
-
-  // useEffect(() => {
-  //   setFavorites(suggestions);
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(favorites);
-  // }, [favorites]);
-
-  // function handleFavorite(id) {
-  //   const newFavorites = favorites.map(item => {
-  //     return item.id === id ? { ...item, favorite: !item.favorite } : item;
-  //   });
-
-  //   setFavorites(newFavorites);
-  // }
+  
 
   const suggestions = [
     {
