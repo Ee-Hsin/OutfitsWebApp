@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom"
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom"
 
 import LandingPage from "./pages/LandingPage"
 import Closet from "./pages/Closet"
@@ -35,6 +41,7 @@ function AppRoutes() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="/app" exact element={<Navigate to="/app/closet" />} />
         <Route path="/app" element={<NavbarWithOutlet />}>
           <Route path="closet" element={<Closet />} />
     
@@ -59,7 +66,7 @@ function NavbarWithOutlet() {
       <Navbar />
       <Outlet />
       {/* Just for testing purposes */}
-      <h1>{user}</h1>
+      {console.log(user)}
     </>
   )
 }

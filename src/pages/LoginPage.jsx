@@ -1,11 +1,47 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import { GoogleLogin } from "@react-oauth/google"
-import { API_URL } from "../services/constants"
-import { User } from "../model/user"
+import { useSignInUser, useSignInGoogleUser } from "../hooks/query"
+import { useForm } from "react-hook-form"
+import { FailureModal } from "../components/UI/FailureModal"
+import { Loader } from "../components/UI/Loader"
+
 function LoginPage() {
-  const navigate = useNavigate()
+  const mutation = useSignInUser()
+  const googleMutation = useSignInGoogleUser()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm()
+
+  const onSubmit = (data, e) => {
+    e.preventDefault()
+
+    //sends info to the server
+    console.log(data)
+    mutation.mutate(data)
+
+    reset()
+  }
+
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
+      {mutation.isSuccess && <Navigate to="/app/closet" />}
+      {mutation.isError && (
+        <FailureModal
+          mainMessage="Oops, looks like something went wrong."
+          subMessage="Your email or password might be wrong. Consider resetting your password."
+        />
+      )}
+      {googleMutation.isSuccess && <Navigate to="/app/closet" />}
+      {googleMutation.isError && (
+        <FailureModal
+          mainMessage="Oops, looks like something went wrong."
+          subMessage="Please try again and contact us if the error persists"
+        />
+      )}
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
         <div className="text-center">
           <div className="mx-auto w-32">
@@ -26,73 +62,76 @@ function LoginPage() {
             </p>
           </div>
         </div>
-        <form
-          method="post"
-          onSubmit={async (e) => {
-            e.preventDefault()
-
-            const form = e.target
-            const formData = new FormData(form)
-
-            const formJson = Object.fromEntries(formData.entries())
-            const jsonBody = JSON.stringify(formJson)
-            const response = await fetch(`${API_URL}/users/login`, {
-              method: "POST",
-              headers: {
-                Accept: "*/*",
-                "Content-Type": "application/json",
-              },
-              body: jsonBody,
-            })
-            if (response.ok) {
-              console.log("User signed in")
-              //redirect to main page
-              navigate("/closet")
-            }
-          }}
-          className="mt-8 space-y-5"
-        >
-          <div>
-            <label className="font-medium">Email</label>
-            <input
-              name="email"
-              type="email"
-              required
-              className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
-            />
-          </div>
-          <div>
-            <label className="font-medium">Password</label>
-            <input
-              name="password"
-              type="password"
-              required
-              className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
-            />
-          </div>
-          <button className="w-full text-gray-800 bg-gray-100 hover:bg-gray-200 ring-offset-2 focus:ring rounded-lg">
-            Sign in
-          </button>
-          <div className="flex justify-center mt-4">
-            <GoogleLogin
-              onSuccess={async (r) => {
-                console.log(r)
-                const response = await fetch(`${API_URL}/users/login/google`, {
-                  method: "POST",
-                  body: { googleId: r.clientId },
-                })
-                const responseJson = await response.json()
-                const token = responseJson["user"]
-                console.log(token)
-                localStorage.setItem("token", token)
-                return navigate("/app/closet", {
-                  state: { user: User.fromGoogleId(r.clientId) },
-                })
-              }}
-              onError={(e) => console.error(e)}
-            />
-          </div>
-        </form>
+        {mutation.isLoading ? (
+          <Loader />
+        ) : (
+          <form
+            method="post"
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-8 space-y-5"
+          >
+            <div>
+              <label className="font-medium">Email</label>
+              <input
+                name="email"
+                type="email"
+                autoComplete="email"
+                {...register("email", {
+                  required: "An email is required",
+                })}
+                className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
+              />
+              {errors.email && (
+                <p role="alert" className="text-red-500">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="font-medium">Password</label>
+              <input
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
+                className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
+              />
+              {errors.password && (
+                <p role="alert" className="text-red-500">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+            <button className="w-full text-gray-800 bg-gray-100 hover:bg-gray-200 ring-offset-2 focus:ring rounded-lg">
+              Sign in
+            </button>
+            <div className="flex justify-center mt-4">
+              <GoogleLogin
+                onSuccess={(r) =>
+                  // Sends clientId and credential from google to backend to create user
+                  googleMutation.mutate({
+                    googleId: r.clientId,
+                    googleCred: r.credential,
+                  })
+                }
+              />
+            </div>
+          </form>
+        )}
+        <div className="text-center mt-5 space-y-2">
+          <Link
+            to="/resetpassword"
+            className="font-medium text-purple-500 hover:text-purple-600 duration-150"
+          >
+            Forgot Password?
+          </Link>
+        </div>
       </div>
     </main>
   )
