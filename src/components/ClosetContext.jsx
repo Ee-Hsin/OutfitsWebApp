@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 import { API_URL } from "../services/constants";
 import { useAuth } from "../hooks/AuthContext";
 
@@ -11,6 +11,10 @@ const ClosetProvider = ({ children }) => {
   useEffect(() => {
     // Fetch items from the API endpoint
     console.log(user);
+    if (!user) {
+      setUploadedItems([]);
+      return;
+    }
     fetch(`${API_URL}/api/closet`, {
       method: "GET",
       headers: {
@@ -25,9 +29,9 @@ const ClosetProvider = ({ children }) => {
       })
       .catch((error) => {
         //setLoading(false); // Set loading to false in case of an error
-        console.error('Error fetching items:', error);
+        console.error("Error fetching items:", error);
       });
-  }, [user, setUploadedItems, uploadedItems]);
+  }, [user]);
 
   return (
     <ClosetContext.Provider value={{ uploadedItems, setUploadedItems }}>
@@ -39,7 +43,7 @@ const ClosetProvider = ({ children }) => {
 const useCloset = () => {
   const context = useContext(ClosetContext);
   if (!context) {
-    throw new Error('useCloset must be used within a ClosetProvider');
+    throw new Error("useCloset must be used within a ClosetProvider");
   }
   return context;
 };

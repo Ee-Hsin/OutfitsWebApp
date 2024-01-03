@@ -4,9 +4,8 @@ import { IoIosAdd } from "react-icons/io";
 import { useCloset } from "../components/ClosetContext";
 
 const Closet = () => {
-  
   const navigate = useNavigate();
-  const { uploadedItems} = useCloset();
+  const { uploadedItems } = useCloset();
   //const [loading, setLoading] = useState(true);
 
   const handleFileInput = async (e) => {
@@ -46,7 +45,7 @@ const Closet = () => {
               key={item._id}
               className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
             >
-              <div className='relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+              <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
                 {/* img */}
                 <img
                   src={item.image}
@@ -54,13 +53,12 @@ const Closet = () => {
                   className="w-full h-full object-cover rounded-[22px]"
                 />
               </div>
-              <div className='font-montserrat text-white mx-[20px] h-[107px] overflow-hidden'>
+              <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
                 {/* name and tag */}
-                <div className='mb-[9px] mt-[5px]'>
-                  {item.name}
-                </div>
-                <div className='text-[#EBEBF5] text-opacity-60 w-[155px]'>
-                  #{item.category} #{item.subcategory} #{item.color} #{item.hasGraphic}
+                <div className="mb-[9px] mt-[5px]">{item.name}</div>
+                <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
+                  #{item.category} #{item.subcategory} #{item.color}{" "}
+                  {item.hasGraphic ? "#graphic" : ""}
                 </div>
               </div>
             </div>
@@ -72,4 +70,3 @@ const Closet = () => {
 };
 
 export default Closet;
-

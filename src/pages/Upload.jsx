@@ -12,7 +12,7 @@ const Upload = () => {
   const [category, setCategory] = useState("");
   const [subcategories, setSubcategoryList] = useState([]);
   const [selectedSubcategory, setSelectedSub] = useState("");
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("black");
   const [checkboxYes, setCheckboxYes] = useState(false);
   const [checkboxNo, setCheckboxNo] = useState(false);
 
