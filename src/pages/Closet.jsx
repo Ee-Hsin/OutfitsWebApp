@@ -18,7 +18,7 @@ const Closet = () => {
   return (
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
-        <div className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-2 sm:pl-4 pb-4">
+        <div className="border-b-2 border-[#201B21] border-opacity-60 w-40 sm:w-[30%] pl-2 sm:pl-4 pb-4">
           Uploaded items
         </div>
         <input
@@ -28,13 +28,13 @@ const Closet = () => {
           accept="image/*" // only accept image
           style={{ display: "none" }} // hide default input style
         />
-        <button
+          <button
           onClick={() => document.getElementById("fileInput").click()}
-          className="flex items-center bg-white bg-opacity-40 w-32 pl-8 rounded-3xl shadow-xl hover:bg-opacity-50"
+          className="flex items-center bg-white bg-opacity-40 w-32 h-[42px] pl-8 rounded-3xl shadow-xl hover:bg-opacity-50 "
         >
           upload
           <IoIosAdd className="text-2xl" />
-        </button>
+          </button>
       </div>
 
       <div className="flex justify-center">

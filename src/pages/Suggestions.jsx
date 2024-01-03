@@ -81,71 +81,71 @@ const Suggestions = () => {
           </Link>
           <div>suggestions</div>
         </div>
-      </div>
-
-      <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-left flex-wrap mt-6">
-          {suggestions.map((item, key) => (
-            <article
-              className=" relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-              key={key}
-            >
-              <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                <img //image + title
-                  src={item.img_1}
-                  className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-                  loading="lazy"
-                  alt={item.title}
-                  //className="w-full h-[240px] bg-white rounded-t-2xl shadow-3xl"
-                />
-                <img //image + title
-                  src={item.img_2}
-                  className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-                  loading="lazy"
-                  alt={item.title}
-                />
-                <img //image + title
-                  src={item.img_3}
-                  className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-                  loading="lazy"
-                  alt={item.title}
-                />
-                <img //image + title
-                  src={item.img_3}
-                  className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-                  loading="lazy"
-                  alt={item.title}
-                />
-              </div>
-
-              <div className="pt-3 ml-4 mr-2 mb-3">
-                <h3 className="text-xl text-white-700">{item.title}</h3>
-                <p className="text-[#EBEBF5] text-opacity-60">{item.desc}</p>
-              </div>
-              <button
-                className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
-                onClick={() => {
-                  toggleFavorite(item)
-                }}
-              >
-                {isInFavorites(item.id) ? (
-                  <BsHeartFill className="text-white" />
-                ) : (
-                  <BsHeart className="text-white opacity-100" />
-                )}
-              </button>
-            </article>
-          ))}
+    </div>
+  
+    <section className="flex justify-center"> 
+      <div className="flex flex-wrap justify-left mx-[120px]">
+        {suggestions.map((item, key) => (
+        <article
+          className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
+          key={key}
+        >
+        <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+          <img //image + title
+            src={item.img_1}
+            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+            loading="lazy"
+            alt={item.title}
+            //className="w-full h-[240px] bg-white rounded-t-2xl shadow-3xl"
+          />
+          <img //image + title
+            src={item.img_2}
+            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+            loading="lazy"
+            alt={item.title}
+          />
+          <img //image + title
+            src={item.img_3}
+            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+            loading="lazy"
+            alt={item.title}
+          />
+          <img //image + title
+            src={item.img_3}
+            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+            loading="lazy"
+            alt={item.title}
+          />
         </div>
-        {/* <h1>Favorite list</h1>
-      <ul>
-        {favorites.map(item =>
-          isInFavorites(item.id) === true ? <li key={item.id}>{item.title}</li> : null
-        )}
-      </ul> */}
+
+        <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+          <h3 className="mb-[9px] mt-[5px] ml-[9px]">{item.title}</h3>
+          <p className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">{item.desc}</p>
+        </div>
+        <button
+          className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
+          onClick={() => {
+            toggleFavorite(item);
+          }}
+        >
+          {isInFavorites(item.id) ? (
+            <BsHeartFill className="text-white" />
+          ) : (
+            <BsHeart className="text-white opacity-100" />
+          )}
+        </button>
+        </article>
+        ))}
+      </div>
+      {/*<h1>Favorite list</h1>
+          <ul>
+            {favorites.map(item =>
+              isInFavorites(item.id) === true ? <li key={item.id}>{item.title}</li> : null
+            )}
+          </ul> */}
       </section>
     </div>
-  )
-}
+  
+)}
 
 export default Suggestions
