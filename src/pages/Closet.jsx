@@ -18,7 +18,6 @@ const Closet = () => {
     fetch(`${API_URL}/api/closet`, {
       method: "GET",
       headers: {
-        //'Content-Type': 'application/json',
         "x-access-token": user,
       },
     })
@@ -32,7 +31,7 @@ const Closet = () => {
         setLoading(false); // Set loading to false in case of an error
         console.error('Error fetching items:', error);
       });
-  }, [user, setUploadedItems]);
+  }, [user, setUploadedItems, uploadedItems]);
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
@@ -72,7 +71,7 @@ const Closet = () => {
               className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
             >
               <div className='relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
-                {/* sample content */}
+                {/* img */}
                 <img
                   src={item.image}
                   alt="uploaded img"
@@ -85,7 +84,7 @@ const Closet = () => {
                   {item.name}
                 </div>
                 <div className='text-[#EBEBF5] text-opacity-60 w-[155px]'>
-                  #{item.subcategory} #{item.color} #{item.hasGraphic}
+                  #{item.category} #{item.subcategory} #{item.color} #{item.hasGraphic}
                 </div>
               </div>
             </div>
