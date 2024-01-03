@@ -24,15 +24,15 @@ const LandingPageNavbar = () => {
 
     // Disable scrolling
     const customBodyStyle = ["overflow-hidden", "lg:overflow-visible"]
-    if (state) body.classList.add(...customBodyStyle)
+    if (state) body.classList?.add(...customBodyStyle)
     // Enable scrolling
-    else body.classList.remove(...customBodyStyle)
+    else body.classList?.remove(...customBodyStyle)
 
     // Sticky strick
     const customStyle = ["sticky-nav", "fixed"]
     window.onscroll = () => {
-      if (window.scrollY > 80) navRef.current.classList.add(...customStyle)
-      else navRef.current.classList.remove(...customStyle)
+      if (window.scrollY > 80) navRef.current.classList?.add(...customStyle)
+      else navRef.current.classList?.remove(...customStyle)
     }
   }, [state])
 

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { IoIosAdd } from "react-icons/io";
-import { useCloset } from "../components/ClosetContext";
+import { useCloset } from "../hooks/ClosetContext";
 
 const Closet = () => {
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ const Closet = () => {
 
       <div className="flex justify-center">
         <div className="flex flex-wrap justify-left mx-[120px]">
-          {uploadedItems.map((item) => (
+          {uploadedItems?.map((item) => (
             <div
               key={item._id}
               className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"

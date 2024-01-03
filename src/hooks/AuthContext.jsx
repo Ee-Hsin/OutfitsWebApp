@@ -10,6 +10,7 @@ export const AuthContextProvider = ({ children }) => {
     const existingUser = localStorage.getItem("token")
 
     if (existingUser) {
+      console.log("this", existingUser)
       setUser(existingUser)
     }
   }, [])
