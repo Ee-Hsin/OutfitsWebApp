@@ -17,7 +17,8 @@ import Signup from "./pages/Signup"
 import Create from "./pages/Create"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useAuth } from "./hooks/AuthContext"
-import { FavoritesProvider } from './components/FavoritesContext.jsx';
+import ForgotPassword from "./pages/ForgotPassword"
+import ResetPassword from "./pages/ResetPassword"
 
 const queryClient = new QueryClient()
 
@@ -37,21 +38,19 @@ function AppRoutes() {
   return (
     <>
       <Routes>
-      
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password/:id/:token" element={<ResetPassword />} />
         <Route path="/app" exact element={<Navigate to="/app/closet" />} />
         <Route path="/app" element={<NavbarWithOutlet />}>
           <Route path="closet" element={<Closet />} />
-    
-            <Route path="favorites" element={<Favorites />} />
+          <Route path="favorites" element={<Favorites />} />
           <Route path="suggestions" element={<Suggestions />} />
-          
           <Route path="upload" element={<Upload />} />
           <Route path="create" element={<Create />} />
         </Route>
-
       </Routes>
     </>
   )
