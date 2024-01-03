@@ -1,32 +1,42 @@
-import { useState } from "react";
-import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
-import { API_URL } from "../services/constants";
-import { useAuth } from "../hooks/AuthContext";
+import { useState } from "react"
+import { useLocation } from "react-router"
+import { Link } from "react-router-dom"
+import { IoIosArrowBack } from "react-icons/io"
+import { API_URL } from "../services/constants"
+import { useAuth } from "../hooks/AuthContext"
 
 const Upload = () => {
-  const location = useLocation();
-  const { file } = location.state || {};
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [subcategories, setSubcategoryList] = useState([]);
-  const [selectedSubcategory, setSelectedSub] = useState("");
-  const [color, setColor] = useState("");
-  const [checkboxYes, setCheckboxYes] = useState(false);
-  const [checkboxNo, setCheckboxNo] = useState(false);
+  const location = useLocation()
+  const { file } = location.state || {}
+  const [name, setName] = useState("")
 
-  const { user } = useAuth();
+  //Setting default values for the form
+  const [color, setColor] = useState("black")
+  const [checkboxYes, setCheckboxYes] = useState(false)
+  const [checkboxNo, setCheckboxNo] = useState(true)
+  const [category, setCategory] = useState("Tops")
+  const [selectedSubcategory, setSelectedSub] = useState("t-shirt")
+  const [subcategories, setSubcategoryList] = useState([
+    "t-shirt",
+    "blouse",
+    "shirt",
+    "tank top",
+    "sweatshirt",
+    "hoodie",
+    "sweater",
+  ])
+
+  const { user } = useAuth()
 
   const handleFirstSelect = (event) => {
-    const selectedValue = event.target.value;
-    setCategory(selectedValue);
+    const selectedValue = event.target.value
+    setCategory(selectedValue)
 
     // Update the options for the second select based on the value of the first select
-    const newOptions = getSubcategories(selectedValue);
-    setSelectedSub(newOptions[0]);
-    setSubcategoryList(newOptions);
-  };
+    const newOptions = getSubcategories(selectedValue)
+    setSelectedSub(newOptions[0])
+    setSubcategoryList(newOptions)
+  }
 
   const getSubcategories = (selectedValue) => {
     switch (selectedValue) {
@@ -39,7 +49,7 @@ const Upload = () => {
           "sweatshirt",
           "hoodie",
           "sweater",
-        ];
+        ]
 
       case "Bottoms":
         return [
@@ -49,13 +59,13 @@ const Upload = () => {
           "shorts",
           "skirt",
           "sweatpants",
-        ];
+        ]
 
       case "Dresses":
-        return ["casual", "formal", "maxi", "midi", "mini", "evening gown"];
+        return ["casual", "formal", "maxi", "midi", "mini", "evening gown"]
 
       case "Outerwear":
-        return ["coat", "jacket", "blazer", "vest", "parka", "poncho"];
+        return ["coat", "jacket", "blazer", "vest", "parka", "poncho"]
 
       case "Activewear":
         return [
@@ -65,38 +75,38 @@ const Upload = () => {
           "athletic short",
           "track suit",
           "performance top",
-        ];
+        ]
 
       case "Accessories":
-        return ["scarf", "hat", "glove", "belt", "sunglasses", "tie"];
+        return ["scarf", "hat", "glove", "belt", "sunglasses", "tie"]
 
       case "Footwear":
-        return ["sneakers", "boots", "sandals", "flats", "heels", "slippers"];
+        return ["sneakers", "boots", "sandals", "flats", "heels", "slippers"]
 
       default:
-        return []; // Invalid category
+        return [] // Invalid category
     }
-  };
+  }
 
   const handleCheckboxYes = () => {
-    setCheckboxYes(!checkboxYes);
+    setCheckboxYes(!checkboxYes)
     // Clear checkbox2 when checkbox1 is checked
     if (!checkboxYes) {
-      setCheckboxNo(false);
+      setCheckboxNo(false)
     }
-  };
+  }
 
   const handleCheckboxNo = () => {
-    setCheckboxNo(!checkboxNo);
+    setCheckboxNo(!checkboxNo)
     // Clear checkbox1 when checkbox2 is checked
     if (!checkboxNo) {
-      setCheckboxYes(false);
+      setCheckboxYes(false)
     }
-  };
+  }
 
   if (!file) {
     // when file is not available in the state
-    return <div>No image selected</div>;
+    return <div>No image selected</div>
   }
 
   return (
@@ -150,20 +160,21 @@ const Upload = () => {
               <option value="Accessories">accessories</option>
               <option value="Activewear">activewear</option>
             </select>
-            <select
-              onChange={(e) => {
-                return setSelectedSub(e.target.value);
-              }}
-              id="secondSelect"
-              disabled={subcategories.length === 0}
-              className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
-            >
-              {subcategories.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            {subcategories.length !== 0 && (
+              <select
+                onChange={(e) => {
+                  return setSelectedSub(e.target.value)
+                }}
+                id="secondSelect"
+                className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
+              >
+                {subcategories.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
           <div className="flex py-6 items-center">
             {/* Content for Container 3 */}
@@ -171,7 +182,7 @@ const Upload = () => {
             <select
               className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100 w-40"
               onChange={(e) => {
-                setColor(e.target.value);
+                setColor(e.target.value)
               }}
             >
               <option value="black">black</option>
@@ -221,23 +232,23 @@ const Upload = () => {
               to={"/app/closet"}
               className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8"
               onClick={async () => {
-                let formData = new FormData();
-                formData.append("image", file);
+                let formData = new FormData()
+                formData.append("image", file)
                 const details = {
                   name: name,
                   category: category,
                   subcategory: selectedSubcategory,
                   color: color,
                   hasGraphic: checkboxYes,
-                };
-                formData.append("details", JSON.stringify(details));
+                }
+                formData.append("details", JSON.stringify(details))
                 await fetch(`${API_URL}/api/uploadItem`, {
                   method: "POST",
                   headers: {
                     "x-access-token": user,
                   },
                   body: formData,
-                });
+                })
               }}
             >
               upload
@@ -246,7 +257,7 @@ const Upload = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Upload;
+export default Upload
