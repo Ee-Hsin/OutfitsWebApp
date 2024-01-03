@@ -1,8 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react"
-import { API_URL } from "../services/constants"
 import { useAuth } from "./AuthContext"
-import axios from "axios"
-
+import { API } from "../services/api"
 const ClosetContext = createContext()
 
 const ClosetProvider = ({ children }) => {
@@ -13,12 +11,11 @@ const ClosetProvider = ({ children }) => {
     // Fetch items from the API endpoint
     // console.log(user)
     if (user) {
-      axios
-        .get(`${API_URL}/api/closet`, {
-          headers: {
-            "x-access-token": user,
-          },
-        })
+      API.get(`/api/closet`, {
+        headers: {
+          "x-access-token": user,
+        },
+      })
         .then((data) => {
           setUploadedItems(data.data.items)
           //setLoading(false); // Set loading to false after receiving the response
