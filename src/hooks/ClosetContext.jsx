@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react"
 import { useAuth } from "./AuthContext"
-import { API } from "../services/api"
+import API from "../services/api"
 const ClosetContext = createContext()
 
 const ClosetProvider = ({ children }) => {
