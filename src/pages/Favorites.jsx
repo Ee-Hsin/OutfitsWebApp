@@ -26,25 +26,17 @@ const Favorites = () => {
             suggestions
           </Link>
         </div>
-        <input
-          type="file"
-          id="fileInput"
-          //onChange={handleFileInput}
-          accept="image/*" // only accept image
-          style={{ display: "none" }} // hide default input style
-        />
         <Link
           to={"/app/create"}
-          className="flex items-center bg-white bg-opacity-40 w-32 pl-8 rounded-3xl shadow-xl hover:bg-opacity-50"
+          className="flex items-center bg-white bg-opacity-40 w-24 sm:w-32 pl-4 sm:pl-8 rounded-3xl shadow-xl hover:bg-opacity-50"
         >
           create
           <IoIosAdd className="text-2xl" />
         </Link>
       </div>
       
-      <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
-        {/* <div className="flex justify-center"> */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center flex-wrap mt-6">
+      <section className="flex justify-center">
+      <div className="flex flex-wrap justify-left mx-[120px]">
           {/* container for all cards */}
           <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
             {/* container for one card */}
@@ -190,9 +182,6 @@ const Favorites = () => {
               </div>
           </div>
           
-          
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center flex-wrap mt-6">
           {favorites.map((item, key) => (
             <div
               className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
@@ -237,6 +226,9 @@ const Favorites = () => {
             </div>
           ))}
         </div>
+        
+          
+        
       </section>
     </div>
   )
