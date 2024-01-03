@@ -52,7 +52,7 @@ function LoginPage() {
               Log in to your account
             </h1>
             <p className="">
-              Don't have an account?{" "}
+              {"Don't have an account? "}
               <Link
                 to="/signup"
                 className="font-medium text-purple-500 hover:text-purple-600 duration-150"
@@ -126,7 +126,7 @@ function LoginPage() {
         )}
         <div className="text-center mt-5 space-y-2">
           <Link
-            to="/resetpassword"
+            to="/forgot-password"
             className="font-medium text-purple-500 hover:text-purple-600 duration-150"
           >
             Forgot Password?

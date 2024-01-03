@@ -48,9 +48,24 @@ const useCreateGoogleUser = () => {
   })
 }
 
+const useForgotPassword = () => {
+  return useMutation({
+    mutationFn: (data) => API.post("/users/forget-password", data),
+  })
+}
+
+const useResetPassword = ({ id, token }) => {
+  return useMutation({
+    mutationFn: (data) =>
+      API.post(`/users/reset-password/${id}/${token}`, data),
+  })
+}
+
 export {
   useSignInUser,
   useSignInGoogleUser,
   useCreateUser,
   useCreateGoogleUser,
+  useForgotPassword,
+  useResetPassword,
 }
