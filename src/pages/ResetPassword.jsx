@@ -20,7 +20,6 @@ function ResetPassword() {
     e.preventDefault()
 
     //sends info to the server
-    console.log(data)
     mutation.mutate(data)
 
     reset()
