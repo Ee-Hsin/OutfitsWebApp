@@ -23,7 +23,6 @@ const Upload = () => {
     setCategory(selectedValue);
 
     // Update the options for the second select based on the value of the first select
-    // may fetch the options from an API or define them based on some logic
     const newOptions = getSubcategories(selectedValue);
     setSelectedSub(newOptions[0]);
     setSubcategoryList(newOptions);

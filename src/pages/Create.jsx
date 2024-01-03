@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
 import { IoIosAdd } from "react-icons/io";
 import { useCloset } from "../components/ClosetContext";
 
 const Create = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { uploadedItems} = useCloset();
   //const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
-
-  const handleFileInput = async (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      navigate("/app/upload", { state: { file: file } });
-    }
-  };
 
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
@@ -31,23 +25,34 @@ const Create = () => {
 
   return (
     <div>
-      <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
-        <div className="border-b-2 border-[#201B21] border-opacity-60 w-[30%] pl-2 sm:pl-4 pb-4">
-          Uploaded items
+      <div className="flex items-center justify-between text-white font-montserrat">
+        {/* top nav */}
+        <div className="flex py-4 ">
+          {/* top left */}
+          <Link
+            to={"/app/favorites"}
+            className="pl-4 pr-6 md:pl-10 md:pr-16 text-xl"
+          >
+            <IoIosArrowBack />
+          </Link>
+          <div className="hidden md:block border-b-2 border-[#201B21] border-opacity-60 w-[220px] md:w-[300px] lg:w-[404px] pl-2 sm:pl-4 pb-4">
+            select items to create your outfits
+          </div>
         </div>
-        <input
-          type="file"
-          id="fileInput"
-          onChange={handleFileInput}
-          accept="image/*" // only accept image
-          style={{ display: "none" }} // hide default input style
-        />
-        <button
-          onClick={() => document.getElementById("fileInput").click()}
-          className="flex items-center bg-white bg-opacity-40 w-32 pl-8 rounded-3xl shadow-xl hover:bg-opacity-50"
-        >
-          upload <IoIosAdd className="text-2xl" />
-        </button>
+        <div className="flex mr-6 md:mr-8 lg:mr-36">
+          {/* top right */}
+          <Link
+            to={"/app/favorites"}
+            className="hidden md:flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50 mr-8"
+          >
+            cancel
+          </Link>
+          <button
+            className="flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50"
+          >
+            complete
+          </button>
+        </div>
       </div>
 
       <div className="flex justify-center">
