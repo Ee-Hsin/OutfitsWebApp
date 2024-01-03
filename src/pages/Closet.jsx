@@ -1,16 +1,16 @@
-import React , { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { IoIosAdd } from "react-icons/io";
 import { API_URL } from "../services/constants";
 import { useAuth } from "../hooks/AuthContext";
-
+import { useCloset } from "../components/ClosetContext";
 
 const Closet = () => {
-  const sampleImgUrl = "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170"
-
+  
   const navigate = useNavigate();
-  const [item, setItem] = useState([]);
-  const {user} = useAuth();
+  const { user } = useAuth();
+  const { uploadedItems, setUploadedItems } = useCloset();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch items from the API endpoint
@@ -23,11 +23,16 @@ const Closet = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => {setItem(data.items);
-                  console.log(data);})
-      .catch((error) => console.error('Error fetching items:', error));
-  
-  }, [user]);
+      .then((data) => {
+        setUploadedItems(data.items);
+        setLoading(false); // Set loading to false after receiving the response
+        console.log(data);
+      })
+      .catch((error) => {
+        setLoading(false); // Set loading to false in case of an error
+        console.error('Error fetching items:', error);
+      });
+  }, [user, setUploadedItems]);
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
@@ -61,26 +66,28 @@ const Closet = () => {
 
       <div className="flex justify-center">
         <div className="flex flex-wrap justify-left mx-[120px]">
-          {item.map((item) => (
-              <div key={item._id} 
-                className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+          {uploadedItems.map((item) => (
+            <div
+              key={item._id}
+              className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
+            >
               <div className='relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
                 {/* sample content */}
-                <img 
-                src={item.image} 
-                alt="uploaded img" 
-                className="w-full h-full object-cover rounded-[22px]"            
+                <img
+                  src={item.image}
+                  alt="uploaded img"
+                  className="w-full h-full object-cover rounded-[22px]"
                 />
               </div>
               <div className='font-montserrat text-white mx-[20px] h-[107px] overflow-hidden'>
-                  {/* name and tag */}
-                  <div className='mb-[9px] mt-[5px]'>
-                    {item.name}
-                  </div>
-                  <div className='text-[#EBEBF5] text-opacity-60 w-[155px]'>
-                    #{item.subcategory} #{item.color} #{item.hasGraphic}
-                  </div>
+                {/* name and tag */}
+                <div className='mb-[9px] mt-[5px]'>
+                  {item.name}
                 </div>
+                <div className='text-[#EBEBF5] text-opacity-60 w-[155px]'>
+                  #{item.subcategory} #{item.color} #{item.hasGraphic}
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -90,3 +97,4 @@ const Closet = () => {
 };
 
 export default Closet;
+

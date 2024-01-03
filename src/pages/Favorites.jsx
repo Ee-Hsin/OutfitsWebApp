@@ -44,7 +44,7 @@ const Favorites = () => {
       
       <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
         {/* <div className="flex justify-center"> */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-left flex-wrap mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center flex-wrap mt-6">
           {/* container for all cards */}
           <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
             {/* container for one card */}
@@ -192,7 +192,7 @@ const Favorites = () => {
           
           
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-left flex-wrap mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center flex-wrap mt-6">
           {favorites.map((item, key) => (
             <div
               className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
