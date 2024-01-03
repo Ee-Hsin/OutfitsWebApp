@@ -1,78 +1,85 @@
 //import React from "react";
-import React, { useState, useEffect } from "react";
-import { useNavigate , Link } from "react-router-dom"
+import React, { useState, useEffect } from "react"
+import { useNavigate, Link } from "react-router-dom"
 //import { IoIosAdd } from "react-icons/io"
-import { BsHeart,BsHeartFill } from 'react-icons/bs'
-import { useFavorites } from "../components/FavoritesContext";
-
+import { BsHeart, BsHeartFill } from "react-icons/bs"
+import { useFavorites } from "../hooks/FavoritesContext"
 
 const Suggestions = () => {
-  const { favorites, toggleFavorite, isInFavorites } = useFavorites();
-
+  const { favorites, toggleFavorite, isInFavorites } = useFavorites()
 
   const suggestions = [
     {
-        id: 1,
-        title: "suggestion 1",
-        desc: "#jeans",
-        img_1: "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
-        img_2:"https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
-        img_3:"https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
-        img_4:"https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
-        date: "Jan 4 2022",
-        href: "javascript:void(0)"
-
+      id: 1,
+      title: "suggestion 1",
+      desc: "#jeans",
+      img_1:
+        "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
+      img_2:
+        "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
+      img_3:
+        "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
+      img_4:
+        "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
+      date: "Jan 4 2022",
+      href: "javascript:void(0)",
     },
     {
-        id: 2,
-        title: "suggestion 2",
-        desc: "#jacket",
-        img_1: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
-        img_2: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
-        img_3: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
-        img_4: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
-        date: "Jan 4 2022",
-        href: "javascript:void(0)"
+      id: 2,
+      title: "suggestion 2",
+      desc: "#jacket",
+      img_1: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
+      img_2: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
+      img_3: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
+      img_4: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
+      date: "Jan 4 2022",
+      href: "javascript:void(0)",
     },
     {
-        id: 3,
-        title: "suggestion 3",
-        desc: "#shoes",
-        img_1: "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
-        img_2:"https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
-        img_3:"https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
-        img_4:"https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
-        date: "Jan 4 2022",
-        href: "javascript:void(0)"
+      id: 3,
+      title: "suggestion 3",
+      desc: "#shoes",
+      img_1:
+        "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
+      img_2:
+        "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
+      img_3:
+        "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
+      img_4:
+        "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
+      date: "Jan 4 2022",
+      href: "javascript:void(0)",
     },
     {
-        id: 4,
-        title: "suggestion 4",
-        desc: "#hoodie",
-        img_1: "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
-        img_2:"https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
-        img_3:"https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
-        img_4:"https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
-        // authorLogo: "https://api.uifaces.co/our-content/donated/KtCFjlD4.jpg",
-        // authorName: "Lourin",
-        date: "Jan 4 2022",
-        href: "javascript:void(0)"
-    }
-]
-  return(
-    
-  // <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
-  <div>
-    <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
+      id: 4,
+      title: "suggestion 4",
+      desc: "#hoodie",
+      img_1:
+        "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
+      img_2:
+        "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
+      img_3:
+        "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
+      img_4:
+        "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
+      // authorLogo: "https://api.uifaces.co/our-content/donated/KtCFjlD4.jpg",
+      // authorName: "Lourin",
+      date: "Jan 4 2022",
+      href: "javascript:void(0)",
+    },
+  ]
+  return (
+    // <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
+    <div>
+      <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
         <div className="flex border-b-2 border-[#201B21] border-opacity-60 w-[220px] md:w-[300px] lg:w-[404px] pl-2 sm:pl-4 pb-4">
-          <Link 
-            to={'/app/favorites'}
-            className="mr-6 md:mr-20 text-white text-opacity-60 hover:text-opacity-70">
+          <Link
+            to={"/app/favorites"}
+            className="mr-6 md:mr-20 text-white text-opacity-60 hover:text-opacity-70"
+          >
             favorites
           </Link>
-          <div>
-            suggestions
-          </div>
+          <div>suggestions</div>
         </div>
     </div>
   
@@ -141,4 +148,4 @@ const Suggestions = () => {
   
 )}
 
-export default Suggestions;
+export default Suggestions

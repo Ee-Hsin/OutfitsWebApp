@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosAdd } from "react-icons/io";
-import { useCloset } from "../components/ClosetContext";
+import { useCloset } from "../hooks/ClosetContext";
 
 const Create = () => {
   //const navigate = useNavigate();
