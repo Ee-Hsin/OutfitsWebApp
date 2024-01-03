@@ -9,7 +9,6 @@ import { useFavorites } from "../components/FavoritesContext";
 const Suggestions = () => {
   const { favorites, toggleFavorite, isInFavorites } = useFavorites();
 
-  
 
   const suggestions = [
     {
