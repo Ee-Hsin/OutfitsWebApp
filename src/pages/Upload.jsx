@@ -9,12 +9,22 @@ const Upload = () => {
   const location = useLocation();
   const { file } = location.state || {};
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [subcategories, setSubcategoryList] = useState([]);
-  const [selectedSubcategory, setSelectedSub] = useState("");
+
+  //Setting default values for the form
   const [color, setColor] = useState("black");
   const [checkboxYes, setCheckboxYes] = useState(false);
-  const [checkboxNo, setCheckboxNo] = useState(false);
+  const [checkboxNo, setCheckboxNo] = useState(true);
+  const [category, setCategory] = useState("Tops");
+  const [selectedSubcategory, setSelectedSub] = useState("t-shirt");
+  const [subcategories, setSubcategoryList] = useState([
+    "t-shirt",
+    "blouse",
+    "shirt",
+    "tank top",
+    "sweatshirt",
+    "hoodie",
+    "sweater",
+  ]);
 
   const { user } = useAuth();
 
@@ -150,20 +160,21 @@ const Upload = () => {
               <option value="Accessories">accessories</option>
               <option value="Activewear">activewear</option>
             </select>
-            <select
-              onChange={(e) => {
-                return setSelectedSub(e.target.value);
-              }}
-              id="secondSelect"
-              disabled={subcategories.length === 0}
-              className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
-            >
-              {subcategories.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            {subcategories.length !== 0 && (
+              <select
+                onChange={(e) => {
+                  return setSelectedSub(e.target.value);
+                }}
+                id="secondSelect"
+                className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
+              >
+                {subcategories.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
           <div className="flex py-6 items-center">
             {/* Content for Container 3 */}

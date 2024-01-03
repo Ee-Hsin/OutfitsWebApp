@@ -22,7 +22,7 @@ const ClosetProvider = ({ children }) => {
         .then((data) => {
           setUploadedItems(data.items)
           //setLoading(false); // Set loading to false after receiving the response
-          // console.log(data)
+          console.log(data)
         })
         .catch((error) => {
           //setLoading(false); // Set loading to false in case of an error
