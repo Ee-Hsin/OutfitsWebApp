@@ -1,38 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { IoIosAdd } from "react-icons/io";
-import { API_URL } from "../services/constants";
-import { useAuth } from "../hooks/AuthContext";
 import { useCloset } from "../components/ClosetContext";
 
 const Create = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { uploadedItems, setUploadedItems } = useCloset();
-  const [loading, setLoading] = useState(true);
+  const { uploadedItems} = useCloset();
+  //const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
-
-  useEffect(() => {
-    // Fetch items from the API endpoint
-    console.log(user);
-    fetch(`${API_URL}/api/closet`, {
-      method: "GET",
-      headers: {
-        //'Content-Type': 'application/json',
-        "x-access-token": user,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUploadedItems(data.items);
-        setLoading(false); // Set loading to false after receiving the response
-        console.log(data);
-      })
-      .catch((error) => {
-        setLoading(false); // Set loading to false in case of an error
-        console.error("Error fetching items:", error);
-      });
-  }, [user, setUploadedItems]);
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
@@ -83,7 +58,7 @@ const Create = () => {
               className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
             >
               <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                {/* sample content */}
+                {/* img */}
                 <img
                   src={item.image}
                   alt="uploaded img"

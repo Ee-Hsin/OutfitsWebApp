@@ -1,37 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { IoIosAdd } from "react-icons/io";
-import { API_URL } from "../services/constants";
-import { useAuth } from "../hooks/AuthContext";
 import { useCloset } from "../components/ClosetContext";
 
 const Closet = () => {
   
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { uploadedItems, setUploadedItems } = useCloset();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Fetch items from the API endpoint
-    console.log(user);
-    fetch(`${API_URL}/api/closet`, {
-      method: "GET",
-      headers: {
-        "x-access-token": user,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUploadedItems(data.items);
-        setLoading(false); // Set loading to false after receiving the response
-        console.log(data);
-      })
-      .catch((error) => {
-        setLoading(false); // Set loading to false in case of an error
-        console.error('Error fetching items:', error);
-      });
-  }, [user, setUploadedItems, uploadedItems]);
+  const { uploadedItems} = useCloset();
+  //const [loading, setLoading] = useState(true);
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
