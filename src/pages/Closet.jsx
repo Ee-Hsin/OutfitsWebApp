@@ -5,11 +5,15 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 
 const ClosetItem = ({ item }) => {
+  const {removeItem} = useCloset();
   return (
     <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
       <FaRegEdit 
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-xl z-10 ml-[210px] mt-[-10px] hover:scale-110 transition-opacity"/>
-      <RxCrossCircled className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"/>
+      <RxCrossCircled 
+        className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
+        onClick={() => {removeItem(item)}}
+      />
       <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {/* img */}
         <img
@@ -32,7 +36,7 @@ const ClosetItem = ({ item }) => {
 
 const Closet = () => {
   const navigate = useNavigate();
-  const { uploadedItems } = useCloset();
+  const { uploadedItems} = useCloset();
   //const [loading, setLoading] = useState(true);
 
   const handleFileInput = async (e) => {
