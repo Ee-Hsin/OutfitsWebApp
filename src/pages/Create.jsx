@@ -97,13 +97,6 @@ const Create = () => {
                   alt="uploaded img"
                   className="w-full h-full object-cover rounded-[22px]"
                 />
-                {/* Add a checkbox for selection */}
-                <input
-                  type="checkbox"
-                  className="absolute top-2 right-2"
-                  checked={selectedItems.includes(item._id)}
-                  onChange={() => {}} /*There's an error if we remove this */
-                />
               </div>
               <div
                 className={`font-montserrat text-white mx-[20px] h-[107px] overflow-hidden
