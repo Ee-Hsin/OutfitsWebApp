@@ -1,8 +1,11 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 export const FailureModal = ({
   mainMessage = "Error!",
   subMessage = "Looks like something went wrong, you might want to try again ",
+  redirectMessage,
+  redirectLink,
 }) => {
   const [open, setOpen] = useState(true)
 
@@ -33,9 +36,17 @@ export const FailureModal = ({
               <h4 className="text-lg font-medium text-gray-800">
                 {mainMessage}
               </h4>
-              <p className="mt-2 text-[15px] leading-relaxed text-gray-500">
+              <p className="my-2 text-[15px] leading-relaxed text-gray-500">
                 {subMessage}
               </p>
+              {redirectLink && (
+                <Link
+                  className="text-md font-semibold text-red-800"
+                  to={redirectLink}
+                >
+                  {redirectMessage}
+                </Link>
+              )}
             </div>
           </div>
         </div>

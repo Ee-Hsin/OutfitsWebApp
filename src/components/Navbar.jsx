@@ -20,8 +20,8 @@ const Navbar = () => {
           state ? "shadow-lg md:shadow-none" : ""
         }`}
       >
-        <div className="items-center gap-x-14 px-4 max-w-screen-xl mx-auto md:flex md:px-8 md:h-28">
-          <div className="flex items-center justify-between py-3 md:py-5 md:block">
+        <div className="items-center gap-x-14 px-8 max-w-screen-xl mx-auto md:flex md:h-28">
+          <div className="flex items-center justify-between py-5 md:block">
             <h1 className="font-monoton text-3xl">Fitsss</h1>
             <div className="md:hidden">
               <button
