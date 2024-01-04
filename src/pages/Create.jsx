@@ -97,7 +97,8 @@ const Create = () => {
                 {/* name and tag */}
                 <div className="mb-[9px] mt-[5px]">{item.name}</div>
                 <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
-                  #{item.subcategory} #{item.color} #{item.hasGraphic}
+                #{item.category} #{item.subcategory} #{item.color}{" "}
+          {item.hasGraphic ? "#graphic" : "#plain"}
                 </div>
               </div>
             </div>
