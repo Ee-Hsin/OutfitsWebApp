@@ -60,9 +60,9 @@ const Create = () => {
           {uploadedItems.map((item) => (
             <div
               key={item._id}
-              className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
+              className="card flex-col justify-center bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform"
             >
-              <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+              <div className="card-hover:scale-110 relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
                 {/* img */}
                 <img
                   src={item.image}
@@ -82,7 +82,7 @@ const Create = () => {
                 <div className="mb-[9px] mt-[5px]">{item.name}</div>
                 <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
                 #{item.category} #{item.subcategory} #{item.color}{" "}
-          {item.hasGraphic ? "#graphic" : "#plain"}
+                {item.hasGraphic ? "#graphic" : "#plain"}
                 </div>
               </div>
             </div>
