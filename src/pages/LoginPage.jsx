@@ -18,10 +18,8 @@ function LoginPage() {
 
   const onSubmit = (data, e) => {
     e.preventDefault()
-
     //sends info to the server
     mutation.mutate(data)
-
     reset()
   }
 
