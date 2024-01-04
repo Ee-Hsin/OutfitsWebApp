@@ -118,12 +118,13 @@ const Upload = () => {
         >
           <IoIosArrowBack />
         </Link>
-        <div className="border-b-2 border-[#201B21] border-opacity-60 w-52 md:w-[26%] pl-4 pb-4">
+        <div className="hidden sm:block border-b-2 border-[#201B21] border-opacity-60 w-52 md:w-[26%] pl-4 pb-4">
           Categorize your item
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-center mx-4  my-24 text-white font-montserrat">
-        <div className="relative w-96 h-96 bg-white rounded-2xl shadow-xl mx-10 xl:mr-32 my-10">
+
+      <div className=" flex flex-wrap items-center justify-center mx-4 my-0 lg:my-24 text-white font-montserrat">
+        <div className="relative w-[270px] h-[270px] sm:w-[384px] sm:h-[384px] bg-white rounded-2xl shadow-xl m-4 sm:mx-10 xl:mr-32 sm:my-10">
           <img
             src={URL.createObjectURL(file)}
             alt="selected image"
@@ -132,10 +133,10 @@ const Upload = () => {
           />
         </div>
 
-        <div className="flex-col mx-10">
-          <div className="flex py-6 items-center">
+        <div className="flex-col w-[320px] sm:w-[455px] sm:mx-10">
+          <div className="flex py-5 sm:py-6 items-center">
             {/* Content for Container 1 */}
-            <div className="w-32 text-lg">Name:</div>
+            <div className=" w-24 sm:w-32 text-lg">Name:</div>
             <input
               onChange={(e) => setName(e.target.value)}
               type="text"
@@ -143,14 +144,14 @@ const Upload = () => {
               className="bg-white bg-opacity-40 p-2 rounded-3xl text-center placeholder-[#EBEBF5] placeholder-opacity-60 focus:outline-none shadow-xl hover:bg-opacity-30 transition-all duration-100"
             />
           </div>
-          <div className="flex py-6 items-center">
+          <div className="flex py-5 sm:py-6 items-center">
             {/* Content for Container 2 */}
-            <div className="w-32 text-lg">Type:</div>
+            <div className="w-20 sm:w-32 text-lg">Type:</div>
             <select
               id="firstSelect"
               value={category}
               onChange={handleFirstSelect}
-              className="p-2 mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
+              className="w-[110px] px-1 py-2 sm:p-2 mr-2 sm:mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
             >
               <option value="Tops">top</option>
               <option value="Bottoms">bottom</option>
@@ -166,7 +167,7 @@ const Upload = () => {
                   return setSelectedSub(e.target.value);
                 }}
                 id="secondSelect"
-                className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
+                className="w-[110px] px-1 py-2 sm:p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
               >
                 {subcategories.map((option, index) => (
                   <option key={index} value={option}>
@@ -176,9 +177,9 @@ const Upload = () => {
               </select>
             )}
           </div>
-          <div className="flex py-6 items-center">
+          <div className="flex py-5 sm:py-6 items-center">
             {/* Content for Container 3 */}
-            <div className="w-32 text-lg">Color:</div>
+            <div className="w-28 sm:w-32 text-lg">Color:</div>
             <select
               className="p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100 w-40"
               onChange={(e) => {
@@ -196,7 +197,7 @@ const Upload = () => {
               <option value="green">green</option>
             </select>
           </div>
-          <div className="flex py-6 items-center">
+          <div className="flex py-5 sm:py-6 items-center">
             {/* Content for Container 4 */}
             <div className="w-32 text-lg">Graphic:</div>
             <div className="flex pr-12">
@@ -220,17 +221,17 @@ const Upload = () => {
               />
             </div>
           </div>
-          <div className="flex py-8 px-10 items-center text-lg">
+          <div className="flex py-6 sm:py-8 px-0 sm:px-10 items-center text-lg">
             {/* Content for Container 5 */}
             <Link
               to={"/app/closet"}
-              className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8"
+              className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 ml-5 mr-8 sm:mx-8"
             >
               cancel
             </Link>
             <Link
               to={"/app/closet"}
-              className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-8"
+              className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-0 sm:mx-8"
               onClick={async () => {
                 let formData = new FormData();
                 formData.append("image", file);
