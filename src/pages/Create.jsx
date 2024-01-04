@@ -6,6 +6,7 @@ import { IoIosAdd } from "react-icons/io";
 import { useCloset } from "../hooks/ClosetContext";
 import API from "../services/api";
 import { useAuth } from "../hooks/AuthContext";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 const Create = () => {
   //const navigate = useNavigate();
@@ -79,9 +80,17 @@ const Create = () => {
             <div
               onClick={() => toggleSelectItem(item._id)}
               key={item._id}
-              className="card flex-col justify-center bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform"
+              className={`card relative flex-col justify-center bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform
+              ${
+                selectedItems.includes(item._id) ? "border-white border-2" : ""
+              }`}
+              onClick={() => toggleSelectItem(item._id)}
             >
-              <div className="card-hover:scale-110 relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+              <IoIosCheckmarkCircleOutline
+                className={`absolute text-white text-6xl z-10 ml-[105px] mt-[303px] 
+              ${selectedItems.includes(item._id) ? "" : "hidden"}`}
+              />
+              <div className="card-hover:scale-110 relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-xl my-[16px] mx-[15px]">
                 {/* img */}
                 <img
                   src={item.image}
@@ -96,7 +105,10 @@ const Create = () => {
                   onChange={() => {}} /*There's an error if we remove this */
                 />
               </div>
-              <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+              <div
+                className={`font-montserrat text-white mx-[20px] h-[107px] overflow-hidden
+              ${selectedItems.includes(item._id) ? "blur-[2px]" : ""}`}
+              >
                 {/* name and tag */}
                 <div className="mb-[9px] mt-[5px]">{item.name}</div>
                 <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
