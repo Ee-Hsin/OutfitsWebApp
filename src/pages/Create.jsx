@@ -84,7 +84,6 @@ const Create = () => {
               ${
                 selectedItems.includes(item._id) ? "border-white border-2" : ""
               }`}
-              onClick={() => toggleSelectItem(item._id)}
             >
               <IoIosCheckmarkCircleOutline
                 className={`absolute text-white text-6xl z-10 ml-[105px] mt-[303px] 
