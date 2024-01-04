@@ -2,6 +2,29 @@ import { useNavigate } from "react-router";
 import { IoIosAdd } from "react-icons/io";
 import { useCloset } from "../hooks/ClosetContext";
 
+const ClosetItem = ({ item }) => {
+  return (
+    <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+      <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+        {/* img */}
+        <img
+          src={item.image}
+          alt="uploaded img"
+          className="w-full h-full object-cover rounded-[22px]"
+        />
+      </div>
+      <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+        {/* name and tag */}
+        <div className="mb-[9px] mt-[5px]">{item.name}</div>
+        <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
+          #{item.category} #{item.subcategory} #{item.color}{" "}
+          {item.hasGraphic ? "#graphic" : ""}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Closet = () => {
   const navigate = useNavigate();
   const { uploadedItems } = useCloset();
@@ -28,39 +51,19 @@ const Closet = () => {
           accept="image/*" // only accept image
           style={{ display: "none" }} // hide default input style
         />
-          <button
+        <button
           onClick={() => document.getElementById("fileInput").click()}
           className="flex items-center bg-white bg-opacity-40 w-32 h-[42px] pl-8 rounded-3xl shadow-xl hover:bg-opacity-50 "
         >
           upload
           <IoIosAdd className="text-2xl" />
-          </button>
+        </button>
       </div>
 
       <div className="flex justify-center">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {uploadedItems?.map((item) => (
-            <div
-              key={item._id}
-              className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-            >
-              <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                {/* img */}
-                <img
-                  src={item.image}
-                  alt="uploaded img"
-                  className="w-full h-full object-cover rounded-[22px]"
-                />
-              </div>
-              <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-                {/* name and tag */}
-                <div className="mb-[9px] mt-[5px]">{item.name}</div>
-                <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
-                  #{item.category} #{item.subcategory} #{item.color}{" "}
-                  {item.hasGraphic ? "#graphic" : ""}
-                </div>
-              </div>
-            </div>
+            <ClosetItem key={item._id} item={item} />
           ))}
         </div>
       </div>
