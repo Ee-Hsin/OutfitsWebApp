@@ -1,6 +1,12 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
-export const SuccessModal = ({ mainMessage = "Success!", subMessage }) => {
+export const SuccessModal = ({
+  mainMessage = "Success!",
+  subMessage,
+  redirectMessage,
+  redirectLink,
+}) => {
   const [open, setOpen] = useState(true)
 
   return open ? (
@@ -30,9 +36,17 @@ export const SuccessModal = ({ mainMessage = "Success!", subMessage }) => {
               <h4 className="text-lg font-medium text-gray-800">
                 {mainMessage}
               </h4>
-              <p className="mt-2 text-[15px] leading-relaxed text-gray-500">
+              <p className="my-2 text-[15px] leading-relaxed text-gray-500">
                 {subMessage}
               </p>
+              {redirectLink && (
+                <Link
+                  className="text-md font-semibold text-purple-800"
+                  to={redirectLink}
+                >
+                  {redirectMessage}
+                </Link>
+              )}
             </div>
           </div>
         </div>
