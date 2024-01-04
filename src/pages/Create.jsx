@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosAdd } from "react-icons/io";
 import { useCloset } from "../hooks/ClosetContext";
-import API from "../services/api";
 import { useAuth } from "../hooks/AuthContext";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { useSaveOutfit } from "../hooks/query";
 
 const Create = () => {
   //const navigate = useNavigate();
   const { uploadedItems } = useCloset();
   //const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
-  const { user } = useAuth();
+  const saveOutfit = useSaveOutfit();
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
       if (prevSelectedItems.includes(itemId)) {
@@ -54,17 +54,9 @@ const Create = () => {
           <Link to={"/app/favorites"}>
             <button
               onClick={async () => {
-                await API.post(
-                  "/api/outfit",
-                  {
-                    clothes: selectedItems,
-                  },
-                  {
-                    headers: {
-                      "x-access-token": user,
-                    },
-                  }
-                );
+                saveOutfit.mutate({
+                  clothes: selectedItems,
+                });
               }}
               className="flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50"
             >

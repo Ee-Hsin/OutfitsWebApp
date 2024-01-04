@@ -19,6 +19,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useAuth } from "./hooks/AuthContext"
 import ForgotPassword from "./pages/ForgotPassword"
 import ResetPassword from "./pages/ResetPassword"
+import { FailureModal } from "./components/UI/FailureModal"
 
 const queryClient = new QueryClient()
 
@@ -35,6 +36,8 @@ function App() {
 }
 
 function AppRoutes() {
+  const { user } = useAuth()
+
   return (
     <>
       <Routes>
@@ -43,30 +46,44 @@ function AppRoutes() {
         <Route path="signup" element={<Signup />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password/:id/:token" element={<ResetPassword />} />
-        <Route path="/app" exact element={<Navigate to="/app/closet" />} />
-        <Route path="/app" element={<NavbarWithOutlet />}>
-          <Route path="closet" element={<Closet />} />
-          <Route path="favorites" element={<Favorites />} />
-          <Route path="suggestions" element={<Suggestions />} />
-          <Route path="upload" element={<Upload />} />
-          <Route path="create" element={<Create />} />
-        </Route>
+        {/* To protect app routes */}
+        {user && (
+          <>
+            <Route path="/app" exact element={<Navigate to="/app/closet" />} />
+            <Route path="/app" element={<NavbarWithOutlet />}>
+              <Route path="closet" element={<Closet />} />
+              <Route path="favorites" element={<Favorites />} />
+              <Route path="suggestions" element={<Suggestions />} />
+              <Route path="upload" element={<Upload />} />
+              <Route path="create" element={<Create />} />
+            </Route>
+          </>
+        )}
+
+        {/* Catch-all Route */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   )
 }
 
 function NavbarWithOutlet() {
-  //Just for testing purposes
-  const { user } = useAuth()
-
   return (
     <>
       <Navbar />
       <Outlet />
-      {/* Just for testing purposes */}
-      {console.log(user)}
     </>
+  )
+}
+
+const NotFoundPage = () => {
+  return (
+    <FailureModal
+      mainMessage="404 Not Found"
+      subMessage="Sorry, the page you are looking for does not exist."
+      redirectLink="/"
+      redirectMessage="Click here to return to Landing Page"
+    />
   )
 }
 

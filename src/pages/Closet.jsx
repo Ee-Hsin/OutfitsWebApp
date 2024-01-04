@@ -1,19 +1,24 @@
-import { useNavigate } from "react-router";
-import { IoIosAdd } from "react-icons/io";
-import { useCloset } from "../hooks/ClosetContext";
-import { FaRegEdit } from "react-icons/fa";
-import { RxCrossCircled } from "react-icons/rx";
+import { useNavigate } from "react-router"
+import { IoIosAdd } from "react-icons/io"
+import { useCloset } from "../hooks/ClosetContext"
+import { FaRegEdit } from "react-icons/fa"
+import { RxCrossCircled } from "react-icons/rx"
 
 const ClosetItem = ({ item }) => {
   const {removeItem} = useCloset();
   return (
     <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+<<<<<<< HEAD
       <FaRegEdit 
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-xl z-10 ml-[210px] mt-[-10px] hover:scale-110 transition-opacity"/>
       <RxCrossCircled 
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
         onClick={() => {removeItem(item)}}
       />
+=======
+      <FaRegEdit className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-xl z-10 ml-[210px] mt-[-10px] hover:scale-110 transition-opacity" />
+      <RxCrossCircled className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity" />
+>>>>>>> 66054a3f67a604a7d6ec6ba6799dfc6eceafb958
       <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {/* img */}
         <img
@@ -31,21 +36,26 @@ const ClosetItem = ({ item }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const Closet = () => {
+<<<<<<< HEAD
   const navigate = useNavigate();
   const { uploadedItems} = useCloset();
   //const [loading, setLoading] = useState(true);
+=======
+  const navigate = useNavigate()
+  const { uploadedItems } = useCloset()
+>>>>>>> 66054a3f67a604a7d6ec6ba6799dfc6eceafb958
 
   const handleFileInput = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
 
     if (file) {
-      navigate("/app/upload", { state: { file: file } });
+      navigate("/app/upload", { state: { file: file } })
     }
-  };
+  }
 
   return (
     <div>
@@ -77,7 +87,7 @@ const Closet = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Closet;
+export default Closet

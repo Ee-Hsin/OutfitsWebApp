@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import API from "../services/api"
 import { useAuth } from "./AuthContext"
 
@@ -60,7 +60,45 @@ const useResetPassword = ({ id, token }) => {
       API.post(`/users/reset-password/${id}/${token}`, data),
   })
 }
+const useSaveOutfit = () => {
+  const { user } = useAuth()
+  return useMutation({
+    mutationFn: (data) =>
+      API.post("/api/outfit", data, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+  })
+}
 
+const useGetOutfits = ({ user }) => {
+  console.log(user)
+  return useQuery({
+    queryKey: ["api", "outfits"],
+    queryFn: () =>
+      API.get("/api/outfits", {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: user !== null && user !== undefined,
+  })
+}
+
+const useGetRecommendations = ({ user }) => {
+  return useQuery({
+    queryKey: ["api", "recommendation"],
+    queryFn: (data) =>
+      API.get("/api/recommendation", {
+        data,
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: user !== null && user !== undefined,
+  })
+}
 export {
   useSignInUser,
   useSignInGoogleUser,
@@ -68,4 +106,7 @@ export {
   useCreateGoogleUser,
   useForgotPassword,
   useResetPassword,
+  useSaveOutfit,
+  useGetOutfits,
+  useGetRecommendations,
 }
