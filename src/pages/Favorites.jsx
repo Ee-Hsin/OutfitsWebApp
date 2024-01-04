@@ -23,12 +23,16 @@ const OutfitCard = ({ outfit, index }) => {
       </div>
       <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
         {/* name and tag */}
-        <div className=" mb-[9px] mt-[5px] ml-[9px]">outfit {index + 1}</div>
+        <div className=" mb-[9px] mt-[5px] ml-[9px]">
+          {" "}
+          {outfit.name || `outfit-${index + 1}`}
+        </div>
         <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
           {/* Tags or additional outfit info */}
 
           {outfit.tags && outfit.tags.join(" ")}
         </div>
+      </div>
     </div>
   );
 };
@@ -79,141 +83,6 @@ const Favorites = () => {
             outfits?.map((outfit, index) => (
               <OutfitCard key={outfit._id} outfit={outfit} index={index} />
             ))}
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-            {/* container for one card */}
-            <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-              {/* sample img */}
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-            </div>
-            <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-              {/* name and tag */}
-              <div className=" mb-[9px] mt-[5px] ml-[9px]">outfit 1</div>
-              <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                #sneaker #pink #graphic
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-            {/* container for one card */}
-            <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-              {/* sample img */}
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-            </div>
-            <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-              {/* name and tag */}
-              <div className=" mb-[9px] mt-[5px] ml-[9px]">outfit 2</div>
-              <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                #sneaker #pink #graphic
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-            {/* container for one card */}
-            <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-              {/* sample img */}
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-            </div>
-            <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-              {/* name and tag */}
-              <div className=" mb-[9px] mt-[5px] ml-[9px]">outfit 3</div>
-              <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                #sneaker #pink #graphic
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-            {/* container for one card */}
-            <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-              {/* sample img */}
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-              <img
-                src={sampleImgUrl}
-                alt="uploaded img"
-                className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-              />
-            </div>
-            <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-              {/* name and tag */}
-              <div className=" mb-[9px] mt-[5px] ml-[9px]">outfit 4</div>
-              <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                #sneaker #pink #graphic
-              </div>
-            </div>
-          </div>
 
           {favorites.map((item, key) => (
             <div
