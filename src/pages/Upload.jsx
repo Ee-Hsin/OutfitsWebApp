@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { API_URL } from "../services/constants";
 import { useAuth } from "../hooks/AuthContext";
+import API from "../services/api";
 
 const Upload = () => {
   const location = useLocation();
@@ -243,12 +244,10 @@ const Upload = () => {
                   hasGraphic: checkboxYes,
                 };
                 formData.append("details", JSON.stringify(details));
-                await fetch(`${API_URL}/api/uploadItem`, {
-                  method: "POST",
+                await API.post("/api/uploadItem", formData, {
                   headers: {
                     "x-access-token": user,
                   },
-                  body: formData,
                 });
               }}
             >

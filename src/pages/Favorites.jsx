@@ -1,13 +1,55 @@
-import { IoIosAdd } from "react-icons/io"
-import { Link } from "react-router-dom"
+import { IoIosAdd } from "react-icons/io";
+import { Link } from "react-router-dom";
 // import Suggestions from "./Suggestions.jsx"
-import { useFavorites } from "../hooks/FavoritesContext.jsx"
-import { BsHeartFill } from "react-icons/bs"
+import { useFavorites } from "../hooks/FavoritesContext.jsx";
+import { BsHeartFill } from "react-icons/bs";
+import { useGetOutfits } from "../hooks/query.js";
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/AuthContext.jsx";
+
+const OutfitCard = ({ outfit, index }) => {
+  return (
+    <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+      {/* container for one card */}
+      <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+        {outfit.clothes.map((clothingItem, index) => (
+          <img
+            key={clothingItem._id}
+            src={clothingItem.image}
+            alt={`clothing-${index}`}
+            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+          />
+        ))}
+      </div>
+      <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+        {/* name and tag */}
+        <div className=" mb-[9px] mt-[5px] ml-[9px]">outfit {index + 1}</div>
+        <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
+          {/* Tags or additional outfit info */}
+
+          {outfit.tags && outfit.tags.join(" ")}
+        </div>
+    </div>
+  );
+};
 
 const Favorites = () => {
-  const { favorites, toggleFavorite } = useFavorites()
+  const [outfits, setOutfits] = useState([]);
+  const { user } = useAuth();
+  console.log(user);
+
+  const { data } = useGetOutfits({
+    user,
+  });
+
+  const { favorites, toggleFavorite } = useFavorites();
+
+  useEffect(() => {
+    console.log(data);
+    setOutfits(data?.data?.outfits);
+  }, [data]);
   const sampleImgUrl =
-    "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170"
+    "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170";
 
   return (
     <div>
@@ -29,10 +71,14 @@ const Favorites = () => {
           <IoIosAdd className="text-2xl" />
         </Link>
       </div>
-      
+
       <section className="flex justify-center">
-      <div className="flex flex-wrap justify-left mx-[120px]">
+        <div className="flex flex-wrap justify-left mx-[120px]">
           {/* container for all cards */}
+          {outfits &&
+            outfits?.map((outfit, index) => (
+              <OutfitCard key={outfit._id} outfit={outfit} index={index} />
+            ))}
           <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
             {/* container for one card */}
             <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
@@ -168,7 +214,7 @@ const Favorites = () => {
               </div>
             </div>
           </div>
-          
+
           {favorites.map((item, key) => (
             <div
               className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
@@ -211,12 +257,9 @@ const Favorites = () => {
             </div>
           ))}
         </div>
-        
-          
-        
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Favorites
+export default Favorites;
