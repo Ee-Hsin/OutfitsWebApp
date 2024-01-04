@@ -28,8 +28,26 @@ const ClosetProvider = ({ children }) => {
     }
   }, [user])
 
+  const removeItem = async (item) => {
+    console.log(item)
+    if (user) {
+      try{
+        await API.delete(`/api/closetItem`, {
+          method: 'DELETE',
+          headers: {
+            'x-access-token': user,
+          },
+          data: { itemId: item._id },
+        })
+        setUploadedItems((prevItems) =>
+        prevItems.filter((each) => each._id !== item._id));
+      } catch(error) {
+        console.error("Error fetching items:", error)
+      }
+  }}
+  
   return (
-    <ClosetContext.Provider value={{ uploadedItems, setUploadedItems }}>
+    <ClosetContext.Provider value={{ uploadedItems, setUploadedItems, removeItem }}>
       {children}
     </ClosetContext.Provider>
   )
