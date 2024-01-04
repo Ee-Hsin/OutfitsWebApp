@@ -39,6 +39,8 @@ function ResetPassword() {
         <SuccessModal
           mainMessage="Success!"
           subMessage="Your Password has been reset."
+          redirectMessage="Return to Login"
+          redirectLink="/login"
         />
       )}
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">

@@ -76,32 +76,6 @@ const Navbar = () => {
               >
                 Outfits
               </Link>
-              {/* <Link
-                to={"/signup"}
-                className="block p-3 hover:text-[#d6ccde] text-center md:text-left"
-              >
-                Signup
-              </Link>
-              <Link
-                to={"/login"}
-                className="block p-3 hover:text-[#d6ccde] text-center md:text-left"
-              >
-                LoginPage
-              </Link> */}
-              {/* {navigation.map((item, idx) => {
-                return (
-                  <li key={idx}>
-                    (
-                      <a
-                        href={item.path}
-                        className="block text-gray-700 hover:text-indigo-600"
-                      >
-                        {item.title}
-                      </a>
-                    )}
-                  </li>
-                )
-              })} */}
               <div className="flex-1 items-center justify-end gap-x-6 space-y-3 md:flex md:space-y-0">
                 {user ? (
                   <button

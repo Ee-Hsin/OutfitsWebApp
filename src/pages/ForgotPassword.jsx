@@ -37,6 +37,8 @@ function ForgotPassword() {
         <SuccessModal
           mainMessage="Success!"
           subMessage="Please check your email for a link to reset your password."
+          redirectMessage="Return to Login"
+          redirectLink="/login"
         />
       )}
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
