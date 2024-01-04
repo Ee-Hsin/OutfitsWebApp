@@ -50,24 +50,26 @@ const Create = () => {
           >
             cancel
           </Link>
-          <button
-            onClick={async () => {
-              await API.post(
-                "/api/outfit",
-                {
-                  clothes: selectedItems,
-                },
-                {
-                  headers: {
-                    "x-access-token": user,
+          <Link to={"/app/favorites"}>
+            <button
+              onClick={async () => {
+                await API.post(
+                  "/api/outfit",
+                  {
+                    clothes: selectedItems,
                   },
-                }
-              );
-            }}
-            className="flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50"
-          >
-            complete
-          </button>
+                  {
+                    headers: {
+                      "x-access-token": user,
+                    },
+                  }
+                );
+              }}
+              className="flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50"
+            >
+              complete
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -75,6 +77,7 @@ const Create = () => {
         <div className="flex flex-wrap justify-left mx-[120px]">
           {uploadedItems.map((item) => (
             <div
+              onClick={() => toggleSelectItem(item._id)}
               key={item._id}
               className="card flex-col justify-center bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform"
             >
@@ -90,15 +93,15 @@ const Create = () => {
                   type="checkbox"
                   className="absolute top-2 right-2"
                   checked={selectedItems.includes(item._id)}
-                  onChange={() => toggleSelectItem(item._id)}
+                  onChange={() => {}} /*There's an error if we remove this */
                 />
               </div>
               <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
                 {/* name and tag */}
                 <div className="mb-[9px] mt-[5px]">{item.name}</div>
                 <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
-                #{item.category} #{item.subcategory} #{item.color}{" "}
-                {item.hasGraphic ? "#graphic" : "#plain"}
+                  #{item.category} #{item.subcategory} #{item.color}{" "}
+                  {item.hasGraphic ? "#graphic" : "#plain"}
                 </div>
               </div>
             </div>
