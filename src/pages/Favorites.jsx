@@ -1,11 +1,11 @@
-import { IoIosAdd } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { IoIosAdd } from "react-icons/io"
+import { Link } from "react-router-dom"
 // import Suggestions from "./Suggestions.jsx"
-import { useFavorites } from "../hooks/FavoritesContext.jsx";
-import { BsHeartFill } from "react-icons/bs";
-import { useGetOutfits } from "../hooks/query.js";
-import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/AuthContext.jsx";
+import { useFavorites } from "../hooks/FavoritesContext.jsx"
+import { BsHeartFill } from "react-icons/bs"
+import { useGetOutfits } from "../hooks/query.js"
+import { useEffect, useState } from "react"
+import { useAuth } from "../hooks/AuthContext.jsx"
 
 const OutfitCard = ({ outfit, index }) => {
   return (
@@ -29,27 +29,28 @@ const OutfitCard = ({ outfit, index }) => {
 
           {outfit.tags && outfit.tags.join(" ")}
         </div>
+      </div>
     </div>
-  );
-};
+  )
+}
 
 const Favorites = () => {
-  const [outfits, setOutfits] = useState([]);
-  const { user } = useAuth();
-  console.log(user);
+  const [outfits, setOutfits] = useState([])
+  const { user } = useAuth()
+  console.log(user)
 
   const { data } = useGetOutfits({
     user,
-  });
+  })
 
-  const { favorites, toggleFavorite } = useFavorites();
+  const { favorites, toggleFavorite } = useFavorites()
 
   useEffect(() => {
-    console.log(data);
-    setOutfits(data?.data?.outfits);
-  }, [data]);
+    console.log(data)
+    setOutfits(data?.data?.outfits)
+  }, [data])
   const sampleImgUrl =
-    "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170";
+    "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170"
 
   return (
     <div>
@@ -259,7 +260,7 @@ const Favorites = () => {
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default Favorites;
+export default Favorites
