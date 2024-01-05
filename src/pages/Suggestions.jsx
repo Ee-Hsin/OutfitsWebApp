@@ -72,19 +72,19 @@ const Suggestions = () => {
         </div>
       </div>
 
-      <section className="flex justify-center">
+      <section className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {outfits.map((outfit) => (
             <article
               className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
               key={outfit.id}
             >
-              <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+              <div className='flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
                 {outfit.items.map((item, itemIndex) => (
                   <img
                     key={itemIndex}
                     src={item.image}
-                    className={`w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]`}
+                    className={`w-[115px] h-[115px] object-cover bg-white rounded-[22px] mx-[2px]`}
                     loading="lazy"
                     alt={item.name}
                   />
