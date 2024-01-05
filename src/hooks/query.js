@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import API from "../services/api"
 import { useAuth } from "./AuthContext"
 
+//Signs in Email and Password User (POST)
 //Sends post request to Sign In user on backend.
 //Updates the frontend with the token that is returned from the backend
 const useSignInUser = () => {
@@ -13,6 +14,7 @@ const useSignInUser = () => {
   })
 }
 
+// Signs in Google User (POST)
 const useSignInGoogleUser = () => {
   const { signIn } = useAuth()
 
@@ -22,8 +24,7 @@ const useSignInGoogleUser = () => {
   })
 }
 
-//Sends post request to create user on backend. Then updates the frontend with the
-//token that is returned from the backend
+//Signs up Email and Password User (POST), logs them in after.
 const useCreateUser = () => {
   const { signIn } = useAuth()
 
@@ -32,12 +33,10 @@ const useCreateUser = () => {
     //backend returns {{ user: token }}
     //and we want to pass the token
     onSuccess: (data) => signIn(data.data.user),
-
-    // For Testing:
-    // onSuccess: (data) => console.log(data),
   })
 }
 
+//Signs up Google User, logs them in after. (POST)
 const useCreateGoogleUser = () => {
   const { signIn } = useAuth()
 
@@ -48,18 +47,22 @@ const useCreateGoogleUser = () => {
   })
 }
 
+//User gives us their email and requests to change password (POST)
 const useForgotPassword = () => {
   return useMutation({
     mutationFn: (data) => API.post("/users/forget-password", data),
   })
 }
 
+//User has reset link, and is using that to reset their password (POST)
 const useResetPassword = ({ id, token }) => {
   return useMutation({
     mutationFn: (data) =>
       API.post(`/users/reset-password/${id}/${token}`, data),
   })
 }
+
+//User uploads a new outfit (POST)
 const useSaveOutfit = () => {
   const { user } = useAuth()
   return useMutation({
@@ -72,6 +75,7 @@ const useSaveOutfit = () => {
   })
 }
 
+//To get the user's outfits (GET)
 const useGetOutfits = ({ user }) => {
   console.log(user)
   return useQuery({
@@ -86,6 +90,7 @@ const useGetOutfits = ({ user }) => {
   })
 }
 
+//To get recommendations for the user's outfits (GET)
 const useGetRecommendations = ({ user }) => {
   return useQuery({
     queryKey: ["api", "recommendation"],
