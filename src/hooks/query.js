@@ -62,9 +62,25 @@ const useResetPassword = ({ id, token }) => {
   })
 }
 
+//User uploads a new item (POST)
+const useUploadItem = () => {
+  const { user } = useAuth()
+
+  return useMutation({
+    mutationFn: (data) =>
+      API.post("/api/uploadItem", data, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: !!user,
+  })
+}
+
 //User uploads a new outfit (POST)
 const useSaveOutfit = () => {
   const { user } = useAuth()
+
   return useMutation({
     mutationFn: (data) =>
       API.post("/api/outfit", data, {
@@ -72,6 +88,7 @@ const useSaveOutfit = () => {
           "x-access-token": user,
         },
       }),
+    enabled: !!user,
   })
 }
 
@@ -88,7 +105,7 @@ const useGetCloset = () => {
         },
       }),
     enabled: !!user,
-    select: response => response.data.items,
+    select: (response) => response.data.items,
   })
 }
 
@@ -131,6 +148,7 @@ export {
   useCreateGoogleUser,
   useForgotPassword,
   useResetPassword,
+  useUploadItem,
   useSaveOutfit,
   useGetCloset,
   useGetOutfits,
