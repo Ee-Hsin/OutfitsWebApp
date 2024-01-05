@@ -3,6 +3,7 @@ import { IoIosAdd } from "react-icons/io"
 import { FaRegEdit } from "react-icons/fa"
 import { RxCrossCircled } from "react-icons/rx"
 import { useDeleteItem, useGetCloset } from "../hooks/query"
+import { useEffect, useState } from "react"
 
 const ClosetItem = ({ item }) => {
   const mutation = useDeleteItem()
@@ -40,9 +41,12 @@ const ClosetItem = ({ item }) => {
 
 const Closet = () => {
   const navigate = useNavigate()
-  // const { uploadedItems } = useCloset()
+  const [uploadedItems, setUploadedItems] = useState();
+  const { data } = useGetCloset()
 
-  const { data: uploadedItems } = useGetCloset()
+  useEffect(()=>{
+    setUploadedItems(data)
+  },[data])
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0]
