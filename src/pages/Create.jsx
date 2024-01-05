@@ -48,8 +48,22 @@ const Create = () => {
             select items to create your outfits
           </div>
         </div>
+
         <div className="flex mr-6 md:mr-8 lg:mr-36">
           {/* top right */}
+          {/* Input for outfit name */}
+          <div className="relative">    {/* for the shadow */}
+            <input
+              type="text"
+              placeholder="Enter outfit name"
+              value={outfitName}
+              onChange={(e) => {
+                setOutfitName(e.target.value);
+              }}
+              className="p-2 border-white border-b border- focus:outline-none focus:border-white-500 placeholder-[#EBEBF5] placeholder-opacity-60 text-center bg-white bg-opacity-0 mx-6 sm:mx-8 w-[160px] sm:w-[200px]"
+            />
+            <div className="absolute inset-x-8 bottom-0 h-[1px] shadow-xl"></div>
+          </div>
           <button
             onClick={() => {
               // Clear selected items when cancel is clicked
@@ -72,21 +86,8 @@ const Create = () => {
           </Link>
         </div>
       </div>
-      <div className="flex justify-end pr-6">
-        {/* Input for outfit name */}
-        <input
-          type="text"
-          placeholder="Enter outfit name"
-          value={outfitName}
-          onChange={(e) => {
-            setOutfitName(e.target.value);
-          }}
-          className="p-2 border-b border-gray-300 focus:outline-none focus:border-white-500 text-white"
-          style={{ backgroundColor: "transparent", width: "200px" }}
-        />
-      </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {uploadedItems.map((item) => (
             <div
