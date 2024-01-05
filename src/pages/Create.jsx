@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { useCloset } from "../hooks/ClosetContext";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { useSaveOutfit } from "../hooks/query";
+import { useGetCloset, useSaveOutfit } from "../hooks/query";
 
 const Create = () => {
-  const { uploadedItems } = useCloset();
+  const { data: uploadedItems } = useGetCloset();
   const [outfitName, setOutfitName] = useState("");
   const [buttonActive, setButtonActive] = useState(false);
   //const [loading, setLoading] = useState(true);

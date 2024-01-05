@@ -5,7 +5,6 @@ import { useFavorites } from "../hooks/FavoritesContext.jsx"
 import { BsHeartFill } from "react-icons/bs"
 import { useGetOutfits } from "../hooks/query.js"
 import { useEffect, useState } from "react"
-import { useAuth } from "../hooks/AuthContext.jsx"
 
 const OutfitCard = ({ outfit, index }) => {
   return (
@@ -39,12 +38,8 @@ const OutfitCard = ({ outfit, index }) => {
 
 const Favorites = () => {
   const [outfits, setOutfits] = useState([])
-  const { user } = useAuth()
-  console.log(user)
 
-  const { data } = useGetOutfits({
-    user,
-  })
+  const { data } = useGetOutfits()
 
   const { favorites, toggleFavorite } = useFavorites()
 
