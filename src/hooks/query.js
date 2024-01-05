@@ -1,6 +1,9 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import API from "../services/api"
 import { useAuth } from "./AuthContext"
+
+/* **************************************************************************** */
+/* AUTHENTICATION */
 
 //Signs in Email and Password User (POST)
 //Sends post request to Sign In user on backend.
@@ -62,16 +65,45 @@ const useResetPassword = ({ id, token }) => {
   })
 }
 
-//User uploads a new outfit (POST)
-const useSaveOutfit = () => {
+/* **************************************************************************** */
+/* CLOSET ITEMS */
+
+//User uploads a new item (POST)
+const useUploadItem = () => {
   const { user } = useAuth()
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (data) =>
-      API.post("/api/outfit", data, {
+      API.post("/api/uploadItem", data, {
         headers: {
           "x-access-token": user,
         },
       }),
+    enabled: !!user,
+    onSuccess: () => {
+      // Invalidate so that the useGetCloset query will refetch
+      queryClient.invalidateQueries(["closet", user])
+    },
+  })
+}
+
+//User deletes an item (DELETE)
+const useDeleteItem = () => {
+  const { user } = useAuth()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (itemId) =>
+      API.delete(`/api/closetItem/${itemId}`, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: !!user,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["closet", user])
+    },
   })
 }
 
@@ -88,9 +120,31 @@ const useGetCloset = () => {
         },
       }),
     enabled: !!user,
-    select: response => response.data.items,
+    select: (response) => response.data.items,
   })
 }
+
+/* **************************************************************************** */
+/* OUTFITS */
+
+//User uploads a new outfit (POST)
+const useSaveOutfit = () => {
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
+  
+    return useMutation({
+      mutationFn: (data) =>
+        API.post("/api/outfit", data, {
+          headers: {
+            "x-access-token": user,
+          },
+        }),
+      enabled: !!user,
+      onSuccess: () => {
+          queryClient.invalidateQueries(["outfits", user])
+        },
+    })
+  }
 
 //To get the user's outfits (GET)
 const useGetOutfits = () => {
@@ -131,6 +185,8 @@ export {
   useCreateGoogleUser,
   useForgotPassword,
   useResetPassword,
+  useUploadItem,
+  useDeleteItem,
   useSaveOutfit,
   useGetCloset,
   useGetOutfits,
