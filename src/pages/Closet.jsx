@@ -6,12 +6,13 @@ import { useDeleteItem, useGetCloset } from "../hooks/query"
 
 const ClosetItem = ({ item }) => {
   const mutation = useDeleteItem()
-
+  const navigate = useNavigate()
   const handleDelete = () => {
     mutation.mutate(item._id)
   }
 
   return (
+
     <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
       <FaRegEdit 
         onClick = {() => navigate("/app/update", { state: { item } })}
