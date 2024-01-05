@@ -68,7 +68,7 @@ const Closet = () => {
         </button>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {uploadedItems?.map((item) => (
             <ClosetItem key={item._id} item={item} />

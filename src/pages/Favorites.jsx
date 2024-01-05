@@ -11,13 +11,13 @@ const OutfitCard = ({ outfit, index }) => {
   return (
     <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
       {/* container for one card */}
-      <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+      <div className="flex flex-wrap justify-start w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {outfit.clothes.map((clothingItem, index) => (
           <img
             key={clothingItem._id}
             src={clothingItem.image}
             alt={`clothing-${index}`}
-            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px] bg-white"
           />
         ))}
       </div>
@@ -76,8 +76,8 @@ const Favorites = () => {
         </Link>
       </div>
 
-      <section className="flex justify-center">
-        <div className="flex flex-wrap justify-left mx-[120px]">
+      <section className="flex justify-center sm:justify-start">
+        <div className="flex flex-wrap mx-[120px]">
           {/* container for all cards */}
           {outfits &&
             outfits?.map((outfit, index) => (
