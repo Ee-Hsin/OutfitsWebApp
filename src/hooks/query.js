@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import API from "../services/api"
 import { useAuth } from "./AuthContext"
 
@@ -65,6 +65,7 @@ const useResetPassword = ({ id, token }) => {
 //User uploads a new item (POST)
 const useUploadItem = () => {
   const { user } = useAuth()
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: (data) =>
@@ -74,6 +75,29 @@ const useUploadItem = () => {
         },
       }),
     enabled: !!user,
+    onSuccess: () => {
+      // Invalidate so that the useGetCloset query will refetch
+      queryClient.invalidateQueries(["closet", user])
+    },
+  })
+}
+
+const useDeleteItem = () => {
+  const { user } = useAuth()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (itemId) =>
+      API.delete(`/api/closetItem/${itemId}`, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: !!user,
+    onSuccess: () => {
+      // Invalidate so that the useGetCloset query will refetch
+      queryClient.invalidateQueries(["closet", user])
+    },
   })
 }
 
@@ -149,6 +173,7 @@ export {
   useForgotPassword,
   useResetPassword,
   useUploadItem,
+  useDeleteItem,
   useSaveOutfit,
   useGetCloset,
   useGetOutfits,
