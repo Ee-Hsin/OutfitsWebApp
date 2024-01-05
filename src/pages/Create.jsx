@@ -1,32 +1,52 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosAdd } from "react-icons/io";
+import { useNavigate, Link } from "react-router-dom";
+import { IoIosArrowBack, IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { useCloset } from "../hooks/ClosetContext";
 import { useAuth } from "../hooks/AuthContext";
+=======
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
+import { useCloset } from "../hooks/ClosetContext";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+>>>>>>> e54a7946ab051b336fff42e6f2363fd55122b944
 import { useSaveOutfit } from "../hooks/query";
 
 const Create = () => {
-  //const navigate = useNavigate();
   const { uploadedItems } = useCloset();
+<<<<<<< HEAD
+  const [selectedItems, setSelectedItems] = useState([]);
+  const saveOutfit = useSaveOutfit();
+
+=======
+  const [outfitName, setOutfitName] = useState("");
+  const [buttonActive, setButtonActive] = useState(false);
   //const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const saveOutfit = useSaveOutfit();
+  useEffect(() => {
+    setButtonActive(selectedItems.length >= 3 && outfitName.length > 0);
+  }, [selectedItems, outfitName]);
+>>>>>>> e54a7946ab051b336fff42e6f2363fd55122b944
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
       if (prevSelectedItems.includes(itemId)) {
-        console.log(prevSelectedItems);
         // Item is already selected, remove it
         return prevSelectedItems.filter((id) => id !== itemId);
       } else {
         // Item is not selected, add it
+
         return [...prevSelectedItems, itemId];
       }
     });
   };
-
+  const onComplete = async () => {
+    saveOutfit.mutate({
+      clothes: selectedItems,
+      outfitName,
+    });
+  };
   return (
     <div>
       <div className="flex items-center justify-between text-white font-montserrat">
@@ -45,25 +65,40 @@ const Create = () => {
         </div>
         <div className="flex mr-6 md:mr-8 lg:mr-36">
           {/* top right */}
-          <Link
-            to={"/app/favorites"}
+          <button
+            onClick={() => {
+              // Clear selected items when cancel is clicked
+              setSelectedItems([]);
+            }}
             className="hidden md:flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50 mr-8"
           >
             cancel
-          </Link>
+          </button>
           <Link to={"/app/favorites"}>
             <button
-              onClick={async () => {
-                saveOutfit.mutate({
-                  clothes: selectedItems,
-                });
-              }}
-              className="flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50"
+              disabled={!buttonActive}
+              onClick={onComplete}
+              className={`flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50 ${
+                !buttonActive ? "cursor-not-allowed opacity-50" : ""
+              }`}
             >
               complete
             </button>
           </Link>
         </div>
+      </div>
+      <div className="flex justify-end pr-6">
+        {/* Input for outfit name */}
+        <input
+          type="text"
+          placeholder="Enter outfit name"
+          value={outfitName}
+          onChange={(e) => {
+            setOutfitName(e.target.value);
+          }}
+          className="p-2 border-b border-gray-300 focus:outline-none focus:border-white-500 text-white"
+          style={{ backgroundColor: "transparent", width: "200px" }}
+        />
       </div>
 
       <div className="flex justify-center">
