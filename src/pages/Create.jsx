@@ -4,6 +4,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useCloset } from "../hooks/ClosetContext";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { useSaveOutfit } from "../hooks/query";
+import { Tooltip } from "react-tooltip";
 
 const Create = () => {
   const { uploadedItems } = useCloset();
@@ -53,7 +54,9 @@ const Create = () => {
         <div className="flex mr-6 md:mr-8 lg:mr-36">
           {/* top right */}
           {/* Input for outfit name */}
-          <div className="relative">    {/* for the shadow */}
+          <div className="relative">
+            {" "}
+            {/* for the shadow */}
             <input
               type="text"
               placeholder="Enter outfit name"
@@ -76,6 +79,8 @@ const Create = () => {
           </button>
           <Link to={"/app/favorites"}>
             <button
+              data-tooltip-id="my-tooltip"
+              data-tooltip-place="bottom"
               disabled={!buttonActive}
               onClick={onComplete}
               className={`flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50 ${
@@ -85,6 +90,18 @@ const Create = () => {
               complete
             </button>
           </Link>
+          {!buttonActive && (
+            <Tooltip id="my-tooltip">
+              <div>
+                <h3>Hold Your Horses</h3>
+                <p>Make sure:</p>
+                <ul>
+                  <li>Your outfit has a name</li>
+                  <li>You've selected at least three items</li>
+                </ul>
+              </div>
+            </Tooltip>
+          )}
         </div>
       </div>
 
