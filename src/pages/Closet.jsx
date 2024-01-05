@@ -1,21 +1,22 @@
-import { useNavigate } from "react-router"
-import { IoIosAdd } from "react-icons/io"
-import { FaRegEdit } from "react-icons/fa"
-import { RxCrossCircled } from "react-icons/rx"
-import { useDeleteItem, useGetCloset } from "../hooks/query"
+import { useNavigate } from "react-router";
+import { IoIosAdd } from "react-icons/io";
+import { FaRegEdit } from "react-icons/fa";
+import { RxCrossCircled } from "react-icons/rx";
+import { useDeleteItem, useGetCloset } from "../hooks/query";
 
 const ClosetItem = ({ item }) => {
-  const mutation = useDeleteItem()
-
+  const mutation = useDeleteItem();
+  const navigate = useNavigate();
   const handleDelete = () => {
-    mutation.mutate(item._id)
-  }
+    mutation.mutate(item._id);
+  };
 
   return (
     <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-      <FaRegEdit 
-        onClick = {() => navigate("/app/update", { state: { item } })}
-        className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-xl z-10 ml-[210px] mt-[-10px] hover:scale-110 transition-opacity" />
+      <FaRegEdit
+        onClick={() => navigate("/app/update", { state: { item } })}
+        className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-xl z-10 ml-[210px] mt-[-10px] hover:scale-110 transition-opacity"
+      />
       <RxCrossCircled
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
         onClick={handleDelete}
@@ -37,22 +38,22 @@ const ClosetItem = ({ item }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Closet = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // const { uploadedItems } = useCloset()
 
-  const { data: uploadedItems } = useGetCloset()
+  const { data: uploadedItems } = useGetCloset();
 
   const handleFileInput = async (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
 
     if (file) {
-      navigate("/app/upload", { state: { file: file } })
+      navigate("/app/upload", { state: { file: file } });
     }
-  }
+  };
 
   return (
     <div>
@@ -85,7 +86,7 @@ const Closet = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Closet
+export default Closet;

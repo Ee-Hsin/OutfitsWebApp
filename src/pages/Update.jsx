@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/AuthContext";
 //import { useUpdateItem } from "../hooks/query";
 import API from "../services/api";
@@ -10,38 +10,8 @@ const Update = () => {
   const location = useLocation();
   console.log(location); // Log the entire location object
   const item = location.state?.item;
-  console.log(item)
+  console.log(item);
   //const updateItem = useUpdateItem();
-
-  //Setting previous values 
-  const [name, setName] = useState(item.name);
-  const [color, setColor] = useState(item.color);
-  const [checkboxYes, setCheckboxYes] = useState(item.hasGraphic);
-  const [checkboxNo, setCheckboxNo] = useState(!item.hasGraphic);
-  const [category, setCategory] = useState(item.category);
-  const [selectedSubcategory, setSelectedSub] = useState(item.subcategory);
-  const [subcategories, setSubcategoryList] = useState([
-    "t-shirt",
-    "blouse",
-    "shirt",
-    "tank top",
-    "sweatshirt",
-    "hoodie",
-    "sweater",
-  ]);
-
-  const { user } = useAuth();
-
-  const handleFirstSelect = (event) => {
-    const selectedValue = event.target.value;
-    setCategory(selectedValue);
-
-    // Update the options for the second select based on the value of the first select
-    const newOptions = getSubcategories(selectedValue);
-    setSelectedSub(newOptions[0]);
-    setSubcategoryList(newOptions);
-  };
-
   const getSubcategories = (selectedValue) => {
     switch (selectedValue) {
       case "Tops":
@@ -90,6 +60,29 @@ const Update = () => {
       default:
         return []; // Invalid category
     }
+  };
+
+  //Setting previous values
+  const [name, setName] = useState(item.name);
+  const [color, setColor] = useState(item.color);
+  const [checkboxYes, setCheckboxYes] = useState(item.hasGraphic);
+  const [checkboxNo, setCheckboxNo] = useState(!item.hasGraphic);
+  const [category, setCategory] = useState(item.category);
+  const [selectedSubcategory, setSelectedSub] = useState(item.subcategory);
+  const [subcategories, setSubcategoryList] = useState(
+    getSubcategories(item.category)
+  );
+
+  const { user } = useAuth();
+
+  const handleFirstSelect = (event) => {
+    const selectedValue = event.target.value;
+    setCategory(selectedValue);
+
+    // Update the options for the second select based on the value of the first select
+    const newOptions = getSubcategories(selectedValue);
+    setSelectedSub(newOptions[0]);
+    setSubcategoryList(newOptions);
   };
 
   const handleCheckboxYes = () => {
@@ -162,6 +155,7 @@ const Update = () => {
             </select>
             {subcategories.length !== 0 && (
               <select
+                defaultValue={item.subcategory}
                 onChange={(e) => {
                   return setSelectedSub(e.target.value);
                 }}
@@ -232,27 +226,33 @@ const Update = () => {
               to={"/app/closet"}
               className="bg-[#D9D9D9] bg-opacity-50 p-2 rounded-2xl text-center shadow-xl hover:bg-opacity-60 transition-all duration-100 px-8 mx-0 sm:mx-8"
               onClick={async () => {
-                if(user) {
+                if (user) {
                   const itemId = item._id;
-                  console.log(item)
-                try {
-                  await API.put(`/api/updateItemDetails/${itemId}`, {
-                    //itemId: item._id,
-                    details: JSON.stringify({
-                      name: name,
-                      category: category,
-                      subcategory: selectedSubcategory,
-                      color: color,
-                      hasGraphic: checkboxYes,
-                    }),
-                  }, {
-                    headers: {
-                      'x-access-token': user,
-                    },
-                  })} catch (error) {
-                    console.error('Error updating item:', error);
+                  console.log(item);
+                  try {
+                    await API.put(
+                      `/api/updateItemDetails/${itemId}`,
+                      {
+                        //itemId: item._id,
+                        details: JSON.stringify({
+                          name: name,
+                          category: category,
+                          subcategory: selectedSubcategory,
+                          color: color,
+                          hasGraphic: checkboxYes,
+                        }),
+                      },
+                      {
+                        headers: {
+                          "x-access-token": user,
+                        },
+                      }
+                    );
+                  } catch (error) {
+                    console.error("Error updating item:", error);
                   }
-                }}}
+                }
+              }}
             >
               update
             </Link>
