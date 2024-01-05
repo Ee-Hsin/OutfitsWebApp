@@ -94,7 +94,7 @@ const Suggestions = () => {
               <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
                 <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.title}</h3>
                 <p className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                  {outfit.items.map((item) => `#${item.category} `)}
+                  {outfit.items.map((item) => `#${item.subcategory} `)}
                 </p>
               </div>
               
