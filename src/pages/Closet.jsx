@@ -1,18 +1,19 @@
 import { useNavigate } from "react-router"
 import { IoIosAdd } from "react-icons/io"
-import { useCloset } from "../hooks/ClosetContext"
 import { FaRegEdit } from "react-icons/fa"
 import { RxCrossCircled } from "react-icons/rx"
+import { useGetCloset } from "../hooks/query"
 
 const ClosetItem = ({ item }) => {
-  const {removeItem} = useCloset();
+  const { removeItem } = useGetCloset()
   return (
     <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-      <FaRegEdit 
-        className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-xl z-10 ml-[210px] mt-[-10px] hover:scale-110 transition-opacity"/>
-      <RxCrossCircled 
+      <FaRegEdit className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-xl z-10 ml-[210px] mt-[-10px] hover:scale-110 transition-opacity" />
+      <RxCrossCircled
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
-        onClick={() => {removeItem(item)}}
+        onClick={() => {
+          removeItem(item)
+        }}
       />
       <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {/* img */}
@@ -36,7 +37,9 @@ const ClosetItem = ({ item }) => {
 
 const Closet = () => {
   const navigate = useNavigate()
-  const { uploadedItems } = useCloset()
+  // const { uploadedItems } = useCloset()
+
+  const { data: uploadedItems } = useGetCloset()
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0]
@@ -70,6 +73,7 @@ const Closet = () => {
 
       <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
+          {console.log("uploaded Items:", uploadedItems)}
           {uploadedItems?.map((item) => (
             <ClosetItem key={item._id} item={item} />
           ))}

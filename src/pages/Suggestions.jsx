@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useFavorites } from "../hooks/FavoritesContext";
-import { useCloset } from "../hooks/ClosetContext";
+import { useGetCloset } from "../hooks/query";
 
 const Suggestions = () => {
   const { favorites, toggleFavorite, isInFavorites } = useFavorites();
-  const { uploadedItems } = useCloset();
+  const { data: uploadedItems } = useGetCloset()
 
   // State to hold the generated outfits
   const [outfits, setOutfits] = useState([]);
