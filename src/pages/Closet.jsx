@@ -76,8 +76,10 @@ const ClosetItem = ({ item }) => {
 };
 
 const Closet = () => {
-  const navigate = useNavigate();
-  const { data: uploadedItems } = useGetCloset();
+  const navigate = useNavigate()
+
+  const { data: uploadedItems } = useGetCloset()
+
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
     if (file) {
