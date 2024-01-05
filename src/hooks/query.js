@@ -2,6 +2,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import API from "../services/api"
 import { useAuth } from "./AuthContext"
 
+/* **************************************************************************** */
+/* AUTHENTICATION */
+
 //Signs in Email and Password User (POST)
 //Sends post request to Sign In user on backend.
 //Updates the frontend with the token that is returned from the backend
@@ -62,6 +65,9 @@ const useResetPassword = ({ id, token }) => {
   })
 }
 
+/* **************************************************************************** */
+/* CLOSET ITEMS */
+
 //User uploads a new item (POST)
 const useUploadItem = () => {
   const { user } = useAuth()
@@ -82,6 +88,7 @@ const useUploadItem = () => {
   })
 }
 
+//User deletes an item (DELETE)
 const useDeleteItem = () => {
   const { user } = useAuth()
   const queryClient = useQueryClient()
@@ -95,24 +102,8 @@ const useDeleteItem = () => {
       }),
     enabled: !!user,
     onSuccess: () => {
-      // Invalidate so that the useGetCloset query will refetch
       queryClient.invalidateQueries(["closet", user])
     },
-  })
-}
-
-//User uploads a new outfit (POST)
-const useSaveOutfit = () => {
-  const { user } = useAuth()
-
-  return useMutation({
-    mutationFn: (data) =>
-      API.post("/api/outfit", data, {
-        headers: {
-          "x-access-token": user,
-        },
-      }),
-    enabled: !!user,
   })
 }
 
@@ -132,6 +123,28 @@ const useGetCloset = () => {
     select: (response) => response.data.items,
   })
 }
+
+/* **************************************************************************** */
+/* OUTFITS */
+
+//User uploads a new outfit (POST)
+const useSaveOutfit = () => {
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
+  
+    return useMutation({
+      mutationFn: (data) =>
+        API.post("/api/outfit", data, {
+          headers: {
+            "x-access-token": user,
+          },
+        }),
+      enabled: !!user,
+      onSuccess: () => {
+          queryClient.invalidateQueries(["outfits", user])
+        },
+    })
+  }
 
 //To get the user's outfits (GET)
 const useGetOutfits = () => {
