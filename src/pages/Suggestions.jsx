@@ -1,151 +1,122 @@
-//import React from "react";
-import React, { useState, useEffect } from "react"
-import { useNavigate, Link } from "react-router-dom"
-//import { IoIosAdd } from "react-icons/io"
-import { BsHeart, BsHeartFill } from "react-icons/bs"
-import { useFavorites } from "../hooks/FavoritesContext"
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { useFavorites } from "../hooks/FavoritesContext";
+import { useCloset } from "../hooks/ClosetContext";
 
 const Suggestions = () => {
-  const { favorites, toggleFavorite, isInFavorites } = useFavorites()
+  const { favorites, toggleFavorite, isInFavorites } = useFavorites();
+  const { uploadedItems } = useCloset();
 
-  const suggestions = [
-    {
-      id: 1,
-      title: "suggestion 1",
-      desc: "#jeans",
-      img_1:
-        "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
-      img_2:
-        "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
-      img_3:
-        "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
-      img_4:
-        "https://i.pinimg.com/736x/34/3f/1e/343f1ee9058363a3ee39ee1e03142c5e.jpg",
-      date: "Jan 4 2022",
-      href: "javascript:void(0)",
-    },
-    {
-      id: 2,
-      title: "suggestion 2",
-      desc: "#jacket",
-      img_1: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
-      img_2: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
-      img_3: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
-      img_4: "https://i.ebayimg.com/images/g/yA4AAOSwFglkNOe0/s-l1200.webp",
-      date: "Jan 4 2022",
-      href: "javascript:void(0)",
-    },
-    {
-      id: 3,
-      title: "suggestion 3",
-      desc: "#shoes",
-      img_1:
-        "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
-      img_2:
-        "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
-      img_3:
-        "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
-      img_4:
-        "https://fashionista.com/.image/t_share/MTY3MTkyNTM2NzE1MTA5ODI1/uniqlo-u-sweatshirt.jpg",
-      date: "Jan 4 2022",
-      href: "javascript:void(0)",
-    },
-    {
-      id: 4,
-      title: "suggestion 4",
-      desc: "#hoodie",
-      img_1:
-        "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
-      img_2:
-        "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
-      img_3:
-        "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
-      img_4:
-        "https://torontolife.com/wp-content/uploads/2023/11/Canada-Goose-Inline.png",
-      // authorLogo: "https://api.uifaces.co/our-content/donated/KtCFjlD4.jpg",
-      // authorName: "Lourin",
-      date: "Jan 4 2022",
-      href: "javascript:void(0)",
-    },
-  ]
+  // State to hold the generated outfits
+  const [outfits, setOutfits] = useState([]);
+
+  // Function to create outfits with images from different categories
+  const generateOutfits = () => {
+    const generatedOutfits = [];
+    const selectedCategories = new Set();
+
+    // Shuffle the uploaded items to randomize the selection
+    const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
+
+    // Loop through the shuffled uploaded items and create outfits
+    shuffledItems.forEach((item, index) => {
+      // Check if the item belongs to a category
+      if (item.category) {
+        // Find another item in a different category (if available)
+        const differentCategoryItem = shuffledItems.find(
+          (otherItem) => otherItem.category !== item.category && !selectedCategories.has(otherItem.category)
+        );
+
+        // If found, create an outfit
+        if (differentCategoryItem) {
+          generatedOutfits.push({
+            id: index + 1,
+            title: `Outfit ${index + 1}`,
+            items: [item, differentCategoryItem],
+          });
+
+          // Mark the category as selected
+          selectedCategories.add(item.category);
+          selectedCategories.add(differentCategoryItem.category);
+        }
+
+        // If enough outfits are created, break the loop
+        if (generatedOutfits.length === 4) {
+          return;
+        }
+      }
+    });
+
+    return generatedOutfits;
+  };
+
+  // useEffect to generate outfits initially and on component mount
+  useEffect(() => {
+    const initialOutfits = generateOutfits();
+    setOutfits(initialOutfits);
+  }, []);
+
   return (
-    // <section className="mt-12 mx-auto px-4 max-w-screen-xl md:px-8 font-montserrat text-white">
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
         <div className="flex border-b-2 border-[#201B21] border-opacity-60 w-[220px] md:w-[300px] lg:w-[404px] pl-2 sm:pl-4 pb-4">
-          <Link
-            to={"/app/favorites"}
-            className="mr-6 md:mr-20 text-white text-opacity-60 hover:text-opacity-70"
-          >
+          <Link 
+            to={'/app/favorites'}
+            className="mr-6 md:mr-20 text-white text-opacity-60 hover:text-opacity-70">
             favorites
           </Link>
-          <div>suggestions</div>
+          <div>
+            suggestions
+          </div>
         </div>
-    </div>
-  
-    <section className="flex justify-center"> 
-      <div className="flex flex-wrap justify-left mx-[120px]">
-        {suggestions.map((item, key) => (
-        <article
-          className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-          key={key}
-        >
-        <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
-          <img //image + title
-            src={item.img_1}
-            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-            loading="lazy"
-            alt={item.title}
-            //className="w-full h-[240px] bg-white rounded-t-2xl shadow-3xl"
-          />
-          <img //image + title
-            src={item.img_2}
-            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-            loading="lazy"
-            alt={item.title}
-          />
-          <img //image + title
-            src={item.img_3}
-            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-            loading="lazy"
-            alt={item.title}
-          />
-          <img //image + title
-            src={item.img_3}
-            className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-            loading="lazy"
-            alt={item.title}
-          />
-        </div>
-
-        <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-          <h3 className="mb-[9px] mt-[5px] ml-[9px]">{item.title}</h3>
-          <p className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">{item.desc}</p>
-        </div>
-        <button
-          className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
-          onClick={() => {
-            toggleFavorite(item);
-          }}
-        >
-          {isInFavorites(item.id) ? (
-            <BsHeartFill className="text-white" />
-          ) : (
-            <BsHeart className="text-white opacity-100" />
-          )}
-        </button>
-        </article>
-        ))}
       </div>
-      {/*<h1>Favorite list</h1>
-          <ul>
-            {favorites.map(item =>
-              isInFavorites(item.id) === true ? <li key={item.id}>{item.title}</li> : null
-            )}
-          </ul> */}
+
+      <section className="flex justify-center">
+        <div className="flex flex-wrap justify-left mx-[120px]">
+          {outfits.map((outfit) => (
+            <article
+              className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
+              key={outfit.id}
+            >
+              <div className='flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]'>
+                {outfit.items.map((item, itemIndex) => (
+                  <img
+                    key={itemIndex}
+                    src={item.image}
+                    className={`w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]`}
+                    loading="lazy"
+                    alt={item.name}
+                  />
+                ))}
+              </div>
+
+              <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+                <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.title}</h3>
+                <p className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
+                  {outfit.items.map((item) => `#${item.category} `)}
+                </p>
+              </div>
+              
+              {/* Add your favorite button logic here */}
+              <button
+                className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
+                onClick={() => {
+                  toggleFavorite(outfit);
+                }}
+              >
+                {isInFavorites(outfit.id) ? (
+                  <BsHeartFill className="text-white" />
+                ) : (
+                  <BsHeart className="text-white opacity-100" />
+                )}
+              </button>
+            </article>
+          ))}
+        </div>
       </section>
     </div>
-  
-)}
+  );
+};
 
-export default Suggestions
+export default Suggestions;

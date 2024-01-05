@@ -1,23 +1,18 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosAdd } from "react-icons/io";
+import { useNavigate, Link } from "react-router-dom";
+import { IoIosArrowBack, IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { useCloset } from "../hooks/ClosetContext";
 import { useAuth } from "../hooks/AuthContext";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { useSaveOutfit } from "../hooks/query";
 
 const Create = () => {
-  //const navigate = useNavigate();
   const { uploadedItems } = useCloset();
-  //const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const saveOutfit = useSaveOutfit();
+
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
       if (prevSelectedItems.includes(itemId)) {
-        console.log(prevSelectedItems);
         // Item is already selected, remove it
         return prevSelectedItems.filter((id) => id !== itemId);
       } else {
@@ -45,12 +40,15 @@ const Create = () => {
         </div>
         <div className="flex mr-6 md:mr-8 lg:mr-36">
           {/* top right */}
-          <Link
-            to={"/app/favorites"}
+          <button
+            onClick={() => {
+              // Clear selected items when cancel is clicked
+              setSelectedItems([]);
+            }}
             className="hidden md:flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50 mr-8"
           >
             cancel
-          </Link>
+          </button>
           <Link to={"/app/favorites"}>
             <button
               onClick={async () => {
