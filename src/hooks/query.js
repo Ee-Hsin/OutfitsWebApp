@@ -75,25 +75,45 @@ const useSaveOutfit = () => {
   })
 }
 
-//To get the user's outfits (GET)
-const useGetOutfits = ({ user }) => {
-  console.log(user)
+//To get the user's closet items (GET)
+const useGetCloset = () => {
+  const { user } = useAuth()
+
   return useQuery({
-    queryKey: ["api", "outfits"],
+    queryKey: ["closet", user],
+    queryFn: () =>
+      API.get("/api/closet", {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: !!user,
+    select: response => response.data.items,
+  })
+}
+
+//To get the user's outfits (GET)
+const useGetOutfits = () => {
+  const { user } = useAuth()
+
+  return useQuery({
+    queryKey: ["outfits", user],
     queryFn: () =>
       API.get("/api/outfits", {
         headers: {
           "x-access-token": user,
         },
       }),
-    enabled: user !== null && user !== undefined,
+    enabled: !!user,
   })
 }
 
 //To get recommendations for the user's outfits (GET)
-const useGetRecommendations = ({ user }) => {
+const useGetRecommendations = () => {
+  const { user } = useAuth()
+
   return useQuery({
-    queryKey: ["api", "recommendation"],
+    queryKey: ["recommendation", user],
     queryFn: (data) =>
       API.get("/api/recommendation", {
         data,
@@ -101,7 +121,7 @@ const useGetRecommendations = ({ user }) => {
           "x-access-token": user,
         },
       }),
-    enabled: user !== null && user !== undefined,
+    enabled: !!user,
   })
 }
 export {
@@ -112,6 +132,7 @@ export {
   useForgotPassword,
   useResetPassword,
   useSaveOutfit,
+  useGetCloset,
   useGetOutfits,
   useGetRecommendations,
 }
