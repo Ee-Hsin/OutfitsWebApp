@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar"
 import LoginPage from "./pages/LoginPage"
 import Signup from "./pages/Signup"
 import Create from "./pages/Create"
+import Update from "./pages/Update"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useAuth } from "./hooks/AuthContext"
 import ForgotPassword from "./pages/ForgotPassword"
@@ -56,6 +57,7 @@ function AppRoutes() {
               <Route path="suggestions" element={<Suggestions />} />
               <Route path="upload" element={<Upload />} />
               <Route path="create" element={<Create />} />
+              <Route path="update" element={<Update />} />
             </Route>
           </>
         )}

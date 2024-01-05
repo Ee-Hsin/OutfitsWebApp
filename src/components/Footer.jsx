@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom"
-import Logo from "../assets/locker.png"
+import { Link } from "react-router-dom";
+import Logo from "../assets/locker.png";
 
 const Footer = () => {
   const footerNavs = [
     {
       name: "Terms",
-      href: "/",
+      href: "/Terms",
     },
     {
       name: "Help",
@@ -15,7 +15,7 @@ const Footer = () => {
       name: "About us",
       href: "/",
     },
-  ]
+  ];
 
   return (
     <footer className="pt-10">
@@ -39,7 +39,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
