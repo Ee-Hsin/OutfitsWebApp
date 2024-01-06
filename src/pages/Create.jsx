@@ -12,8 +12,9 @@ const Create = () => {
   //const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const saveOutfit = useSaveOutfit();
+
   useEffect(() => {
-    setButtonActive(selectedItems.length >= 3 && outfitName.length > 0);
+    setButtonActive(selectedItems.length >= 2 && outfitName.length > 0);
   }, [selectedItems, outfitName]);
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
@@ -96,7 +97,7 @@ const Create = () => {
                 <p>Make sure:</p>
                 <ul>
                   <li>Your outfit has a name</li>
-                  <li>You've selected at least three items</li>
+                  <li>You've selected at least two items</li>
                 </ul>
               </div>
             </Tooltip>
