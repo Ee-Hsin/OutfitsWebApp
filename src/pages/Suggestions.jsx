@@ -78,7 +78,7 @@ const Suggestions = () => {
         </div>
       </div>
       {isLoading ? (
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>
       ) : (

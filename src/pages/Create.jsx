@@ -35,9 +35,7 @@ const Create = () => {
       outfitName,
     });
   };
-  return isLoading ? (
-    <Loader />
-  ) : (
+  return (
     <div>
       <div className="flex items-center justify-between text-white font-montserrat">
         {/* top nav */}
@@ -107,8 +105,11 @@ const Create = () => {
           )}
         </div>
       </div>
-
+              
       <div className="flex justify-center sm:justify-start">
+      {isLoading ? (
+         <Loader className=" mt-40"/>
+      ) : (
         <div className="flex flex-wrap justify-left mx-[120px]">
           {uploadedItems.map((item) => (
             <div
@@ -145,7 +146,7 @@ const Create = () => {
             </div>
           ))}
         </div>
-      </div>
+      )}</div>
     </div>
   );
 };

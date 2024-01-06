@@ -2,7 +2,7 @@ export const Loader = ({ small = false, className = "" }) => {
   return (
     <div className="flex w-full justify-center">
       <div
-        className={`text-purple-600 inline-block ${
+        className={`text-white text-opacity-60 inline-block ${
           small ? " h-10 w-10 " : " h-32 w-32 "
         } animate-spin 
         rounded-full border-4 border-solid border-current 
