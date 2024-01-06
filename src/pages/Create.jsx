@@ -1,25 +1,12 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { IoIosArrowBack, IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { useCloset } from "../hooks/ClosetContext";
-import { useAuth } from "../hooks/AuthContext";
-=======
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { useCloset } from "../hooks/ClosetContext";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
->>>>>>> e54a7946ab051b336fff42e6f2363fd55122b944
 import { useSaveOutfit } from "../hooks/query";
 
 const Create = () => {
   const { uploadedItems } = useCloset();
-<<<<<<< HEAD
-  const [selectedItems, setSelectedItems] = useState([]);
-  const saveOutfit = useSaveOutfit();
-
-=======
   const [outfitName, setOutfitName] = useState("");
   const [buttonActive, setButtonActive] = useState(false);
   //const [loading, setLoading] = useState(true);
@@ -28,7 +15,6 @@ const Create = () => {
   useEffect(() => {
     setButtonActive(selectedItems.length >= 3 && outfitName.length > 0);
   }, [selectedItems, outfitName]);
->>>>>>> e54a7946ab051b336fff42e6f2363fd55122b944
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
       if (prevSelectedItems.includes(itemId)) {

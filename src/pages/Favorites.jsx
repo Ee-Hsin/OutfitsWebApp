@@ -90,31 +90,19 @@ const Favorites = () => {
               key={key}
             >
               <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                <img
-                  src={sampleImgUrl}
-                  alt="uploaded img"
-                  className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-                />
-                <img
-                  src={sampleImgUrl}
-                  alt="uploaded img"
-                  className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-                />
-                <img
-                  src={sampleImgUrl}
-                  alt="uploaded img"
-                  className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-                />
-                <img
-                  src={sampleImgUrl}
-                  alt="uploaded img"
-                  className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
-                />
+                {item.items.map((clothingItem, index) => (
+                  <img
+                    key={index}
+                    src={clothingItem.image}
+                    alt={`clothing-${index}`}
+                    className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+                  />
+                ))}
               </div>
               <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
                 <div className=" mb-[9px] mt-[5px] ml-[9px]">{item.title}</div>
                 <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                  {item.desc}
+                  {item.items.map((item) => `#${item.category} `)}
                 </div>
               </div>
               <button
@@ -128,7 +116,7 @@ const Favorites = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Favorites
+export default Favorites;

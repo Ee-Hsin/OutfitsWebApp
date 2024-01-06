@@ -1,28 +1,35 @@
 // FavoritesContext.jsx
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react";
 
-const FavoritesContext = createContext()
+const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
-  const [favorites, setFavorites] = useState([])
+  // Load favorites from localStorage on initial render
+  const initialFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  const [favorites, setFavorites] = useState(initialFavorites);
+
+  // Save favorites to localStorage whenever the favorites state changes
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   const toggleFavorite = (item) => {
-    const isFavorite = favorites.some((fav) => fav.id === item.id)
+    const isFavorite = favorites.some((fav) => fav.id === item.id);
 
     if (isFavorite) {
       // Remove from favorites
       setFavorites((prevFavorites) =>
         prevFavorites.filter((fav) => fav.title !== item.title)
-      )
+      );
     } else {
       // Add to favorites
-      setFavorites((prevFavorites) => [...prevFavorites, item])
+      setFavorites((prevFavorites) => [...prevFavorites, item]);
     }
-  }
+  };
 
   const isInFavorites = (id) => {
-    return favorites.some((fav) => fav.id === id)
-  }
+    return favorites.some((fav) => fav.id === id);
+  };
 
   return (
     <FavoritesContext.Provider
@@ -30,9 +37,9 @@ export const FavoritesProvider = ({ children }) => {
     >
       {children}
     </FavoritesContext.Provider>
-  )
-}
+  );
+};
 
 export const useFavorites = () => {
-  return useContext(FavoritesContext)
-}
+  return useContext(FavoritesContext);
+};

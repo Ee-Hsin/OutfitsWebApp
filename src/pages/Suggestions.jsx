@@ -14,48 +14,43 @@ const Suggestions = () => {
   // Function to create outfits with images from different categories
   const generateOutfits = () => {
     const generatedOutfits = [];
-    const selectedCategories = new Set();
 
-    // Shuffle the uploaded items to randomize the selection
-    const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
+    // Create outfits with four different items in each
+    for (let i = 0; i < 4; i++) {
+      const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
+      const outfitItems = [];
 
-    // Loop through the shuffled uploaded items and create outfits
-    shuffledItems.forEach((item, index) => {
-      // Check if the item belongs to a category
-      if (item.category) {
-        // Find another item in a different category (if available)
-        const differentCategoryItem = shuffledItems.find(
-          (otherItem) => otherItem.category !== item.category && !selectedCategories.has(otherItem.category)
+      for (const category of ["Tops", "Bottoms", "Footwear", "Accessories", "Dresses", "Activewear"]) {
+        let selectedItems = shuffledItems.filter(
+          (item) => item.category === category && !outfitItems.some((outfitItem) => outfitItem.category === category)
         );
 
-        // If found, create an outfit
-        if (differentCategoryItem) {
-          generatedOutfits.push({
-            id: index + 1,
-            title: `Outfit ${index + 1}`,
-            items: [item, differentCategoryItem],
-          });
-
-          // Mark the category as selected
-          selectedCategories.add(item.category);
-          selectedCategories.add(differentCategoryItem.category);
-        }
-
-        // If enough outfits are created, break the loop
-        if (generatedOutfits.length === 4) {
-          return;
+        while (outfitItems.length < 4 && selectedItems.length > 0) {
+          const selectedItem = selectedItems[Math.floor(Math.random() * selectedItems.length)];
+          outfitItems.push(selectedItem);
+          selectedItems = selectedItems.filter(item => item.id !== selectedItem.id);
         }
       }
-    });
+
+      const outfit = {
+        id: i + 1,
+        title: `Outfit ${i + 1}`,
+        items: outfitItems,
+      };
+
+      generatedOutfits.push(outfit);
+    }
 
     return generatedOutfits;
   };
 
   // useEffect to generate outfits initially and on component mount
   useEffect(() => {
-    const initialOutfits = generateOutfits();
-    setOutfits(initialOutfits);
-  }, []);
+    if (uploadedItems.length > 0) {
+      const initialOutfits = generateOutfits();
+      setOutfits(initialOutfits);
+    }
+  }, [uploadedItems]);
 
   return (
     <div>
@@ -73,7 +68,7 @@ const Suggestions = () => {
       </div>
 
       <section className="flex justify-center">
-        <div className="flex flex-wrap justify-left mx-[120px]">
+        <div className="flex flex-wrap justify-center mx-[120px]">
           {outfits.map((outfit) => (
             <article
               className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
