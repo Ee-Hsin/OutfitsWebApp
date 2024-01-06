@@ -1,29 +1,29 @@
-import { Link, Navigate } from "react-router-dom"
-import { GoogleLogin } from "@react-oauth/google"
-import { useForm } from "react-hook-form"
-import { useCreateUser, useCreateGoogleUser } from "../hooks/query"
-import { FailureModal } from "../components/UI/FailureModal"
-import { Loader } from "../components/UI/Loader"
+import { Link, Navigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { useForm } from "react-hook-form";
+import { useCreateUser, useCreateGoogleUser } from "../hooks/query";
+import { FailureModal } from "../components/UI/FailureModal";
+import { Loader } from "../components/UI/Loader";
 
 function Signup() {
-  const mutation = useCreateUser()
-  const googleMutation = useCreateGoogleUser()
+  const mutation = useCreateUser();
+  const googleMutation = useCreateGoogleUser();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm()
+  } = useForm();
 
   const onSubmit = (data, e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     //sends info to the server
-    mutation.mutate(data)
+    mutation.mutate(data);
 
-    reset()
-  }
+    reset();
+  };
 
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
@@ -50,9 +50,9 @@ function Signup() {
       )}
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
         <div className="text-center">
-          <div className="mx-auto w-32">
+          <Link to={"/"} className="mx-auto w-32">
             <h1 className="font-monoton text-3xl text-indigo-400">Fitsss</h1>
-          </div>
+          </Link>
           <div className="mt-5 space-y-2">
             <h1 className="text-white text-2xl font-bold sm:text-3xl">
               Register
@@ -147,7 +147,7 @@ function Signup() {
         )}
       </div>
     </main>
-  )
+  );
 }
 
-export default Signup
+export default Signup;

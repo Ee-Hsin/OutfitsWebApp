@@ -99,8 +99,8 @@ const Create = () => {
                 <h3>Hold Your Horses</h3>
                 <p>Make sure:</p>
                 <ul>
-                  <li>Your outfit has a name</li>
-                  <li>You've selected at least two items</li>
+                  <li>- Your outfit has a name</li>
+                  <li>- You've selected at least two items</li>
                 </ul>
               </div>
             </Tooltip>

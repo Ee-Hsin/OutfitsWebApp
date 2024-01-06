@@ -1,10 +1,10 @@
-import { IoIosAdd } from "react-icons/io"
-import { Link } from "react-router-dom"
+import { IoIosAdd } from "react-icons/io";
+import { Link } from "react-router-dom";
 // import Suggestions from "./Suggestions.jsx"
-import { useFavorites } from "../hooks/FavoritesContext.jsx"
-import { BsHeartFill } from "react-icons/bs"
-import { useGetOutfits } from "../hooks/query.js"
-import { useEffect, useState } from "react"
+import { useFavorites } from "../hooks/FavoritesContext.jsx";
+import { BsHeartFill } from "react-icons/bs";
+import { useGetOutfits } from "../hooks/query.js";
+import { useEffect, useState } from "react";
 
 const OutfitCard = ({ outfit, index }) => {
   return (
@@ -29,26 +29,26 @@ const OutfitCard = ({ outfit, index }) => {
         <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
           {/* Tags or additional outfit info */}
 
-          {outfit.tags && outfit.tags.join(" ")}
+          {outfit.clothes.map((item) => `#${item.subcategory}`).join(" ")}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Favorites = () => {
-  const [outfits, setOutfits] = useState([])
+  const [outfits, setOutfits] = useState([]);
 
-  const { data } = useGetOutfits()
+  const { data } = useGetOutfits();
 
-  const { favorites, toggleFavorite } = useFavorites()
+  const { favorites, toggleFavorite } = useFavorites();
 
   useEffect(() => {
-    console.log(data)
-    setOutfits(data?.data?.outfits)
-  }, [data])
+    console.log(data);
+    setOutfits(data?.data?.outfits);
+  }, [data]);
   const sampleImgUrl =
-    "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170"
+    "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170";
 
   return (
     <div>
@@ -97,7 +97,7 @@ const Favorites = () => {
               <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
                 <div className=" mb-[9px] mt-[5px] ml-[9px]">{item.title}</div>
                 <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                  {item.items.map((item) => `#${item.category} `)}
+                  {item.items.map((item) => `#${item.subcategory} `)}
                 </div>
               </div>
               <button
