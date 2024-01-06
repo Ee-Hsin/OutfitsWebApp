@@ -60,9 +60,6 @@ const Suggestions = () => {
     const initialOutfits = generateOutfits();
     setOutfits(initialOutfits);
   }, [isLoading]);
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <div>
@@ -77,50 +74,55 @@ const Suggestions = () => {
           <div>suggestions</div>
         </div>
       </div>
-
-      <section className="flex justify-center sm:justify-start">
-        <div className="flex flex-wrap justify-left mx-[120px]">
-          {outfits.map((outfit) => (
-            <article
-              className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-              key={outfit.id}
-            >
-              <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                {outfit.items.map((item, itemIndex) => (
-                  <img
-                    key={itemIndex}
-                    src={item.image}
-                    className={`w-[115px] h-[115px] object-cover bg-white rounded-[22px] mx-[2px]`}
-                    loading="lazy"
-                    alt={item.name}
-                  />
-                ))}
-              </div>
-
-              <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-                <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.title}</h3>
-                <p className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                  {outfit.items.map((item) => `#${item.subcategory} `)}
-                </p>
-              </div>
-
-              {/* Add your favorite button logic here */}
-              <button
-                className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
-                onClick={() => {
-                  toggleFavorite(outfit);
-                }}
-              >
-                {isInFavorites(outfit.id) ? (
-                  <BsHeartFill className="text-white" />
-                ) : (
-                  <BsHeart className="text-white opacity-100" />
-                )}
-              </button>
-            </article>
-          ))}
+      {isLoading ? (
+        <div className="flex items-center justify-center h-screen">
+          <Loader />
         </div>
-      </section>
+      ) : (
+        <section className="flex justify-center sm:justify-start">
+          <div className="flex flex-wrap justify-left mx-[120px]">
+            {outfits.map((outfit) => (
+              <article
+                className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
+                key={outfit.id}
+              >
+                <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+                  {outfit.items.map((item, itemIndex) => (
+                    <img
+                      key={itemIndex}
+                      src={item.image}
+                      className={`w-[115px] h-[115px] object-cover bg-white rounded-[22px] mx-[2px]`}
+                      loading="lazy"
+                      alt={item.name}
+                    />
+                  ))}
+                </div>
+
+                <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+                  <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.title}</h3>
+                  <p className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
+                    {outfit.items.map((item) => `#${item.subcategory} `)}
+                  </p>
+                </div>
+
+                {/* Add your favorite button logic here */}
+                <button
+                  className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
+                  onClick={() => {
+                    toggleFavorite(outfit);
+                  }}
+                >
+                  {isInFavorites(outfit.id) ? (
+                    <BsHeartFill className="text-white" />
+                  ) : (
+                    <BsHeart className="text-white opacity-100" />
+                  )}
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };
