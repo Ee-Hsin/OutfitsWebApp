@@ -1,15 +1,58 @@
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
-// import Suggestions from "./Suggestions.jsx"
 import { useFavorites } from "../hooks/FavoritesContext.jsx";
 import { BsHeartFill } from "react-icons/bs";
-import { useGetOutfits } from "../hooks/query.js";
+import { useGetOutfits , useDeleteOutfit } from "../hooks/query.js";
 import { useEffect, useState } from "react";
+import { RxCrossCircled } from "react-icons/rx";
+
+const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="absolute text-white font-montserrat text-center bg-black bg-opacity-60 z-10 w-[300px] mx-[-14px] my-[100px] shadow-xl rounded-3xl border-white border-[1px]">
+      <div className="modal-content">
+        <p className="px-4 py-4">Are you sure you want to delete this Outfit?</p>
+        <div className="pb-6">
+          <button className="px-4 hover:scale-110" 
+            onClick={onConfirm}>Yes</button>
+          <button className="px-4  hover:scale-110"
+            onClick={onClose}>No</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const OutfitCard = ({ outfit, index }) => {
+  const mutation = useDeleteOutfit();
+  //const navigate = useNavigate();
+  const handleDelete = () => {
+    mutation.mutate(outfit._id);
+  };
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const handleDeleteClick = () => {
+    setDeleteModalOpen(true);
+  };
+  const handleConfirmDelete = () => {
+    handleDelete();
+    setDeleteModalOpen(false);
+  };
+  const handleCancelDelete = () => {
+    setDeleteModalOpen(false);
+  };
+
   return (
-    <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+    <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
       {/* container for one card */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+      />
+      <RxCrossCircled
+        className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
+        onClick={handleDeleteClick}
+      />
       <div className="flex flex-wrap justify-start w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {outfit.clothes.map((clothingItem, index) => (
           <img
@@ -47,9 +90,6 @@ const Favorites = () => {
     console.log(data);
     setOutfits(data?.data?.outfits);
   }, [data]);
-  const sampleImgUrl =
-    "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170";
-
   return (
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">

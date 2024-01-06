@@ -158,6 +158,24 @@ const useGetOutfits = () => {
   })
 }
 
+//User deletes an outfit (DELETE)
+const useDeleteOutfit = () => {
+  const { user } = useAuth()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (outfitId) =>
+      API.delete(`/api/outfit/${outfitId}`, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["outfits", user])
+    },
+  })
+}
+
 //To get recommendations for the user's outfits (GET)
 const useGetRecommendations = () => {
   const { user } = useAuth()
@@ -186,5 +204,6 @@ export {
   useSaveOutfit,
   useGetCloset,
   useGetOutfits,
+  useDeleteOutfit,
   useGetRecommendations,
 }
