@@ -84,13 +84,13 @@ const Favorites = () => {
               className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
               key={key}
             >
-              <div className="flex flex-wrap justify-center w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+              <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
                 {item.items.map((clothingItem, index) => (
                   <img
                     key={index}
                     src={clothingItem.image}
                     alt={`clothing-${index}`}
-                    className="w-[115px] h-[115px] object-cover rounded-[22px] mx-[2px]"
+                    className="w-[115px] h-[115px] object-cover bg-white rounded-[22px] mx-[2px]"
                   />
                 ))}
               </div>
