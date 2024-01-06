@@ -1,17 +1,17 @@
 //import React from "react"
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import LandingPageNavbar from "../components/LandingPageNavbar"
-import Footer from "../components/Footer"
-import Preview from "../assets/preview.png"
-import Upload from "../assets/upload.png"
+import LandingPageNavbar from "../components/LandingPageNavbar";
+import Footer from "../components/Footer";
+import Preview from "../assets/preview.png";
+import Upload from "../assets/upload.png";
 
 const LandingPage = () => {
   const imageStyle = {
     border: "2px solid #000", // Adjust the border style as needed
     borderRadius: "8px", // Optional: Add border-radius for rounded corners
     boxShadow: "0 20px 20px rgba(0, 0, 0, 0.1)",
-  }
+  };
 
   return (
     <div>
@@ -64,11 +64,8 @@ const LandingPage = () => {
                 Free outfit organizer with customized clothing recommendations
               </p>
               <p className="mt-3 text-gray-300 sm:mx-auto lg:ml-0">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum, sed ut perspiciatis unde omnis iste
-                natus error sit voluptatem accusantium doloremque laudantium
+                Get ready to receive tailor-made suggestions based on your
+                aesthetic to bring out the you, you never knew!
               </p>
             </div>
           </div>
@@ -76,7 +73,7 @@ const LandingPage = () => {
       </section>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

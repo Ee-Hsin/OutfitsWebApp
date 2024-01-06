@@ -1,7 +1,11 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import API from "../services/api"
 import { useAuth } from "./AuthContext"
 
+/* **************************************************************************** */
+/* AUTHENTICATION */
+
+//Signs in Email and Password User (POST)
 //Sends post request to Sign In user on backend.
 //Updates the frontend with the token that is returned from the backend
 const useSignInUser = () => {
@@ -13,6 +17,7 @@ const useSignInUser = () => {
   })
 }
 
+// Signs in Google User (POST)
 const useSignInGoogleUser = () => {
   const { signIn } = useAuth()
 
@@ -22,8 +27,7 @@ const useSignInGoogleUser = () => {
   })
 }
 
-//Sends post request to create user on backend. Then updates the frontend with the
-//token that is returned from the backend
+//Signs up Email and Password User (POST), logs them in after.
 const useCreateUser = () => {
   const { signIn } = useAuth()
 
@@ -32,12 +36,10 @@ const useCreateUser = () => {
     //backend returns {{ user: token }}
     //and we want to pass the token
     onSuccess: (data) => signIn(data.data.user),
-
-    // For Testing:
-    // onSuccess: (data) => console.log(data),
   })
 }
 
+//Signs up Google User, logs them in after. (POST)
 const useCreateGoogleUser = () => {
   const { signIn } = useAuth()
 
@@ -48,20 +50,86 @@ const useCreateGoogleUser = () => {
   })
 }
 
+//User gives us their email and requests to change password (POST)
 const useForgotPassword = () => {
   return useMutation({
     mutationFn: (data) => API.post("/users/forget-password", data),
   })
 }
 
+//User has reset link, and is using that to reset their password (POST)
 const useResetPassword = ({ id, token }) => {
   return useMutation({
     mutationFn: (data) =>
       API.post(`/users/reset-password/${id}/${token}`, data),
   })
 }
+
+/* **************************************************************************** */
+/* CLOSET ITEMS */
+
+//User uploads a new item (POST)
+const useUploadItem = () => {
+  const { user } = useAuth()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (data) =>
+      API.post("/api/uploadItem", data, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      // Invalidate so that the useGetCloset query will refetch
+      queryClient.invalidateQueries(["closet", user])
+    },
+  })
+}
+
+//User deletes an item (DELETE)
+const useDeleteItem = () => {
+  const { user } = useAuth()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (itemId) =>
+      API.delete(`/api/closetItem/${itemId}`, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["closet", user])
+    },
+  })
+}
+
+//To get the user's closet items (GET)
+const useGetCloset = () => {
+  const { user } = useAuth()
+
+  return useQuery({
+    queryKey: ["closet", user],
+    queryFn: () => 
+      API.get("/api/closet", {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: !!user,
+    select: (response) => response.data.items,
+  })
+}
+
+/* **************************************************************************** */
+/* OUTFITS */
+
+//User uploads a new outfit (POST)
 const useSaveOutfit = () => {
   const { user } = useAuth()
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (data) =>
       API.post("/api/outfit", data, {
@@ -69,26 +137,33 @@ const useSaveOutfit = () => {
           "x-access-token": user,
         },
       }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["outfits", user])
+    },
   })
 }
 
-const useGetOutfits = ({ user }) => {
-  console.log(user)
+//To get the user's outfits (GET)
+const useGetOutfits = () => {
+  const { user } = useAuth()
+
   return useQuery({
-    queryKey: ["api", "outfits"],
+    queryKey: ["outfits", user],
     queryFn: () =>
       API.get("/api/outfits", {
         headers: {
           "x-access-token": user,
         },
       }),
-    enabled: user !== null && user !== undefined,
   })
 }
 
-const useGetRecommendations = ({ user }) => {
+//To get recommendations for the user's outfits (GET)
+const useGetRecommendations = () => {
+  const { user } = useAuth()
+
   return useQuery({
-    queryKey: ["api", "recommendation"],
+    queryKey: ["recommendation", user],
     queryFn: (data) =>
       API.get("/api/recommendation", {
         data,
@@ -96,7 +171,7 @@ const useGetRecommendations = ({ user }) => {
           "x-access-token": user,
         },
       }),
-    enabled: user !== null && user !== undefined,
+    enabled: !!user,
   })
 }
 export {
@@ -106,7 +181,10 @@ export {
   useCreateGoogleUser,
   useForgotPassword,
   useResetPassword,
+  useUploadItem,
+  useDeleteItem,
   useSaveOutfit,
+  useGetCloset,
   useGetOutfits,
   useGetRecommendations,
 }

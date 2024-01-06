@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { useCloset } from "../hooks/ClosetContext";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+<<<<<<< HEAD
 import { useSaveOutfit } from "../hooks/query";
 
 const Create = () => {
   const { uploadedItems } = useCloset();
+=======
+import { Tooltip } from "react-tooltip";
+import { useGetCloset, useSaveOutfit } from "../hooks/query";
+
+const Create = () => {
+  const { data: uploadedItems } = useGetCloset();
+>>>>>>> c5527022a0a6cfbdd8398b3427a26791a1bab3bf
   const [outfitName, setOutfitName] = useState("");
   const [buttonActive, setButtonActive] = useState(false);
   //const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const saveOutfit = useSaveOutfit();
+
   useEffect(() => {
-    setButtonActive(selectedItems.length >= 3 && outfitName.length > 0);
+    setButtonActive(selectedItems.length >= 2 && outfitName.length > 0);
   }, [selectedItems, outfitName]);
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
@@ -49,8 +57,24 @@ const Create = () => {
             select items to create your outfits
           </div>
         </div>
+
         <div className="flex mr-6 md:mr-8 lg:mr-36">
           {/* top right */}
+          {/* Input for outfit name */}
+          <div className="relative">
+            {" "}
+            {/* for the shadow */}
+            <input
+              type="text"
+              placeholder="Enter outfit name"
+              value={outfitName}
+              onChange={(e) => {
+                setOutfitName(e.target.value);
+              }}
+              className="p-2 border-white border-b border- focus:outline-none focus:border-white-500 placeholder-[#EBEBF5] placeholder-opacity-60 text-center bg-white bg-opacity-0 mx-6 sm:mx-8 w-[160px] sm:w-[200px]"
+            />
+            <div className="absolute inset-x-8 bottom-0 h-[1px] shadow-xl"></div>
+          </div>
           <button
             onClick={() => {
               // Clear selected items when cancel is clicked
@@ -62,6 +86,8 @@ const Create = () => {
           </button>
           <Link to={"/app/favorites"}>
             <button
+              data-tooltip-id="my-tooltip"
+              data-tooltip-place="bottom"
               disabled={!buttonActive}
               onClick={onComplete}
               className={`flex items-center justify-center bg-white bg-opacity-40 w-[100px] h-[42px] rounded-[15px] shadow-xl hover:bg-opacity-50 ${
@@ -71,23 +97,22 @@ const Create = () => {
               complete
             </button>
           </Link>
+          {!buttonActive && (
+            <Tooltip id="my-tooltip">
+              <div>
+                <h3>Hold Your Horses</h3>
+                <p>Make sure:</p>
+                <ul>
+                  <li>Your outfit has a name</li>
+                  <li>You've selected at least two items</li>
+                </ul>
+              </div>
+            </Tooltip>
+          )}
         </div>
       </div>
-      <div className="flex justify-end pr-6">
-        {/* Input for outfit name */}
-        <input
-          type="text"
-          placeholder="Enter outfit name"
-          value={outfitName}
-          onChange={(e) => {
-            setOutfitName(e.target.value);
-          }}
-          className="p-2 border-b border-gray-300 focus:outline-none focus:border-white-500 text-white"
-          style={{ backgroundColor: "transparent", width: "200px" }}
-        />
-      </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {uploadedItems.map((item) => (
             <div

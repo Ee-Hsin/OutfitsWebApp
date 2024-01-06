@@ -31,17 +31,21 @@ function Signup() {
       {mutation.isSuccess && <Navigate to="/app/closet" />}
       {mutation.isError && (
         <FailureModal
-          mainMessage="Oops, looks like something went wrong."
-          subMessage="There may already be an account registered with this email.
-          Please try again and contact us if the error persists"
+          mainMessage={
+            mutation?.error?.response?.data?.message ||
+            "Oops, looks like something went wrong"
+          }
+          subMessage="Please try again and contact us if the error persists"
         />
       )}
       {googleMutation.isSuccess && <Navigate to="/app/closet" />}
       {googleMutation.isError && (
         <FailureModal
-          mainMessage="Oops, looks like something went wrong."
-          subMessage="There may already be an account registered with this email.
-          Please try again and contact us if the error persists"
+          mainMessage={
+            googleMutation?.error?.response?.data?.message ||
+            "Oops, looks like something went wrong"
+          }
+          subMessage="Please try again and contact us if the error persists"
         />
       )}
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">

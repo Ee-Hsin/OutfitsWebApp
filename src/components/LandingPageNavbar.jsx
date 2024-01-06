@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import "./LandingPageNavbar.css"
-import Logo from "../assets/locker.png"
+import Logo from "../assets/logoTop.png"
 import { useAuth } from "../hooks/AuthContext"
 
 const LandingPageNavbar = () => {
@@ -14,15 +14,15 @@ const LandingPageNavbar = () => {
 
     // Disable scrolling
     const customBodyStyle = ["overflow-hidden", "lg:overflow-visible"]
-    if (state) body.classList?.add(...customBodyStyle)
+    if (state) body?.classList?.add(...customBodyStyle)
     // Enable scrolling
-    else body.classList?.remove(...customBodyStyle)
+    else body?.classList?.remove(...customBodyStyle)
 
     // Sticky strick
     const customStyle = ["sticky-nav", "fixed"]
     window.onscroll = () => {
-      if (window.scrollY > 80) navRef.current.classList?.add(...customStyle)
-      else navRef.current.classList?.remove(...customStyle)
+      if (window.scrollY > 80) navRef?.current?.classList?.add(...customStyle)
+      else navRef?.current?.classList?.remove(...customStyle)
     }
   }, [state])
 
@@ -38,7 +38,7 @@ const LandingPageNavbar = () => {
               <h1 className="font-monoton text-4xl text-white hover:text-[#d6ccde]">
                 Fitsss
               </h1>
-              <img src={Logo} className="w-16 h-16 ml-2" alt="Logo" />{" "}
+              <img src={Logo} className="h-14 ml-2" alt="Logo" />{" "}
               {/* Adjust the width and height as needed */}
             </Link>
             <div className="md:hidden">

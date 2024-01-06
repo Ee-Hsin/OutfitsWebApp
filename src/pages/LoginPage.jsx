@@ -28,14 +28,20 @@ function LoginPage() {
       {mutation.isSuccess && <Navigate to="/app/closet" />}
       {mutation.isError && (
         <FailureModal
-          mainMessage="Oops, looks like something went wrong."
-          subMessage="Your email or password might be wrong. Consider resetting your password."
+          mainMessage={
+            mutation?.error?.response?.data?.message ||
+            "Oops, looks like something went wrong"
+          }
+          subMessage="Your email or password may be incorrect"
         />
       )}
       {googleMutation.isSuccess && <Navigate to="/app/closet" />}
       {googleMutation.isError && (
         <FailureModal
-          mainMessage="Oops, looks like something went wrong."
+          mainMessage={
+            googleMutation?.error?.response?.data?.message ||
+            "Oops, looks like something went wrong"
+          }
           subMessage="Please try again and contact us if the error persists"
         />
       )}

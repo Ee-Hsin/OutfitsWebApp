@@ -30,9 +30,11 @@ function ResetPassword() {
       {/* TODO: Add mutation.isError and mutation.isLoading */}
       {mutation.isError && (
         <FailureModal
-          mainMessage="Oops, looks like something went wrong."
-          subMessage="There may not be an account with this email.
-          Please try again and contact us if the error persists"
+          mainMessage={
+            mutation?.error?.response?.data?.message ||
+            "Something went wrong"
+          }
+          subMessage="Please try again and contact us if the error persists"
         />
       )}
       {mutation.isSuccess && (

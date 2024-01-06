@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "../hooks/AuthContext"
 import { useNavigate } from "react-router-dom"
+import Logo from "../assets/logoTop.PNG"
 
 const Navbar = () => {
   const [state, setState] = useState(false)
@@ -22,7 +23,10 @@ const Navbar = () => {
       >
         <div className="items-center gap-x-14 px-8 max-w-screen-xl mx-auto md:flex md:h-28">
           <div className="flex items-center justify-between py-5 md:block">
+            <div className="flex items-center">
+            <img src={Logo} className="h-14 ml-2 ml-[-30px] md:ml-[-20px] lg:ml-[-75px] sm:mr-3 lg:mr-5" alt="Logo" />{" "}
             <h1 className="font-monoton text-3xl">Fitsss</h1>
+            </div>
             <div className="md:hidden">
               <button
                 className="text-gray-500 hover:text-gray-800"
