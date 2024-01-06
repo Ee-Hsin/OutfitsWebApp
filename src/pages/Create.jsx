@@ -4,9 +4,10 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { useGetCloset, useSaveOutfit } from "../hooks/query";
+import { Loader } from "../components/UI/Loader";
 
 const Create = () => {
-  const { data: uploadedItems } = useGetCloset();
+  const { data: uploadedItems, isLoading } = useGetCloset();
   const [outfitName, setOutfitName] = useState("");
   const [buttonActive, setButtonActive] = useState(false);
   //const [loading, setLoading] = useState(true);
@@ -34,7 +35,9 @@ const Create = () => {
       outfitName,
     });
   };
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div>
       <div className="flex items-center justify-between text-white font-montserrat">
         {/* top nav */}
