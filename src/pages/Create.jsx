@@ -94,7 +94,7 @@ const Create = () => {
             </button>
           </Link>
           {!buttonActive && (
-            <Tooltip id="my-tooltip">
+            <Tooltip id="my-tooltip" className="z-10">
               <div>
                 <h3>Hold Your Horses</h3>
                 <p>Make sure:</p>
