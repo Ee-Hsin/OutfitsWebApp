@@ -5,6 +5,7 @@ import { BsHeartFill } from "react-icons/bs";
 import { useGetOutfits , useDeleteOutfit } from "../hooks/query.js";
 import { useEffect, useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
+import { Loader } from "../components/UI/Loader";
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -82,7 +83,7 @@ const OutfitCard = ({ outfit, index }) => {
 const Favorites = () => {
   const [outfits, setOutfits] = useState([]);
 
-  const { data } = useGetOutfits();
+  let { data: data, isLoading } = useGetOutfits();
 
   const { favorites, toggleFavorite } = useFavorites();
 
@@ -111,6 +112,11 @@ const Favorites = () => {
         </Link>
       </div>
 
+      {isLoading ? (
+        <div className="flex mt-40 justify-center h-screen">
+          <Loader />
+        </div>
+      ) : (
       <section className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap mx-[120px]">
           {/* container for all cards */}
@@ -149,7 +155,7 @@ const Favorites = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section>)}
     </div>
   );
 };

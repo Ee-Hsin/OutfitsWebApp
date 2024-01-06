@@ -6,7 +6,7 @@ import { useGetCloset } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
 
 const Suggestions = () => {
-  const { favorites, toggleFavorite, isInFavorites } = useFavorites();
+  const { toggleFavorite, isInFavorites } = useFavorites();
   let { data: uploadedItems, isLoading } = useGetCloset();
   if (!uploadedItems) {
     uploadedItems = [];

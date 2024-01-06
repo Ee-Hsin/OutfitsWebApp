@@ -4,6 +4,7 @@ import { IoIosAdd } from "react-icons/io";
 import { FaRegEdit } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 import { useDeleteItem, useGetCloset } from "../hooks/query";
+import { Loader } from "../components/UI/Loader";
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -78,7 +79,7 @@ const ClosetItem = ({ item }) => {
 const Closet = () => {
   const navigate = useNavigate()
 
-  const { data: uploadedItems } = useGetCloset()
+  const { data: uploadedItems , isLoading} = useGetCloset()
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
@@ -109,6 +110,11 @@ const Closet = () => {
         </button>
       </div>
 
+      {isLoading ? (
+        <div className="flex mt-40 justify-center h-screen">
+          <Loader />
+        </div>
+      ) : (
       <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {console.log("uploaded Items:", uploadedItems)}
@@ -116,7 +122,7 @@ const Closet = () => {
             <ClosetItem key={item._id} item={item} />
           ))}
         </div>
-      </div>
+      </div>)}
     </div>
   );
 };
