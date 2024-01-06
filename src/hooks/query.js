@@ -80,7 +80,6 @@ const useUploadItem = () => {
           "x-access-token": user,
         },
       }),
-    enabled: !!user,
     onSuccess: () => {
       // Invalidate so that the useGetCloset query will refetch
       queryClient.invalidateQueries(["closet", user])
@@ -100,7 +99,6 @@ const useDeleteItem = () => {
           "x-access-token": user,
         },
       }),
-    enabled: !!user,
     onSuccess: () => {
       queryClient.invalidateQueries(["closet", user])
     },
@@ -113,7 +111,7 @@ const useGetCloset = () => {
 
   return useQuery({
     queryKey: ["closet", user],
-    queryFn: () =>
+    queryFn: () => 
       API.get("/api/closet", {
         headers: {
           "x-access-token": user,
@@ -129,22 +127,21 @@ const useGetCloset = () => {
 
 //User uploads a new outfit (POST)
 const useSaveOutfit = () => {
-    const { user } = useAuth()
-    const queryClient = useQueryClient()
-  
-    return useMutation({
-      mutationFn: (data) =>
-        API.post("/api/outfit", data, {
-          headers: {
-            "x-access-token": user,
-          },
-        }),
-      enabled: !!user,
-      onSuccess: () => {
-          queryClient.invalidateQueries(["outfits", user])
+  const { user } = useAuth()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (data) =>
+      API.post("/api/outfit", data, {
+        headers: {
+          "x-access-token": user,
         },
-    })
-  }
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["outfits", user])
+    },
+  })
+}
 
 //To get the user's outfits (GET)
 const useGetOutfits = () => {
@@ -158,7 +155,6 @@ const useGetOutfits = () => {
           "x-access-token": user,
         },
       }),
-    enabled: !!user,
   })
 }
 
