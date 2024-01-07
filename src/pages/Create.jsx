@@ -15,7 +15,7 @@ const Create = () => {
   const saveOutfit = useSaveOutfit();
 
   useEffect(() => {
-    setButtonActive(selectedItems.length >= 2 && outfitName.length > 0);
+    setButtonActive(selectedItems.length >= 2 && selectedItems.length <= 4 && outfitName.length > 0);
   }, [selectedItems, outfitName]);
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
@@ -35,6 +35,15 @@ const Create = () => {
       outfitName,
     });
   };
+
+  let reminder = "Please enter the name of your Outfit";
+  if(selectedItems.length > 4){
+    reminder = "Please select up to four items ";
+  } else if(selectedItems.length < 2){
+    reminder = "Please select at least two items";
+  }
+  
+
   return (
     <div>
       <div className="flex items-center justify-between text-white font-montserrat">
@@ -94,12 +103,7 @@ const Create = () => {
           {!buttonActive && (
             <Tooltip id="my-tooltip" className="z-10">
               <div>
-                <h3>Hold Your Horses</h3>
-                <p>Make sure:</p>
-                <ul>
-                  <li>- Your outfit has a name</li>
-                  <li>- You've selected at least two items</li>
-                </ul>
+                <p>{reminder}</p>
               </div>
             </Tooltip>
           )}
