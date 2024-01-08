@@ -174,6 +174,83 @@ const useGetRecommendations = () => {
     enabled: !!user,
   })
 }
+
+/* **************************************************************************** */
+/* FAVORITES */
+// To add an outfit to favorites (POST)
+// To add an outfit to favorites (POST)
+// Use this mutation for saving favorites
+const useSaveFavoriteItem = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data) =>
+      API.post("/api/favorites", data, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["favorites", user]);
+    },
+  });
+};
+
+
+
+const useGetFavorites = () => {
+  const { user } = useAuth()
+
+  return useQuery({
+    queryKey: ["favorites", user],
+    queryFn: (data) =>
+      API.get("/api/favorites", {
+        data,
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: !!user,
+  });
+};
+
+// To remove an outfit from favorites (DELETE)
+const useRemoveFavoriteItem = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (itemId) =>
+      API.delete(`/api/favorites/${itemId}`, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["favorites", user]);
+    },
+  });
+};
+
+// In query.js
+const useSaveGeneratedOutfit = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data) =>
+      API.post("/api/favorites", data, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["favorites", user]);
+    },
+  });
+};
+
 export {
   useSignInUser,
   useSignInGoogleUser,
@@ -187,4 +264,9 @@ export {
   useGetCloset,
   useGetOutfits,
   useGetRecommendations,
-}
+
+  useSaveFavoriteItem,
+  useGetFavorites,
+  useRemoveFavoriteItem,
+  useSaveGeneratedOutfit,
+};

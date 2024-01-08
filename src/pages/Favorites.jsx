@@ -1,15 +1,14 @@
-import { IoIosAdd } from "react-icons/io"
-import { Link } from "react-router-dom"
-// import Suggestions from "./Suggestions.jsx"
-import { useFavorites } from "../hooks/FavoritesContext.jsx"
-import { BsHeartFill } from "react-icons/bs"
-import { useGetOutfits } from "../hooks/query.js"
-import { useEffect, useState } from "react"
+import { IoIosAdd } from "react-icons/io";
+import { Link } from "react-router-dom";
+import { BsHeartFill } from "react-icons/bs";
+import { useFavorites } from "../hooks/FavoritesContext";
+import { useGetOutfits } from "../hooks/query";
+import { useEffect, useState } from "react";
+import { Loader } from "../components/UI/Loader";
 
 const OutfitCard = ({ outfit, index }) => {
   return (
     <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-      {/* container for one card */}
       <div className="flex flex-wrap justify-start w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {outfit.clothes.map((clothingItem, index) => (
           <img
@@ -21,34 +20,44 @@ const OutfitCard = ({ outfit, index }) => {
         ))}
       </div>
       <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-        {/* name and tag */}
         <div className=" mb-[9px] mt-[5px] ml-[9px]">
           {" "}
           {outfit.name || `outfit-${index + 1}`}
         </div>
         <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-          {/* Tags or additional outfit info */}
-
           {outfit.tags && outfit.tags.join(" ")}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Favorites = () => {
-  const [outfits, setOutfits] = useState([])
-
-  const { data } = useGetOutfits()
-
-  const { favorites, toggleFavorite } = useFavorites()
+  const { data, isLoading, isError } = useGetOutfits();
+  const { favorites, toggleFavorite } = useFavorites();
+  const [outfits, setOutfits] = useState([]);
 
   useEffect(() => {
-    console.log(data)
-    setOutfits(data?.data?.outfits)
-  }, [data])
-  const sampleImgUrl =
-    "https://www.thesupermade.com/cdn/shop/products/The-Supermade-Sunflower-Couple-Sports-Skate-Shoes_1_2048x2048.jpg?v=1679891170"
+    if (data) {
+      setOutfits(data?.data?.outfits || []);
+    }
+  }, [data]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
+
+  if (!outfits.length && !favorites.length) {
+    return <div>No outfits or favorites to display.</div>;
+  }
 
   return (
     <div>
@@ -73,11 +82,9 @@ const Favorites = () => {
 
       <section className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap mx-[120px]">
-          {/* container for all cards */}
-          {outfits &&
-            outfits?.map((outfit, index) => (
-              <OutfitCard key={outfit._id} outfit={outfit} index={index} />
-            ))}
+          {outfits.map((outfit, index) => (
+            <OutfitCard key={outfit._id} outfit={outfit} index={index} />
+          ))}
 
           {favorites.map((item, key) => (
             <div

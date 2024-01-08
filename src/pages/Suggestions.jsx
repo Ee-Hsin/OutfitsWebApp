@@ -1,68 +1,110 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useFavorites } from "../hooks/FavoritesContext";
 import { useGetCloset } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
+import {
+  useSaveFavoriteItem,
+  useRemoveFavoriteItem,
+  useSaveGeneratedOutfit,
+} from "../hooks/query";
 
 const Suggestions = () => {
-  const { favorites, toggleFavorite, isInFavorites } = useFavorites();
-  let { data: uploadedItems, isLoading } = useGetCloset();
-  if (!uploadedItems) {
-    uploadedItems = [];
-  }
+  const { toggleFavorite, isInFavorites } = useFavorites();
+  const { data: uploadedItems, isLoading } = useGetCloset();
+  const saveGeneratedOutfit = useSaveGeneratedOutfit();
+  const saveFavoriteItem = useSaveFavoriteItem();
+  const removeFavoriteItem = useRemoveFavoriteItem();
 
-  // State to hold the generated outfits
   const [outfits, setOutfits] = useState([]);
-  // Function to create outfits with images from different categories
-  const generateOutfits = () => {
-    const generatedOutfits = [];
 
-    // Create outfits with four different items in each
-    for (let i = 0; i < 4; i++) {
-      const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
-      const outfitItems = [];
+  useEffect(() => {
+    if (uploadedItems) {
+      const initialOutfits = generateOutfits();
+      setOutfits(initialOutfits);
+    }
+  }, [uploadedItems, isLoading]);
 
-      for (const category of [
-        "Tops",
-        "Bottoms",
-        "Footwear",
-        "Accessories",
-        "Dresses",
-        "Activewear",
-      ]) {
-        let selectedItems = shuffledItems.filter(
-          (item) =>
-            item.category === category &&
-            !outfitItems.some((outfitItem) => outfitItem.category === category)
+  // Function to generate a unique outfitId
+const generateOutfitId = () => {
+  // Assuming you have some logic to generate a unique identifier,
+  // for example, using a timestamp or a random number
+  const timestamp = new Date().getTime();
+  const randomSuffix = Math.floor(Math.random() * 1000);
+
+  return `${timestamp}_${randomSuffix}`;
+};
+
+const generateOutfits = () => {
+  const generatedOutfits = [];
+
+  for (let i = 0; i < 4; i++) {
+    const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
+    const outfitItems = [];
+
+    for (const category of [
+      "Tops",
+      "Bottoms",
+      "Footwear",
+      "Accessories",
+      "Dresses",
+      "Activewear",
+    ]) {
+      let selectedItems = shuffledItems.filter(
+        (item) =>
+          item.category === category &&
+          !outfitItems.some(
+            (outfitItem) => outfitItem.category === category
+          )
+      );
+
+      while (outfitItems.length < 4 && selectedItems.length > 0) {
+        const selectedItem =
+          selectedItems[Math.floor(Math.random() * selectedItems.length)];
+        outfitItems.push(selectedItem);
+        selectedItems = selectedItems.filter(
+          (item) => item.id !== selectedItem.id
         );
-
-        while (outfitItems.length < 4 && selectedItems.length > 0) {
-          const selectedItem =
-            selectedItems[Math.floor(Math.random() * selectedItems.length)];
-          outfitItems.push(selectedItem);
-          selectedItems = selectedItems.filter(
-            (item) => item.id !== selectedItem.id
-          );
-        }
       }
-
-      const outfit = {
-        id: i + 1,
-        title: `Outfit ${i + 1}`,
-        items: outfitItems,
-      };
-
-      generatedOutfits.push(outfit);
     }
 
-    return generatedOutfits;
-  };
-  // useEffect to generate outfits initially and on component mount
-  useEffect(() => {
-    const initialOutfits = generateOutfits();
-    setOutfits(initialOutfits);
-  }, [isLoading]);
+    const outfit = {
+      id: i + 1,
+      title: `Outfit ${i + 1}`,
+      items: outfitItems,
+      savedId: generateOutfitId(),
+    };
+
+    generatedOutfits.push(outfit);
+  }
+
+  return generatedOutfits;
+};
+
+const handleToggleFavorite = async (outfit) => {
+  try {
+    const { title, items } = outfit;
+    const data = {
+      outfitId: outfit.savedId, // Assuming savedId is the unique identifier for the outfit
+      title,
+      items,
+      tags: [], // You may provide tags if needed
+    };
+
+    if (isInFavorites(outfit.savedId)) {
+      await removeFavoriteItem.mutate(outfit.savedId); // Remove from favorites
+    } else {
+      await saveFavoriteItem.mutate(data); // Save to favorites
+      await saveGeneratedOutfit.mutate(outfit); // Save generated outfit to the database
+    }
+    toggleFavorite(outfit);
+  } catch (error) {
+    console.error("Error toggling favorite:", error);
+  }
+};
+
+
 
   return (
     <div>
@@ -87,7 +129,7 @@ const Suggestions = () => {
             {outfits.map((outfit) => (
               <article
                 className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-                key={outfit.id}
+                key={outfit.savedId}
               >
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
                   {outfit.items.map((item, itemIndex) => (
@@ -108,12 +150,9 @@ const Suggestions = () => {
                   </p>
                 </div>
 
-                {/* Add your favorite button logic here */}
                 <button
                   className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
-                  onClick={() => {
-                    toggleFavorite(outfit);
-                  }}
+                  onClick={() => handleToggleFavorite(outfit)}
                 >
                   {isInFavorites(outfit.id) ? (
                     <BsHeartFill className="text-white" />
