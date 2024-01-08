@@ -9,82 +9,63 @@ import {
   useRemoveFavoriteItem,
   useSaveGeneratedOutfit,
 } from "../hooks/query";
+import {
+  validBottomsFields,
+  validFootwearFields,
+  validTopsFields,
+} from "../services/constants";
+import { FailureModal } from "../components/UI/FailureModal";
 
 const Suggestions = () => {
   const { toggleFavorite, isInFavorites } = useFavorites();
-
-  const { data, isPending: isLoadingSuggestions } = useGetRecommendations({});
+  //let getCloset = useGetCloset();
+  const [validCloset, setValidCloset] = useState(false);
+  const [showErrorModal, setShowError] = useState(false);
+  const getRecommendations = useGetRecommendations(validCloset);
+  const getCloset = useGetCloset();
   const saveGeneratedOutfit = useSaveGeneratedOutfit();
   const saveFavoriteItem = useSaveFavoriteItem();
   const removeFavoriteItem = useRemoveFavoriteItem();
 
-  let { data: uploadedItems, isPending } = useGetCloset();
-  if (!uploadedItems) {
-    uploadedItems = [];
-  }
-
   const [outfits, setOutfits] = useState([]);
+  useEffect(() => {
+    if (getCloset.isPending) {
+      return;
+    }
+    //A valid closet has atleast one top, one bottom and one piece of footwear
+    const closet = getCloset.data;
+    //Group the closet items by type
+    const groupedItems = closet.reduce((groups, item) => {
+      if (!groups[item.category]) {
+        groups[item.category] = [];
+      }
+      groups[item.category].push(item);
 
+      return groups;
+    }, {});
+    //Make sure the user has atleast one of each mandatory clothing item
+    //Bk wrote this code, not chatgpt! (if it doesn't work though, then Bk didn't write it)
+    const isValidCloset = [
+      validTopsFields,
+      validBottomsFields,
+      validFootwearFields,
+    ]
+      .map((validFields) =>
+        validFields.reduce(
+          (acc, field) => acc + (groupedItems[field]?.length ?? 0),
+          0
+        )
+      )
+      .every((count) => count >= 1);
+
+    setValidCloset(isValidCloset);
+    setShowError(!isValidCloset);
+  }, [getCloset.isPending]);
   // useEffect to generate outfits initially and on component mount
   useEffect(() => {
-    if (!isLoadingSuggestions) setOutfits(data?.data.outfits);
-  }, [isLoadingSuggestions]);
-
-  // Function to generate a unique outfitId
-  const generateOutfitId = () => {
-    const timestamp = new Date().getTime();
-    const randomSuffix = Math.floor(Math.random() * 1000);
-    return `${timestamp}_${randomSuffix}`;
-  };
-
-  const generateOutfits = () => {
-    const generatedOutfits = [];
-
-    for (let i = 0; i < 4; i++) {
-      const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
-      const outfitItems = [];
-
-      for (const category of [
-        "Tops",
-        "Bottoms",
-        "Footwear",
-        "Accessories",
-        "Dresses",
-        "Activewear",
-      ]) {
-        let selectedItems = shuffledItems.filter(
-          (item) =>
-            item.category === category &&
-            !outfitItems.some((outfitItem) => outfitItem.category === category)
-        );
-
-        while (outfitItems.length < 4 && selectedItems.length > 0) {
-          const selectedItem =
-            selectedItems[Math.floor(Math.random() * selectedItems.length)];
-          outfitItems.push(selectedItem);
-          selectedItems = selectedItems.filter(
-            (item) => item.id !== selectedItem.id
-          );
-        }
-      }
-
-      const outfit = {
-        id: i + 1,
-        title: `Outfit ${i + 1}`,
-        items: outfitItems,
-        savedId: generateOutfitId(),
-      };
-
-      generatedOutfits.push(outfit);
-    }
-
-    return generatedOutfits;
-  };
-
-  useEffect(() => {
-    const initialOutfits = generateOutfits();
-    setOutfits(initialOutfits);
-  }, [isPending]);
+    if (getRecommendations.isSuccess)
+      setOutfits(getRecommendations.data?.data?.outfits);
+  }, [getRecommendations.isSuccess]);
 
   // Function to handle toggling favorites
   const handleToggleFavorite = async (outfit) => {
@@ -100,6 +81,10 @@ const Suggestions = () => {
       console.error("Error toggling favorite:", error);
     }
   };
+  if (showErrorModal) {
+    //TODO: Make a proper error message
+    return <FailureModal mainMessage="Get more clothes, broke boy!" />;
+  }
 
   return (
     <div>
@@ -114,7 +99,7 @@ const Suggestions = () => {
           <div>suggestions</div>
         </div>
       </div>
-      {isPending ? (
+      {getRecommendations.isLoading ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>

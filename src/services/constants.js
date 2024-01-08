@@ -1,7 +1,7 @@
-export const TESTING = false
+export const TESTING = false;
 export const API_URL = TESTING
   ? "http://localhost:8080"
-  : "https://fitss.up.railway.app"
+  : "https://fitss.up.railway.app";
 
 export const COLORS = [
   { value: "black", label: "black" },
@@ -13,7 +13,7 @@ export const COLORS = [
   { value: "yellow", label: "yellow" },
   { value: "brown", label: "brown" },
   { value: "green", label: "green" },
-]
+];
 
 export const CLOTHING_CATEGORIES = [
   { value: "Tops", label: "top" },
@@ -23,8 +23,10 @@ export const CLOTHING_CATEGORIES = [
   { value: "Outerwear", label: "outerwear" },
   { value: "Accessories", label: "accessories" },
   { value: "Activewear", label: "activewear" },
-]
-
+];
+export const validTopsFields = ["Tops", "Outerwear"];
+export const validBottomsFields = ["Bottoms", "Activewear"];
+export const validFootwearFields = ["Footwear"];
 export const CLOTHING_SUBCATEGORIES = {
   Tops: [
     "t-shirt",
@@ -48,4 +50,4 @@ export const CLOTHING_SUBCATEGORIES = {
     "track suit",
     "performance top",
   ],
-}
+};

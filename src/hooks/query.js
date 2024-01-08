@@ -221,7 +221,7 @@ const getCurrentPositionPromise = () => {
     }
   });
 };
-const useGetRecommendations = () => {
+const useGetRecommendations = (enabled) => {
   const { user } = useAuth();
   return useQuery({
     queryKey: ["recommendation", user],
@@ -237,7 +237,7 @@ const useGetRecommendations = () => {
       });
     },
 
-    enabled: !!user,
+    enabled: !!user && enabled,
   });
 };
 
