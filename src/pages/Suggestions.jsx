@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useFavorites } from "../hooks/FavoritesContext";
-import { useGetCloset } from "../hooks/query";
+import { useGetCloset, useGetRecommendations } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
 import {
   useSaveFavoriteItem,
@@ -12,16 +12,23 @@ import {
 
 const Suggestions = () => {
   const { toggleFavorite, isInFavorites } = useFavorites();
+
+  const { data, isPending: isLoadingSuggestions } = useGetRecommendations({});
   const saveGeneratedOutfit = useSaveGeneratedOutfit();
   const saveFavoriteItem = useSaveFavoriteItem();
   const removeFavoriteItem = useRemoveFavoriteItem();
-  
+
   let { data: uploadedItems, isPending } = useGetCloset();
   if (!uploadedItems) {
     uploadedItems = [];
   }
 
   const [outfits, setOutfits] = useState([]);
+
+  // useEffect to generate outfits initially and on component mount
+  useEffect(() => {
+    if (!isLoadingSuggestions) setOutfits(data?.data.outfits);
+  }, [isLoadingSuggestions]);
 
   // Function to generate a unique outfitId
   const generateOutfitId = () => {
@@ -48,9 +55,7 @@ const Suggestions = () => {
         let selectedItems = shuffledItems.filter(
           (item) =>
             item.category === category &&
-            !outfitItems.some(
-              (outfitItem) => outfitItem.category === category
-            )
+            !outfitItems.some((outfitItem) => outfitItem.category === category)
         );
 
         while (outfitItems.length < 4 && selectedItems.length > 0) {
@@ -116,13 +121,13 @@ const Suggestions = () => {
       ) : (
         <section className="flex justify-center sm:justify-start">
           <div className="flex flex-wrap justify-left mx-[120px]">
-            {outfits.map((outfit) => (
+            {outfits?.map((outfit, outfitIndex) => (
               <article
                 className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-                key={outfit.savedId} 
+                key={outfitIndex}
               >
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                  {outfit.items.map((item, itemIndex) => (
+                  {outfit?.clothes?.map((item, itemIndex) => (
                     <img
                       key={itemIndex}
                       src={item.image}
@@ -134,9 +139,9 @@ const Suggestions = () => {
                 </div>
 
                 <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-                  <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.title}</h3>
+                  <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.name}</h3>
                   <p className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                    {outfit.items.map((item) => `#${item.subcategory} `)}
+                    {outfit?.clothes?.map((item) => `#${item.subcategory} `)}
                   </p>
                 </div>
 

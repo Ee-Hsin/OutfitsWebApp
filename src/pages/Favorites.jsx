@@ -2,7 +2,7 @@ import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useFavorites } from "../hooks/FavoritesContext.jsx";
 import { BsHeartFill } from "react-icons/bs";
-import { useGetOutfits , useDeleteOutfit } from "../hooks/query.js";
+import { useGetOutfits, useDeleteOutfit } from "../hooks/query.js";
 import { useEffect, useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { Loader } from "../components/UI/Loader";
@@ -12,12 +12,16 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   return (
     <div className="absolute text-white font-montserrat text-center bg-black bg-opacity-60 z-10 w-[300px] mx-[-14px] my-[100px] shadow-xl rounded-3xl border-white border-[1px]">
       <div className="modal-content">
-        <p className="px-4 py-4">Are you sure you want to delete this Outfit?</p>
+        <p className="px-4 py-4">
+          Are you sure you want to delete this Outfit?
+        </p>
         <div className="pb-6">
-          <button className="px-4 hover:scale-110" 
-            onClick={onConfirm}>Yes</button>
-          <button className="px-4  hover:scale-110"
-            onClick={onClose}>No</button>
+          <button className="px-4 hover:scale-110" onClick={onConfirm}>
+            Yes
+          </button>
+          <button className="px-4  hover:scale-110" onClick={onClose}>
+            No
+          </button>
         </div>
       </div>
     </div>
@@ -126,45 +130,48 @@ const Favorites = () => {
           <Loader />
         </div>
       ) : (
-      <section className="flex justify-center sm:justify-start">
-        <div className="flex flex-wrap mx-[120px]">
-          {/* container for all cards */}
-          {outfits &&
-            outfits?.map((outfit, index) => (
-              <OutfitCard key={outfit._id} outfit={outfit} index={index} />
-            ))}
+        <section className="flex justify-center sm:justify-start">
+          <div className="flex flex-wrap mx-[120px]">
+            {/* container for all cards */}
+            {outfits &&
+              outfits?.map((outfit, index) => (
+                <OutfitCard key={outfit._id} outfit={outfit} index={index} />
+              ))}
 
-          {favorites.map((item, key) => (
-            <div
-              className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
-              key={key}
-            >
-              <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                {item.items.map((clothingItem, index) => (
-                  <img
-                    key={index}
-                    src={clothingItem.image}
-                    alt={`clothing-${index}`}
-                    className="w-[115px] h-[115px] object-cover bg-white rounded-[22px] mx-[2px]"
-                  />
-                ))}
-              </div>
-              <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-                <div className=" mb-[9px] mt-[5px] ml-[9px]">{item.title}</div>
-                <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                  {item.items.map((item) => `#${item.subcategory} `)}
-                </div>
-              </div>
-              <button
-                className="absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300"
-                onClick={() => toggleFavorite(item)}
+            {favorites?.map((item, key) => (
+              <div
+                className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
+                key={key}
               >
-                <BsHeartFill className="text-white" />
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>)}
+                <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+                  {item?.clothes?.map((clothingItem, index) => (
+                    <img
+                      key={index}
+                      src={clothingItem.image}
+                      alt={`clothing-${index}`}
+                      className="w-[115px] h-[115px] object-cover bg-white rounded-[22px] mx-[2px]"
+                    />
+                  ))}
+                </div>
+                <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+                  <div className=" mb-[9px] mt-[5px] ml-[9px]">
+                    {item.title}
+                  </div>
+                  <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
+                    {item?.clothes?.map((item) => `#${item.subcategory} `)}
+                  </div>
+                </div>
+                <button
+                  className="absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300"
+                  onClick={() => toggleFavorite(item)}
+                >
+                  <BsHeartFill className="text-white" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };
