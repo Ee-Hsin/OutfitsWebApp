@@ -2,67 +2,21 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useFavorites } from "../hooks/FavoritesContext";
-import { useGetCloset } from "../hooks/query";
+import { useGetCloset, useGetRecommendations } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
 
 const Suggestions = () => {
   const { toggleFavorite, isInFavorites } = useFavorites();
-  let { data: uploadedItems, isLoading } = useGetCloset();
-  if (!uploadedItems) {
-    uploadedItems = [];
-  }
+
+  const { data, isPending: isLoadingSuggestions } = useGetRecommendations({});
 
   // State to hold the generated outfits
   const [outfits, setOutfits] = useState([]);
-  // Function to create outfits with images from different categories
-  const generateOutfits = () => {
-    const generatedOutfits = [];
 
-    // Create outfits with four different items in each
-    for (let i = 0; i < 4; i++) {
-      const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
-      const outfitItems = [];
-
-      for (const category of [
-        "Tops",
-        "Bottoms",
-        "Footwear",
-        "Accessories",
-        "Dresses",
-        "Activewear",
-      ]) {
-        let selectedItems = shuffledItems.filter(
-          (item) =>
-            item.category === category &&
-            !outfitItems.some((outfitItem) => outfitItem.category === category)
-        );
-
-        while (outfitItems.length < 4 && selectedItems.length > 0) {
-          const selectedItem =
-            selectedItems[Math.floor(Math.random() * selectedItems.length)];
-          outfitItems.push(selectedItem);
-          selectedItems = selectedItems.filter(
-            (item) => item.id !== selectedItem.id
-          );
-        }
-      }
-
-      const outfit = {
-        id: i + 1,
-        title: `Outfit ${i + 1}`,
-        items: outfitItems,
-      };
-
-      generatedOutfits.push(outfit);
-    }
-
-    return generatedOutfits;
-  };
   // useEffect to generate outfits initially and on component mount
   useEffect(() => {
-    const initialOutfits = generateOutfits();
-    setOutfits(initialOutfits);
-  }, [isLoading]);
+    if (!isLoadingSuggestions) setOutfits(data?.data.outfits);
+  }, [isLoadingSuggestions]);
 
   return (
     <div>
@@ -77,20 +31,20 @@ const Suggestions = () => {
           <div>suggestions</div>
         </div>
       </div>
-      {isLoading ? (
+      {isLoadingSuggestions ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>
       ) : (
         <section className="flex justify-center sm:justify-start">
           <div className="flex flex-wrap justify-left mx-[120px]">
-            {outfits.map((outfit) => (
+            {outfits?.map((outfit, outfitIndex) => (
               <article
                 className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-                key={outfit.id}
+                key={outfitIndex}
               >
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                  {outfit.items.map((item, itemIndex) => (
+                  {outfit?.clothes?.map((item, itemIndex) => (
                     <img
                       key={itemIndex}
                       src={item.image}
@@ -102,9 +56,9 @@ const Suggestions = () => {
                 </div>
 
                 <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-                  <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.title}</h3>
+                  <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.name}</h3>
                   <p className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                    {outfit.items.map((item) => `#${item.subcategory} `)}
+                    {outfit?.clothes?.map((item) => `#${item.subcategory} `)}
                   </p>
                 </div>
 

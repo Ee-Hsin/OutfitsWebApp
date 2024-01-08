@@ -14,12 +14,13 @@ export const FavoritesProvider = ({ children }) => {
   }, [favorites]);
 
   const toggleFavorite = (item) => {
+    console.log(item);
     const isFavorite = favorites.some((fav) => fav.id === item.id);
 
     if (isFavorite) {
       // Remove from favorites
       setFavorites((prevFavorites) =>
-        prevFavorites.filter((fav) => fav.title !== item.title)
+        prevFavorites.filter((fav) => fav.id !== item.id)
       );
     } else {
       // Add to favorites
