@@ -5,6 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 import { useDeleteItem, useGetCloset } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
+import { CLOTHING_CATEGORIES } from "../services/constants"
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -81,6 +82,15 @@ const Closet = () => {
 
   const { data: uploadedItems , isLoading} = useGetCloset()
 
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  const filteredItems = uploadedItems?.filter((item) =>
+    selectedCategory ? item.category === selectedCategory : true
+  );
+
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -91,9 +101,22 @@ const Closet = () => {
   return (
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
-        <div className="border-b-2 border-[#201B21] border-opacity-60 w-40 sm:w-[30%] pl-2 sm:pl-4 pb-4">
+        <div className="hidden sm:block border-b-2 border-[#201B21] border-opacity-60 w-40 sm:w-[30%] pl-2 sm:pl-4 pb-4">
           Uploaded items
         </div>
+        <select 
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          className="px-1 py-2 sm:p-2 mr-2 sm:mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100">
+        <option value="">
+          All / sort by category
+        </option>
+          {CLOTHING_CATEGORIES.map((type) => (
+            <option key={type.value} value={type.value}>
+              {type.label}
+            </option>
+          ))}
+        </select>
         <input
           type="file"
           id="fileInput"
@@ -118,7 +141,7 @@ const Closet = () => {
       <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {console.log("uploaded Items:", uploadedItems)}
-          {uploadedItems?.map((item) => (
+          {filteredItems?.map((item) => (
             <ClosetItem key={item._id} item={item} />
           ))}
         </div>
