@@ -2,7 +2,6 @@ import {
   useMutation,
   useQuery,
   useQueryClient,
-  useInfiniteQuery,
 } from "@tanstack/react-query";
 import API from "../services/api";
 import { useAuth } from "./AuthContext";
