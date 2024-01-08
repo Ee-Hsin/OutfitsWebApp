@@ -25,7 +25,7 @@ function ForgotPassword() {
 
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
-      {/* TODO: Add mutation.isError and mutation.isLoading */}
+      {/* TODO: Add mutation.isError and mutation.isPending */}
       {mutation.isError && (
         <FailureModal
           mainMessage={
@@ -54,7 +54,7 @@ function ForgotPassword() {
             </h1>
           </div>
         </div>
-        {mutation.isLoading ? (
+        {mutation.isPending ? (
           <Loader />
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">

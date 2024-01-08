@@ -7,7 +7,7 @@ import { Loader } from "../components/UI/Loader";
 
 const Suggestions = () => {
   const { toggleFavorite, isInFavorites } = useFavorites();
-  let { data: uploadedItems, isLoading } = useGetCloset();
+  let { data: uploadedItems, isPending } = useGetCloset();
   if (!uploadedItems) {
     uploadedItems = [];
   }
@@ -62,7 +62,7 @@ const Suggestions = () => {
   useEffect(() => {
     const initialOutfits = generateOutfits();
     setOutfits(initialOutfits);
-  }, [isLoading]);
+  }, [isPending]);
 
   return (
     <div>
@@ -77,7 +77,7 @@ const Suggestions = () => {
           <div>suggestions</div>
         </div>
       </div>
-      {isLoading ? (
+      {isPending ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>

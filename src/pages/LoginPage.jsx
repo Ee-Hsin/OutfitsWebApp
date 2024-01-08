@@ -65,8 +65,8 @@ function LoginPage() {
             </p>
           </div>
         </div>
-        {mutation.isLoading ? (
-          <Loader />
+        {(mutation.isPending || googleMutation.isPending) ? (
+          <div className="my-6"><Loader /></div>
         ) : (
           <form
             method="post"

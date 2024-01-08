@@ -92,7 +92,7 @@ const OutfitCard = ({ outfit, index }) => {
 const Favorites = () => {
   const [outfits, setOutfits] = useState([]);
 
-  let { data: data, isLoading } = useGetOutfits();
+  let { data: data, isPending } = useGetOutfits();
 
   const { favorites, toggleFavorite } = useFavorites();
 
@@ -121,7 +121,7 @@ const Favorites = () => {
         </Link>
       </div>
 
-      {isLoading ? (
+      {isPending ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>
