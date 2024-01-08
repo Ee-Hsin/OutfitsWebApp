@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import API from "../services/api";
 import { useAuth } from "./AuthContext";
 
@@ -87,6 +92,25 @@ const useUploadItem = () => {
   });
 };
 
+//User updates an item (POST)
+const useUpdateItem = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data) =>
+      API.put(`/api/updateItemDetails/${data.itemId}`, data, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      // Invalidate so that the useGetCloset query will refetch
+      queryClient.invalidateQueries(["closet", user]);
+    },
+  });
+};
+
 //User deletes an item (DELETE)
 const useDeleteItem = () => {
   const { user } = useAuth();
@@ -121,6 +145,14 @@ const useGetCloset = () => {
     select: (response) => response.data.items,
   });
 };
+
+//TO IMPLEMENT (NEED TO CHANGE BACKEND TO ACCOMODATE), FOR FETCHING INFINITE SCROLL.
+// const useGetInfiniteScrollCloset = () => {
+//     return useInfiniteQuery({
+//         queryKey: ["closet", user],
+//         queryFn:
+//     })
+// }
 
 /* **************************************************************************** */
 /* OUTFITS */
@@ -208,6 +240,81 @@ const useGetRecommendations = () => {
     enabled: !!user,
   });
 };
+
+/* **************************************************************************** */
+/* FAVORITES */
+// To add an outfit to favorites (POST)
+// To add an outfit to favorites (POST)
+// Use this mutation for saving favorites
+const useSaveFavoriteItem = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data) =>
+      API.post("/api/favorites", data, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["favorites", user]);
+    },
+  });
+};
+
+const useGetFavorites = () => {
+  const { user } = useAuth();
+
+  return useQuery({
+    queryKey: ["favorites", user],
+    queryFn: (data) =>
+      API.get("/api/favorites", {
+        data,
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    enabled: !!user,
+  });
+};
+
+// To remove an outfit from favorites (DELETE)
+const useRemoveFavoriteItem = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (itemId) =>
+      API.delete(`/api/favorites/${itemId}`, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["favorites", user]);
+    },
+  });
+};
+
+// In query.js
+const useSaveGeneratedOutfit = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data) =>
+      API.post("/api/favorites", data, {
+        headers: {
+          "x-access-token": user,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["favorites", user]);
+    },
+  });
+};
+
 export {
   useSignInUser,
   useSignInGoogleUser,
@@ -216,10 +323,16 @@ export {
   useForgotPassword,
   useResetPassword,
   useUploadItem,
+  useUpdateItem,
   useDeleteItem,
   useSaveOutfit,
   useGetCloset,
+  //   useGetInfiniteScrollCloset,
   useGetOutfits,
   useDeleteOutfit,
   useGetRecommendations,
+  useSaveFavoriteItem,
+  useGetFavorites,
+  useRemoveFavoriteItem,
+  useSaveGeneratedOutfit,
 };

@@ -46,6 +46,14 @@ const OutfitCard = ({ outfit, index }) => {
     setDeleteModalOpen(false);
   };
 
+  // delete the outfit when there's only one item
+  useEffect(() => {
+    if (outfit.clothes.length <= 1) {
+      handleDelete();
+    }
+  }, [outfit]);
+
+
   return (
     <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
       {/* container for one card */}
@@ -77,7 +85,8 @@ const OutfitCard = ({ outfit, index }) => {
         <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
           {/* Tags or additional outfit info */}
 
-          {outfit.clothes.map((item) => `#${item.subcategory}`).join(" ")}
+          {[...new Set(outfit.clothes.map(item => `#${item.subcategory}`))].join(" ")}
+
         </div>
       </div>
     </div>

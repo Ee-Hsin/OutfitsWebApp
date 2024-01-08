@@ -3,16 +3,13 @@ import Logo from "../assets/logoBottom.png";
 
 const Footer = () => {
   const footerNavs = [
-    {
-      name: "Terms",
-      href: "/Terms",
-    },
+    
     {
       name: "Help",
       href: "/",
     },
     {
-      name: "About us",
+      name: "Contact us",
       href: "/",
     },
   ];

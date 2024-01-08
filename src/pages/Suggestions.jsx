@@ -1,22 +1,105 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useFavorites } from "../hooks/FavoritesContext";
 import { useGetCloset, useGetRecommendations } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
+import {
+  useSaveFavoriteItem,
+  useRemoveFavoriteItem,
+  useSaveGeneratedOutfit,
+} from "../hooks/query";
 
 const Suggestions = () => {
   const { toggleFavorite, isInFavorites } = useFavorites();
 
   const { data, isPending: isLoadingSuggestions } = useGetRecommendations({});
+  const saveGeneratedOutfit = useSaveGeneratedOutfit();
+  const saveFavoriteItem = useSaveFavoriteItem();
+  const removeFavoriteItem = useRemoveFavoriteItem();
 
-  // State to hold the generated outfits
+  let { data: uploadedItems, isPending } = useGetCloset();
+  if (!uploadedItems) {
+    uploadedItems = [];
+  }
+
   const [outfits, setOutfits] = useState([]);
 
   // useEffect to generate outfits initially and on component mount
   useEffect(() => {
     if (!isLoadingSuggestions) setOutfits(data?.data.outfits);
   }, [isLoadingSuggestions]);
+
+  // Function to generate a unique outfitId
+  const generateOutfitId = () => {
+    const timestamp = new Date().getTime();
+    const randomSuffix = Math.floor(Math.random() * 1000);
+    return `${timestamp}_${randomSuffix}`;
+  };
+
+  const generateOutfits = () => {
+    const generatedOutfits = [];
+
+    for (let i = 0; i < 4; i++) {
+      const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
+      const outfitItems = [];
+
+      for (const category of [
+        "Tops",
+        "Bottoms",
+        "Footwear",
+        "Accessories",
+        "Dresses",
+        "Activewear",
+      ]) {
+        let selectedItems = shuffledItems.filter(
+          (item) =>
+            item.category === category &&
+            !outfitItems.some((outfitItem) => outfitItem.category === category)
+        );
+
+        while (outfitItems.length < 4 && selectedItems.length > 0) {
+          const selectedItem =
+            selectedItems[Math.floor(Math.random() * selectedItems.length)];
+          outfitItems.push(selectedItem);
+          selectedItems = selectedItems.filter(
+            (item) => item.id !== selectedItem.id
+          );
+        }
+      }
+
+      const outfit = {
+        id: i + 1,
+        title: `Outfit ${i + 1}`,
+        items: outfitItems,
+        savedId: generateOutfitId(),
+      };
+
+      generatedOutfits.push(outfit);
+    }
+
+    return generatedOutfits;
+  };
+
+  useEffect(() => {
+    const initialOutfits = generateOutfits();
+    setOutfits(initialOutfits);
+  }, [isPending]);
+
+  // Function to handle toggling favorites
+  const handleToggleFavorite = async (outfit) => {
+    try {
+      if (isInFavorites(outfit.id)) {
+        await removeFavoriteItem.mutate(outfit.id); // Remove from favorites
+      } else {
+        await saveFavoriteItem.mutate(outfit); // Save to favorites
+        await saveGeneratedOutfit.mutate(outfit); // Save generated outfit to the database
+      }
+      toggleFavorite(outfit);
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
+  };
 
   return (
     <div>
@@ -31,7 +114,7 @@ const Suggestions = () => {
           <div>suggestions</div>
         </div>
       </div>
-      {isLoadingSuggestions ? (
+      {isPending ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>
@@ -62,12 +145,9 @@ const Suggestions = () => {
                   </p>
                 </div>
 
-                {/* Add your favorite button logic here */}
                 <button
                   className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
-                  onClick={() => {
-                    toggleFavorite(outfit);
-                  }}
+                  onClick={() => handleToggleFavorite(outfit)}
                 >
                   {isInFavorites(outfit.id) ? (
                     <BsHeartFill className="text-white" />
