@@ -82,8 +82,13 @@ const Suggestions = () => {
     }
   };
   if (showErrorModal) {
-    //TODO: Make a proper error message
-    return <FailureModal mainMessage="Get more clothes, broke boy!" />;
+    return (
+      <FailureModal
+        mainMessage="You don't have enough clothes!"
+        subMessage="Add more types of clothing for a complete fit"
+        redirectLink={"/app/closet"}
+      />
+    );
   }
 
   return (
