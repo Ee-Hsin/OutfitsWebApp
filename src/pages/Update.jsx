@@ -75,7 +75,7 @@ const Update = () => {
         className="flex flex-wrap items-center justify-center mx-4 my-0 lg:my-24
        text-white font-montserrat"
       >
-        {updateItem.isLoading ? (
+        {updateItem.isPending ? (
           <Loader />
         ) : (
           <>

@@ -80,7 +80,7 @@ const ClosetItem = ({ item }) => {
 const Closet = () => {
   const navigate = useNavigate()
 
-  const { data: uploadedItems , isLoading} = useGetCloset()
+  const { data: uploadedItems , isPending} = useGetCloset()
 
   const [selectedCategory, setSelectedCategory] = useState('');
   const handleCategoryChange = (event) => {
@@ -132,8 +132,8 @@ const Closet = () => {
           <IoIosAdd className="text-2xl" />
         </button>
       </div>
-
-      {isLoading ? (
+      {console.log("isPending", isPending)}
+      {isPending ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>

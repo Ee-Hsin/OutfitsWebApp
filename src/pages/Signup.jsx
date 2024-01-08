@@ -27,7 +27,7 @@ function Signup() {
 
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
-      {/* TODO: Add mutation.isError and mutation.isLoading */}
+      {/* TODO: Add mutation.isError and mutation.isPending */}
       {mutation.isSuccess && <Navigate to="/app/closet" />}
       {mutation.isError && (
         <FailureModal
@@ -68,7 +68,7 @@ function Signup() {
             </p>
           </div>
         </div>
-        {mutation.isLoading ? (
+        {(mutation.isPending || googleMutation.isPending) ? (
           <Loader />
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">

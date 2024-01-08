@@ -7,7 +7,7 @@ import { useGetCloset, useSaveOutfit } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
 
 const Create = () => {
-  const { data: uploadedItems, isLoading } = useGetCloset();
+  const { data: uploadedItems, isPending } = useGetCloset();
   const [outfitName, setOutfitName] = useState("");
   const [buttonActive, setButtonActive] = useState(false);
   //const [loading, setLoading] = useState(true);
@@ -111,7 +111,7 @@ const Create = () => {
       </div>
               
       <div className="flex justify-center sm:justify-start">
-      {isLoading ? (
+      {isPending ? (
          <Loader className=" mt-40"/>
       ) : (
         <div className="flex flex-wrap justify-left mx-[120px]">
