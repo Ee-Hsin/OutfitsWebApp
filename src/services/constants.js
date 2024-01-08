@@ -13,6 +13,10 @@ export const COLORS = [
   { value: "yellow", label: "yellow" },
   { value: "brown", label: "brown" },
   { value: "green", label: "green" },
+  { value: "orange", label: "orange" },
+  { value: "pink", label: "pink" },
+  { value: "floral", label: "floral" },
+  { value: "stripes", label: "stripes" },
 ]
 
 export const CLOTHING_CATEGORIES = [
@@ -39,7 +43,7 @@ export const CLOTHING_SUBCATEGORIES = {
   Footwear: ["sneakers", "boots", "sandals", "flats", "heels", "slippers"],
   Dresses: ["casual", "formal", "maxi", "midi", "mini", "evening gown"],
   Outerwear: ["coat", "jacket", "blazer", "vest", "parka", "poncho"],
-  Accessories: ["scarf", "hat", "glove", "belt", "sunglasses", "tie"],
+  Accessories: ["scarf", "hat", "glove", "belt", "sunglasses", "tie", "jewelry"],
   Activewear: [
     "sports bra",
     "athletic tank",
