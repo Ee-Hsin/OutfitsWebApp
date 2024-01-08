@@ -25,10 +25,10 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
 };
 
 const ClosetItem = ({ item }) => {
-  const mutation = useDeleteItem();
+  const deleteItem = useDeleteItem();
   const navigate = useNavigate();
   const handleDelete = () => {
-    mutation.mutate(item._id);
+    deleteItem.mutate(item._id);
   };
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const handleDeleteClick = () => {
@@ -57,6 +57,7 @@ const ClosetItem = ({ item }) => {
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
         onClick={handleDeleteClick}
       />
+      {deleteItem.isPending ? <div className="flex flex-col justify-center h-full"><Loader/></div> : <>
       <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {/* img */}
         <img
@@ -72,7 +73,7 @@ const ClosetItem = ({ item }) => {
           #{item.category} #{item.subcategory} #{item.color}{" "}
           {item.hasGraphic ? "#graphic" : "#plain"}
         </div>
-      </div>
+      </div></>}
     </div>
   );
 };
