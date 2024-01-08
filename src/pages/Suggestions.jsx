@@ -119,7 +119,7 @@ const Suggestions = () => {
             {outfits.map((outfit) => (
               <article
                 className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-                key={outfit.savedId} {/* Change to outfit.id */}
+                key={outfit.savedId} 
               >
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
                   {outfit.items.map((item, itemIndex) => (

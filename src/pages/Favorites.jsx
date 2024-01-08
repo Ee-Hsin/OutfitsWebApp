@@ -1,12 +1,5 @@
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-import { BsHeartFill } from "react-icons/bs";
-import { useFavorites } from "../hooks/FavoritesContext";
-import { useGetOutfits } from "../hooks/query";
-import { useEffect, useState } from "react";
-import { Loader } from "../components/UI/Loader";
-=======
 import { useFavorites } from "../hooks/FavoritesContext.jsx";
 import { BsHeartFill } from "react-icons/bs";
 import { useGetOutfits , useDeleteOutfit } from "../hooks/query.js";
@@ -30,7 +23,6 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
     </div>
   );
 };
->>>>>>> 57fb97690b83b759ea5d39a622b428a9a33e9f5e
 
 const OutfitCard = ({ outfit, index }) => {
   const mutation = useDeleteOutfit();
@@ -59,9 +51,6 @@ const OutfitCard = ({ outfit, index }) => {
 
 
   return (
-<<<<<<< HEAD
-    <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-=======
     <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
       {/* container for one card */}
       <DeleteModal
@@ -73,7 +62,6 @@ const OutfitCard = ({ outfit, index }) => {
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
         onClick={handleDeleteClick}
       />
->>>>>>> 57fb97690b83b759ea5d39a622b428a9a33e9f5e
       <div className="flex flex-wrap justify-start w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {outfit.clothes.map((clothingItem, index) => (
           <img
@@ -85,19 +73,16 @@ const OutfitCard = ({ outfit, index }) => {
         ))}
       </div>
       <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+        {/* name and tag */}
         <div className=" mb-[9px] mt-[5px] ml-[9px]">
           {" "}
           {outfit.name || `outfit-${index + 1}`}
         </div>
         <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-<<<<<<< HEAD
-          {outfit.tags && outfit.tags.join(" ")}
-=======
           {/* Tags or additional outfit info */}
 
           {[...new Set(outfit.clothes.map(item => `#${item.subcategory}`))].join(" ")}
 
->>>>>>> 57fb97690b83b759ea5d39a622b428a9a33e9f5e
         </div>
       </div>
     </div>
@@ -105,37 +90,9 @@ const OutfitCard = ({ outfit, index }) => {
 };
 
 const Favorites = () => {
-<<<<<<< HEAD
-  const { data, isLoading, isError } = useGetOutfits();
-  const { favorites, toggleFavorite } = useFavorites();
   const [outfits, setOutfits] = useState([]);
 
-  useEffect(() => {
-    if (data) {
-      setOutfits(data?.data?.outfits || []);
-    }
-  }, [data]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader />
-      </div>
-    );
-  }
-
-  if (isError) {
-    return <div>Error fetching data</div>;
-  }
-
-  if (!outfits.length && !favorites.length) {
-    return <div>No outfits or favorites to display.</div>;
-  }
-
-=======
-  const [outfits, setOutfits] = useState([]);
-
-  let { data: data, isPending } = useGetOutfits();
+  let { data: data, isLoading } = useGetOutfits();
 
   const { favorites, toggleFavorite } = useFavorites();
 
@@ -143,7 +100,6 @@ const Favorites = () => {
     console.log(data);
     setOutfits(data?.data?.outfits);
   }, [data]);
->>>>>>> 57fb97690b83b759ea5d39a622b428a9a33e9f5e
   return (
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
@@ -165,16 +121,18 @@ const Favorites = () => {
         </Link>
       </div>
 
-      {isPending ? (
+      {isLoading ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>
       ) : (
       <section className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap mx-[120px]">
-          {outfits.map((outfit, index) => (
-            <OutfitCard key={outfit._id} outfit={outfit} index={index} />
-          ))}
+          {/* container for all cards */}
+          {outfits &&
+            outfits?.map((outfit, index) => (
+              <OutfitCard key={outfit._id} outfit={outfit} index={index} />
+            ))}
 
           {favorites.map((item, key) => (
             <div

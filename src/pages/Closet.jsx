@@ -104,33 +104,35 @@ const Closet = () => {
         <div className="hidden sm:block border-b-2 border-[#201B21] border-opacity-60 w-40 sm:w-[30%] pl-2 sm:pl-4 pb-4">
           Uploaded items
         </div>
-        <select 
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          className="px-1 py-2 sm:p-2 mr-2 sm:mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100">
-        <option value="">
-          All / sort by category
-        </option>
-          {CLOTHING_CATEGORIES.map((type) => (
-            <option key={type.value} value={type.value}>
-              {type.label}
-            </option>
-          ))}
-        </select>
-        <input
-          type="file"
-          id="fileInput"
-          onChange={handleFileInput}
-          accept="image/*" // only accept image
-          style={{ display: "none" }} // hide default input style
-        />
-        <button
-          onClick={() => document.getElementById("fileInput").click()}
-          className="flex items-center bg-white bg-opacity-40 w-32 h-[42px] pl-8 rounded-3xl shadow-xl hover:bg-opacity-50 "
-        >
-          upload
-          <IoIosAdd className="text-2xl" />
-        </button>
+        <div className="flex">
+          <select 
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="px-1 py-2 sm:p-2 mr-2 sm:mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100">
+          <option value="">
+            All / filter by category
+          </option>
+            {CLOTHING_CATEGORIES.map((type) => (
+              <option key={type.value} value={type.value}>
+                {type.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="file"
+            id="fileInput"
+            onChange={handleFileInput}
+            accept="image/*" // only accept image
+            style={{ display: "none" }} // hide default input style
+          />
+          <button
+            onClick={() => document.getElementById("fileInput").click()}
+            className="flex items-center bg-white bg-opacity-40 w-32 h-[42px] pl-8 rounded-3xl shadow-xl hover:bg-opacity-50 "
+          >
+            upload
+            <IoIosAdd className="text-2xl" />
+          </button>
+        </div>
       </div>
       {console.log("isPending", isPending)}
       {isPending ? (
