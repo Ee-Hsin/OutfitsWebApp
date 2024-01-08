@@ -87,6 +87,25 @@ const useUploadItem = () => {
   })
 }
 
+//User updates an item (POST)
+const useUpdateItem = () => {
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: (data) =>
+          API.put(`/api/updateItemDetails/${data.itemId}`, data, {
+            headers: {
+              "x-access-token": user,
+            },
+          }),
+        onSuccess: () => {
+          // Invalidate so that the useGetCloset query will refetch
+          queryClient.invalidateQueries(["closet", user])
+        },
+      })
+}
+
 //User deletes an item (DELETE)
 const useDeleteItem = () => {
   const { user } = useAuth()
@@ -200,6 +219,7 @@ export {
   useForgotPassword,
   useResetPassword,
   useUploadItem,
+  useUpdateItem,
   useDeleteItem,
   useSaveOutfit,
   useGetCloset,
