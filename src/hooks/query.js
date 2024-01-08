@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient, useInfiniteQuery } from "@tanstack/react-query"
 import API from "../services/api"
 import { useAuth } from "./AuthContext"
 
@@ -140,6 +140,14 @@ const useGetCloset = () => {
     select: (response) => response.data.items,
   })
 }
+
+//TO IMPLEMENT (NEED TO CHANGE BACKEND TO ACCOMODATE), FOR FETCHING INFINITE SCROLL.
+// const useGetInfiniteScrollCloset = () => {
+//     return useInfiniteQuery({
+//         queryKey: ["closet", user],
+//         queryFn: 
+//     })
+// }
 
 /* **************************************************************************** */
 /* OUTFITS */
@@ -300,10 +308,10 @@ export {
   useDeleteItem,
   useSaveOutfit,
   useGetCloset,
+//   useGetInfiniteScrollCloset,
   useGetOutfits,
   useDeleteOutfit,
   useGetRecommendations,
-
   useSaveFavoriteItem,
   useGetFavorites,
   useRemoveFavoriteItem,
