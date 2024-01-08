@@ -1,27 +1,27 @@
-import { Link, Navigate } from "react-router-dom"
-import { GoogleLogin } from "@react-oauth/google"
-import { useSignInUser, useSignInGoogleUser } from "../hooks/query"
-import { useForm } from "react-hook-form"
-import { FailureModal } from "../components/UI/FailureModal"
-import { Loader } from "../components/UI/Loader"
+import { Link, Navigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { useSignInUser, useSignInGoogleUser } from "../hooks/query";
+import { useForm } from "react-hook-form";
+import { FailureModal } from "../components/UI/FailureModal";
+import { Loader } from "../components/UI/Loader";
 
 function LoginPage() {
-  const mutation = useSignInUser()
-  const googleMutation = useSignInGoogleUser()
+  const mutation = useSignInUser();
+  const googleMutation = useSignInGoogleUser();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm()
+  } = useForm();
 
   const onSubmit = (data, e) => {
-    e.preventDefault()
+    e.preventDefault();
     //sends info to the server
-    mutation.mutate(data)
-    reset()
-  }
+    mutation.mutate(data);
+    reset();
+  };
 
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
@@ -47,9 +47,9 @@ function LoginPage() {
       )}
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
         <div className="text-center">
-          <div className="mx-auto w-32">
+          <Link to={"/"} className="mx-auto w-32">
             <h1 className="font-monoton text-3xl text-indigo-400">Fitsss</h1>
-          </div>
+          </Link>
           <div className="mt-5 space-y-2">
             <h1 className="text-white text-2xl font-bold sm:text-3xl">
               Log in to your account
@@ -65,8 +65,8 @@ function LoginPage() {
             </p>
           </div>
         </div>
-        {mutation.isLoading ? (
-          <Loader />
+        {(mutation.isPending || googleMutation.isPending) ? (
+          <div className="my-6"><Loader /></div>
         ) : (
           <form
             method="post"
@@ -137,7 +137,7 @@ function LoginPage() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

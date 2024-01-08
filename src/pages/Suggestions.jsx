@@ -12,99 +12,89 @@ import {
 
 const Suggestions = () => {
   const { toggleFavorite, isInFavorites } = useFavorites();
-  const { data: uploadedItems, isLoading } = useGetCloset();
   const saveGeneratedOutfit = useSaveGeneratedOutfit();
   const saveFavoriteItem = useSaveFavoriteItem();
   const removeFavoriteItem = useRemoveFavoriteItem();
+  
+  let { data: uploadedItems, isPending } = useGetCloset();
+  if (!uploadedItems) {
+    uploadedItems = [];
+  }
 
   const [outfits, setOutfits] = useState([]);
 
-  useEffect(() => {
-    if (uploadedItems) {
-      const initialOutfits = generateOutfits();
-      setOutfits(initialOutfits);
-    }
-  }, [uploadedItems, isLoading]);
-
   // Function to generate a unique outfitId
-const generateOutfitId = () => {
-  // Assuming you have some logic to generate a unique identifier,
-  // for example, using a timestamp or a random number
-  const timestamp = new Date().getTime();
-  const randomSuffix = Math.floor(Math.random() * 1000);
+  const generateOutfitId = () => {
+    const timestamp = new Date().getTime();
+    const randomSuffix = Math.floor(Math.random() * 1000);
+    return `${timestamp}_${randomSuffix}`;
+  };
 
-  return `${timestamp}_${randomSuffix}`;
-};
+  const generateOutfits = () => {
+    const generatedOutfits = [];
 
-const generateOutfits = () => {
-  const generatedOutfits = [];
+    for (let i = 0; i < 4; i++) {
+      const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
+      const outfitItems = [];
 
-  for (let i = 0; i < 4; i++) {
-    const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
-    const outfitItems = [];
-
-    for (const category of [
-      "Tops",
-      "Bottoms",
-      "Footwear",
-      "Accessories",
-      "Dresses",
-      "Activewear",
-    ]) {
-      let selectedItems = shuffledItems.filter(
-        (item) =>
-          item.category === category &&
-          !outfitItems.some(
-            (outfitItem) => outfitItem.category === category
-          )
-      );
-
-      while (outfitItems.length < 4 && selectedItems.length > 0) {
-        const selectedItem =
-          selectedItems[Math.floor(Math.random() * selectedItems.length)];
-        outfitItems.push(selectedItem);
-        selectedItems = selectedItems.filter(
-          (item) => item.id !== selectedItem.id
+      for (const category of [
+        "Tops",
+        "Bottoms",
+        "Footwear",
+        "Accessories",
+        "Dresses",
+        "Activewear",
+      ]) {
+        let selectedItems = shuffledItems.filter(
+          (item) =>
+            item.category === category &&
+            !outfitItems.some(
+              (outfitItem) => outfitItem.category === category
+            )
         );
+
+        while (outfitItems.length < 4 && selectedItems.length > 0) {
+          const selectedItem =
+            selectedItems[Math.floor(Math.random() * selectedItems.length)];
+          outfitItems.push(selectedItem);
+          selectedItems = selectedItems.filter(
+            (item) => item.id !== selectedItem.id
+          );
+        }
       }
+
+      const outfit = {
+        id: i + 1,
+        title: `Outfit ${i + 1}`,
+        items: outfitItems,
+        savedId: generateOutfitId(),
+      };
+
+      generatedOutfits.push(outfit);
     }
 
-    const outfit = {
-      id: i + 1,
-      title: `Outfit ${i + 1}`,
-      items: outfitItems,
-      savedId: generateOutfitId(),
-    };
+    return generatedOutfits;
+  };
 
-    generatedOutfits.push(outfit);
-  }
+  useEffect(() => {
+    const initialOutfits = generateOutfits();
+    setOutfits(initialOutfits);
+  }, [isPending]);
 
-  return generatedOutfits;
-};
-
-const handleToggleFavorite = async (outfit) => {
-  try {
-    const { title, items } = outfit;
-    const data = {
-      outfitId: outfit.savedId, // Assuming savedId is the unique identifier for the outfit
-      title,
-      items,
-      tags: [], // You may provide tags if needed
-    };
-
-    if (isInFavorites(outfit.savedId)) {
-      await removeFavoriteItem.mutate(outfit.savedId); // Remove from favorites
-    } else {
-      await saveFavoriteItem.mutate(data); // Save to favorites
-      await saveGeneratedOutfit.mutate(outfit); // Save generated outfit to the database
+  // Function to handle toggling favorites
+  const handleToggleFavorite = async (outfit) => {
+    try {
+      if (isInFavorites(outfit.id)) {
+        await removeFavoriteItem.mutate(outfit.id); // Remove from favorites
+      } else {
+        await saveFavoriteItem.mutate(outfit); // Save to favorites
+        await saveGeneratedOutfit.mutate(outfit); // Save generated outfit to the database
+      }
+      toggleFavorite(outfit);
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
     }
-    toggleFavorite(outfit);
-  } catch (error) {
-    console.error("Error toggling favorite:", error);
-  }
-};
-
-
+  };
 
   return (
     <div>
@@ -119,8 +109,8 @@ const handleToggleFavorite = async (outfit) => {
           <div>suggestions</div>
         </div>
       </div>
-      {isLoading ? (
-        <div className="flex items-center justify-center h-screen">
+      {isPending ? (
+        <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>
       ) : (
@@ -129,7 +119,7 @@ const handleToggleFavorite = async (outfit) => {
             {outfits.map((outfit) => (
               <article
                 className="relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl"
-                key={outfit.savedId}
+                key={outfit.savedId} {/* Change to outfit.id */}
               >
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
                   {outfit.items.map((item, itemIndex) => (

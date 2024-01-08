@@ -4,9 +4,10 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { useGetCloset, useSaveOutfit } from "../hooks/query";
+import { Loader } from "../components/UI/Loader";
 
 const Create = () => {
-  const { data: uploadedItems } = useGetCloset();
+  const { data: uploadedItems, isPending } = useGetCloset();
   const [outfitName, setOutfitName] = useState("");
   const [buttonActive, setButtonActive] = useState(false);
   //const [loading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ const Create = () => {
   const saveOutfit = useSaveOutfit();
 
   useEffect(() => {
-    setButtonActive(selectedItems.length >= 2 && outfitName.length > 0);
+    setButtonActive(selectedItems.length >= 2 && selectedItems.length <= 4 && outfitName.length > 0);
   }, [selectedItems, outfitName]);
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
@@ -34,6 +35,15 @@ const Create = () => {
       outfitName,
     });
   };
+
+  let reminder = "Please enter the name of your Outfit";
+  if(selectedItems.length > 4){
+    reminder = "Please select up to four items ";
+  } else if(selectedItems.length < 2){
+    reminder = "Please select at least two items";
+  }
+  
+
   return (
     <div>
       <div className="flex items-center justify-between text-white font-montserrat">
@@ -91,21 +101,19 @@ const Create = () => {
             </button>
           </Link>
           {!buttonActive && (
-            <Tooltip id="my-tooltip">
+            <Tooltip id="my-tooltip" className="z-10">
               <div>
-                <h3>Hold Your Horses</h3>
-                <p>Make sure:</p>
-                <ul>
-                  <li>Your outfit has a name</li>
-                  <li>You've selected at least two items</li>
-                </ul>
+                <p>{reminder}</p>
               </div>
             </Tooltip>
           )}
         </div>
       </div>
-
+              
       <div className="flex justify-center sm:justify-start">
+      {isPending ? (
+         <Loader className=" mt-40"/>
+      ) : (
         <div className="flex flex-wrap justify-left mx-[120px]">
           {uploadedItems.map((item) => (
             <div
@@ -142,7 +150,7 @@ const Create = () => {
             </div>
           ))}
         </div>
-      </div>
+      )}</div>
     </div>
   );
 };

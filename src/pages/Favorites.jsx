@@ -1,14 +1,79 @@
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import { BsHeartFill } from "react-icons/bs";
 import { useFavorites } from "../hooks/FavoritesContext";
 import { useGetOutfits } from "../hooks/query";
 import { useEffect, useState } from "react";
 import { Loader } from "../components/UI/Loader";
+=======
+import { useFavorites } from "../hooks/FavoritesContext.jsx";
+import { BsHeartFill } from "react-icons/bs";
+import { useGetOutfits , useDeleteOutfit } from "../hooks/query.js";
+import { useEffect, useState } from "react";
+import { RxCrossCircled } from "react-icons/rx";
+import { Loader } from "../components/UI/Loader";
+
+const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="absolute text-white font-montserrat text-center bg-black bg-opacity-60 z-10 w-[300px] mx-[-14px] my-[100px] shadow-xl rounded-3xl border-white border-[1px]">
+      <div className="modal-content">
+        <p className="px-4 py-4">Are you sure you want to delete this Outfit?</p>
+        <div className="pb-6">
+          <button className="px-4 hover:scale-110" 
+            onClick={onConfirm}>Yes</button>
+          <button className="px-4  hover:scale-110"
+            onClick={onClose}>No</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+>>>>>>> 57fb97690b83b759ea5d39a622b428a9a33e9f5e
 
 const OutfitCard = ({ outfit, index }) => {
+  const mutation = useDeleteOutfit();
+  //const navigate = useNavigate();
+  const handleDelete = () => {
+    mutation.mutate(outfit._id);
+  };
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const handleDeleteClick = () => {
+    setDeleteModalOpen(true);
+  };
+  const handleConfirmDelete = () => {
+    handleDelete();
+    setDeleteModalOpen(false);
+  };
+  const handleCancelDelete = () => {
+    setDeleteModalOpen(false);
+  };
+
+  // delete the outfit when there's only one item
+  useEffect(() => {
+    if (outfit.clothes.length <= 1) {
+      handleDelete();
+    }
+  }, [outfit]);
+
+
   return (
+<<<<<<< HEAD
     <div className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+=======
+    <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
+      {/* container for one card */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+      />
+      <RxCrossCircled
+        className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
+        onClick={handleDeleteClick}
+      />
+>>>>>>> 57fb97690b83b759ea5d39a622b428a9a33e9f5e
       <div className="flex flex-wrap justify-start w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {outfit.clothes.map((clothingItem, index) => (
           <img
@@ -25,7 +90,14 @@ const OutfitCard = ({ outfit, index }) => {
           {outfit.name || `outfit-${index + 1}`}
         </div>
         <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
+<<<<<<< HEAD
           {outfit.tags && outfit.tags.join(" ")}
+=======
+          {/* Tags or additional outfit info */}
+
+          {[...new Set(outfit.clothes.map(item => `#${item.subcategory}`))].join(" ")}
+
+>>>>>>> 57fb97690b83b759ea5d39a622b428a9a33e9f5e
         </div>
       </div>
     </div>
@@ -33,6 +105,7 @@ const OutfitCard = ({ outfit, index }) => {
 };
 
 const Favorites = () => {
+<<<<<<< HEAD
   const { data, isLoading, isError } = useGetOutfits();
   const { favorites, toggleFavorite } = useFavorites();
   const [outfits, setOutfits] = useState([]);
@@ -59,6 +132,18 @@ const Favorites = () => {
     return <div>No outfits or favorites to display.</div>;
   }
 
+=======
+  const [outfits, setOutfits] = useState([]);
+
+  let { data: data, isPending } = useGetOutfits();
+
+  const { favorites, toggleFavorite } = useFavorites();
+
+  useEffect(() => {
+    console.log(data);
+    setOutfits(data?.data?.outfits);
+  }, [data]);
+>>>>>>> 57fb97690b83b759ea5d39a622b428a9a33e9f5e
   return (
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
@@ -80,6 +165,11 @@ const Favorites = () => {
         </Link>
       </div>
 
+      {isPending ? (
+        <div className="flex mt-40 justify-center h-screen">
+          <Loader />
+        </div>
+      ) : (
       <section className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap mx-[120px]">
           {outfits.map((outfit, index) => (
@@ -104,7 +194,7 @@ const Favorites = () => {
               <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
                 <div className=" mb-[9px] mt-[5px] ml-[9px]">{item.title}</div>
                 <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                  {item.items.map((item) => `#${item.category} `)}
+                  {item.items.map((item) => `#${item.subcategory} `)}
                 </div>
               </div>
               <button
@@ -116,7 +206,7 @@ const Favorites = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section>)}
     </div>
   );
 };
