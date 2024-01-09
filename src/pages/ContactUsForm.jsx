@@ -74,7 +74,7 @@ export const ContactUsForm = () => {
       ) : (
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
           <div className="max-w-lg mx-auto space-y-3 sm:text-center">
-            <h3 className="text-indigo-600 font-semibold">Contact Us</h3>
+            <h3 className="text-indigo-300 font-semibold">Contact Us</h3>
             <p className="text-gray-800 text-3xl font-semibold sm:text-4xl">
               Get in touch
             </p>
@@ -108,7 +108,7 @@ export const ContactUsForm = () => {
                     })}
                     type="text"
                     name="firstName"
-                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-300 shadow-sm rounded-lg"
                   />
                   {errors.firstName?.type === "required" && (
                     <p role="alert" className="text-red-500">
@@ -127,7 +127,7 @@ export const ContactUsForm = () => {
                     {...register("lastName", { maxLength: 50 })}
                     type="text"
                     name="lastName"
-                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-300 shadow-sm rounded-lg"
                   />
                   {errors.lastName?.type === "maxLength" && (
                     <p role="alert" className="text-red-500">
@@ -142,7 +142,7 @@ export const ContactUsForm = () => {
                   {...register("email", { required: true, maxLength: 75 })}
                   type="email"
                   name="email"
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-300 shadow-sm rounded-lg"
                 />
                 {errors.email?.type === "required" && (
                   <p role="alert" className="text-red-500">
@@ -160,7 +160,7 @@ export const ContactUsForm = () => {
                 <textarea
                   {...register("message", { required: true, maxLength: 2000 })}
                   name="message"
-                  className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-indigo-300 shadow-sm rounded-lg"
                 ></textarea>
                 {errors.message?.type === "required" && (
                   <p role="alert" className="text-red-500">
@@ -168,7 +168,7 @@ export const ContactUsForm = () => {
                   </p>
                 )}
               </div>
-              <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
+              <button className="w-full px-4 py-2 text-white font-medium bg-[#201B21] bg-opacity-50 hover:bg-indigo-300 active:bg-indigo-600 rounded-lg duration-150">
                 Submit
               </button>
             </form>
