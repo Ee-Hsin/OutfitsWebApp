@@ -9,6 +9,7 @@ import {
   COLORS,
 } from "../services/constants"
 import { Loader } from "../components/UI/Loader"
+import { useEffect } from "react"
 
 const Upload = () => {
   const location = useLocation()
@@ -18,6 +19,7 @@ const Upload = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
     reset,
   } = useForm({
     defaultValues: {
@@ -29,6 +31,13 @@ const Upload = () => {
   const sendUploadItem = useUploadItem()
 
   const selectedCategory = watch("category")
+
+  useEffect(() => {
+    // Reset or update the subcategory when the category changes
+    if (selectedCategory) {
+      setValue("subcategory", CLOTHING_SUBCATEGORIES[selectedCategory][0])
+    }
+  }, [selectedCategory, setValue])
 
   const onSubmit = (data, e) => {
     e.preventDefault()
