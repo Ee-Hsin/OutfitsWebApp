@@ -1,0 +1,85 @@
+{
+  "hash": "402ca1ed",
+  "configHash": "0948be38",
+  "lockfileHash": "1691d691",
+  "browserHash": "14c13c96",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "a2c186be",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "00340461",
+      "needsInterop": true
+    },
+    "@react-oauth/google": {
+      "src": "../../node_modules/@react-oauth/google/dist/index.esm.js",
+      "file": "@react-oauth_google.js",
+      "fileHash": "6cd6982b",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "6900d033",
+      "needsInterop": false
+    },
+    "@tanstack/react-query": {
+      "src": "../../node_modules/@tanstack/react-query/build/modern/index.js",
+      "file": "@tanstack_react-query.js",
+      "fileHash": "2802e7ba",
+      "needsInterop": false
+    },
+    "react-icons/bs": {
+      "src": "../../node_modules/react-icons/bs/index.esm.js",
+      "file": "react-icons_bs.js",
+      "fileHash": "41571a8a",
+      "needsInterop": false
+    },
+    "react-router": {
+      "src": "../../node_modules/react-router/dist/index.js",
+      "file": "react-router.js",
+      "fileHash": "e0d59313",
+      "needsInterop": false
+    },
+    "react-icons/io": {
+      "src": "../../node_modules/react-icons/io/index.esm.js",
+      "file": "react-icons_io.js",
+      "fileHash": "75f57585",
+      "needsInterop": false
+    },
+    "react-hook-form": {
+      "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
+      "file": "react-hook-form.js",
+      "fileHash": "3eeb2d84",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "c1344032",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-YBT7OMVF": {
+      "file": "chunk-YBT7OMVF.js"
+    },
+    "chunk-DVXNOTOD": {
+      "file": "chunk-DVXNOTOD.js"
+    },
+    "chunk-FGBNFG3Y": {
+      "file": "chunk-FGBNFG3Y.js"
+    },
+    "chunk-3ALM24AN": {
+      "file": "chunk-3ALM24AN.js"
+    },
+    "chunk-HL2QZUHZ": {
+      "file": "chunk-HL2QZUHZ.js"
+    }
+  }
+}
