@@ -79,7 +79,7 @@ const useUploadItem = () => {
 
   return useMutation({
     mutationFn: (data) =>
-      API.post("/api/uploadItem", data, {
+      API.post("/api/closet/uploadItem", data, {
         headers: {
           "x-access-token": user,
         },
@@ -98,7 +98,7 @@ const useUpdateItem = () => {
 
   return useMutation({
     mutationFn: (data) =>
-      API.put(`/api/updateItemDetails/${data.itemId}`, data, {
+      API.put(`/api/closet/updateItemDetails/${data.itemId}`, data, {
         headers: {
           "x-access-token": user,
         },
@@ -117,7 +117,7 @@ const useDeleteItem = () => {
 
   return useMutation({
     mutationFn: (itemId) =>
-      API.delete(`/api/closetItem/${itemId}`, {
+      API.delete(`/api/closet/closetItem/${itemId}`, {
         headers: {
           "x-access-token": user,
         },
@@ -169,7 +169,7 @@ const useSaveOutfit = () => {
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["outfits", user]);
+      queryClient.invalidateQueries(["outfit", user]);
     },
   });
 };
@@ -179,9 +179,9 @@ const useGetOutfits = () => {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ["outfits", user],
+    queryKey: ["outfit", user],
     queryFn: () =>
-      API.get("/api/outfits", {
+      API.get("/api/outfit", {
         headers: {
           "x-access-token": user,
         },
@@ -202,7 +202,7 @@ const useDeleteOutfit = () => {
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["outfits", user]);
+      queryClient.invalidateQueries(["outfit", user]);
     },
   });
 };
@@ -229,7 +229,7 @@ const useGetRecommendations = (enabled) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
-      return API.get(`/api/recommendation?lat=${latitude}&long=${longitude}`, {
+      return API.get(`/api/outfit/recommendation?lat=${latitude}&long=${longitude}`, {
         headers: {
           "x-access-token": user,
         },
@@ -242,22 +242,22 @@ const useGetRecommendations = (enabled) => {
 
 /* **************************************************************************** */
 /* FAVORITES */
-// To add an outfit to favorites (POST)
-// To add an outfit to favorites (POST)
-// Use this mutation for saving favorites
+// To add an outfit to favorite (POST)
+// To add an outfit to favorite (POST)
+// Use this mutation for saving favorite
 const useSaveFavoriteItem = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data) =>
-      API.post("/api/favorites", data, {
+      API.post("/api/favorite", data, {
         headers: {
           "x-access-token": user,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["favorites", user]);
+      queryClient.invalidateQueries(["favorite", user]);
     },
   });
 };
@@ -266,9 +266,9 @@ const useGetFavorites = () => {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ["favorites", user],
+    queryKey: ["favorite", user],
     queryFn: (data) =>
-      API.get("/api/favorites", {
+      API.get("/api/favorite", {
         data,
         headers: {
           "x-access-token": user,
@@ -278,20 +278,20 @@ const useGetFavorites = () => {
   });
 };
 
-// To remove an outfit from favorites (DELETE)
+// To remove an outfit from favorite (DELETE)
 const useRemoveFavoriteItem = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (name) =>
-      API.delete(`/api/favorites/${name}`, {
+    mutationFn: (id) =>
+      API.delete(`/api/favorite/${id}`, {
         headers: {
           "x-access-token": user,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["favorites", user]);
+      queryClient.invalidateQueries(["favorite", user]);
     },
   });
 };
@@ -303,13 +303,13 @@ const useSaveGeneratedOutfit = () => {
 
   return useMutation({
     mutationFn: (data) =>
-      API.post("/api/favorites", data, {
+      API.post("/api/favorite", data, {
         headers: {
           "x-access-token": user,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["favorites", user]);
+      queryClient.invalidateQueries(["favorite", user]);
     },
   });
 };

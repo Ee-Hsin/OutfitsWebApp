@@ -12,9 +12,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
       <AuthContextProvider>
         {/* <ClosetProvider> */}
-          <FavoritesProvider>
+        <FavoritesProvider>
+      
             <App />
-          </FavoritesProvider>
+            </FavoritesProvider>
+     
         {/* </ClosetProvider> */}
       </AuthContextProvider>
     </React.StrictMode>

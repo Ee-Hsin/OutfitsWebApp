@@ -78,51 +78,51 @@ const Suggestions = () => {
   };
 
   
-  const generateOutfits = () => {
-    const generatedOutfits = [];
+  // const generateOutfits = () => {
+  //   const generatedOutfits = [];
 
-    for (let i = 0; i < 4; i++) {
-      const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
-      const outfitItems = [];
+  //   for (let i = 0; i < 4; i++) {
+  //     const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
+  //     const outfitItems = [];
 
-      for (const category of [
-        "Tops",
-        "Bottoms",
-        "Footwear",
-        "Accessories",
-        "Dresses",
-        "Activewear",
-      ]) {
-        let selectedItems = shuffledItems.filter(
-          (item) =>
-            item.category === category &&
-            !outfitItems.some(
-              (outfitItem) => outfitItem.category === category
-            )
-        );
+  //     for (const category of [
+  //       "Tops",
+  //       "Bottoms",
+  //       "Footwear",
+  //       "Accessories",
+  //       "Dresses",
+  //       "Activewear",
+  //     ]) {
+  //       let selectedItems = shuffledItems.filter(
+  //         (item) =>
+  //           item.category === category &&
+  //           !outfitItems.some(
+  //             (outfitItem) => outfitItem.category === category
+  //           )
+  //       );
 
-        while (outfitItems.length < 4 && selectedItems.length > 0) {
-          const selectedItem =
-            selectedItems[Math.floor(Math.random() * selectedItems.length)];
-          outfitItems.push(selectedItem);
-          selectedItems = selectedItems.filter(
-            (item) => item.id !== selectedItem.id
-          );
-        }
-      }
+  //       while (outfitItems.length < 4 && selectedItems.length > 0) {
+  //         const selectedItem =
+  //           selectedItems[Math.floor(Math.random() * selectedItems.length)];
+  //         outfitItems.push(selectedItem);
+  //         selectedItems = selectedItems.filter(
+  //           (item) => item.id !== selectedItem.id
+  //         );
+  //       }
+  //     }
 
-      const outfit = {
-        id: i + 1,
-        title: `Outfit ${i + 1}`,
-        items: outfitItems,
-        savedId: generateOutfitId(),
-      };
+  //     const outfit = {
+  //       id: i + 1,
+  //       title: `Outfit ${i + 1}`,
+  //       items: outfitItems,
+  //       savedId: generateOutfitId(),
+  //     };
 
-      generatedOutfits.push(outfit);
-    }
+  //     generatedOutfits.push(outfit);
+  //   }
 
-    return generatedOutfits;
-  };
+  //   return generatedOutfits;
+  // };
 
   useEffect(() => {
     if (getRecommendations.isSuccess)

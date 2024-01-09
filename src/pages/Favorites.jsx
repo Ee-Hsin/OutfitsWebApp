@@ -1,11 +1,11 @@
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useFavorites } from "../hooks/FavoritesContext.jsx";
 import { BsHeartFill } from "react-icons/bs";
-import { useGetOutfits, useDeleteOutfit, useGetFavorites } from "../hooks/query.js";
+import { useGetOutfits, useDeleteOutfit, useGetFavorites,useRemoveFavoriteItem } from "../hooks/query.js";
 import { useEffect, useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { Loader } from "../components/UI/Loader";
+import { useFavorites } from "../hooks/FavoritesContext";
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -88,21 +88,50 @@ const OutfitCard = ({ outfit, index }) => {
     </div>
   );
 };
-
 const Favorites = () => {
   const [outfits, setOutfits] = useState([]);
   const [favoritedItems, setFavoritedItems] = useState([]);
-  const { data: outfitsData, isPending: outfitsPending } = useGetOutfits();
   const { data: favoritedItemsData, isPending: favoritedPending } = useGetFavorites();
-  const { toggleFavorite } = useFavorites();
+  const { data: outfitsData, isPending: outfitsPending } = useGetOutfits();
+  const {toggleFavorite, isInFavorites } = useFavorites();
+  const removeFavoriteItem = useRemoveFavoriteItem();
+
+  
+  const handleToggleFavorite = async (favItem) => {
+    try {
+      console.log('Toggling favorite:', favItem);
+  
+      if (isInFavorites(favItem.id)) {
+        console.log('Removing from favorites:', favItem._id);
+  
+        // Use the onSuccess callback to update the state after a successful removal
+        await removeFavoriteItem.mutate(favItem._id, {
+          onSuccess: () => {
+            // Filter out the unfavored item from the state
+            setFavoritedItems((prevItems) =>
+              prevItems.filter((item) => item._id !== favItem._id)
+            );
+          },
+        });
+      }
+  
+      toggleFavorite(favItem);
+      console.log('Favorite toggled successfully.');
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
+  };
+  
+  
+  
+  useEffect(() => {
+    setFavoritedItems(favoritedItemsData?.data?.favorites || []);
+  }, [favoritedItemsData]);
 
   useEffect(() => {
     setOutfits(outfitsData?.data?.outfits || []);
   }, [outfitsData]);
 
-  useEffect(() => {
-    setFavoritedItems(favoritedItemsData?.data?.favoritedItems || []);
-  }, [favoritedItemsData]);
 
   return (
     <div>
@@ -132,34 +161,34 @@ const Favorites = () => {
       ) : (
         <section className="flex justify-center sm:justify-start">
           <div className="flex flex-wrap mx-[120px]">
-            {outfits?.map((outfit, index) => (
+             {outfits?.map((outfit, index) => (
               <OutfitCard key={outfit._id} outfit={outfit} index={index} />
-            ))}
+            ))} 
 
             {favoritedItems.map((item, key) => (
               <div
                 className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
-                key={key}
+                key={item._id}
               >
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                  {item.items.map((clothingItem, index) => (
+                  {item.items.map((favFit, index) => (
                     <img
-                      key={index}
-                      src={clothingItem.image}
+                      key={favFit._id}
+                      src={favFit.image}
                       alt={`clothing-${index}`}
                       className="w-[115px] h-[115px] object-cover bg-white rounded-[22px] mx-[2px]"
                     />
                   ))}
                 </div>
                 <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-                  <div className="mb-[9px] mt-[5px] ml-[9px]">{item.name}</div>
+                  <div className="mb-[9px] mt-[5px] ml-[9px]">{item.title}</div>
                   <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
                     {item.items.map((item) => `#${item.subcategory} `)}
                   </div>
                 </div>
                 <button
                   className="absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300"
-                  onClick={() => toggleFavorite(item)}
+                  onClick={() => handleToggleFavorite(item)}
                 >
                   <BsHeartFill className="text-white" />
                 </button>
