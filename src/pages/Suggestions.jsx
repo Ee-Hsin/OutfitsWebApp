@@ -58,7 +58,7 @@ const Suggestions = () => {
 
     setValidCloset(isValidCloset);
     setShowError(!isValidCloset);
-  }, [getCloset.isPending]);
+  }, [getCloset.isPending, getCloset.data]);
   // useEffect to generate outfits initially and on component mount
   const [outfitName, setOutfitName] = useState("");
   const [selectedOutfit, setSelectedOutfit] = useState(null);
@@ -127,7 +127,8 @@ const Suggestions = () => {
   useEffect(() => {
     if (getRecommendations.isSuccess)
       setOutfits(getRecommendations.data?.data?.outfits);
-  }, [getRecommendations.isSuccess]);
+  }, [getRecommendations.isSuccess, getRecommendations.data]);
+
   useEffect(() => {
     if(saveGeneratedOutfit.isSuccess) {
     setOutfits((prevOutfits) => {
@@ -145,6 +146,7 @@ const Suggestions = () => {
      setSelectedItems([]);
     }
   }, [saveGeneratedOutfit.isSuccess])
+
   // Function to handle toggling favorites
   const handleToggleFavorite = async (outfit) => {
     try {
@@ -199,6 +201,7 @@ const Suggestions = () => {
         mainMessage="You don't have enough clothes!"
         subMessage="Add more types of clothing for a complete fit"
         redirectLink={"/app/closet"}
+        redirectMessage={"Upload More Clothes"}
       />
     );
   }
