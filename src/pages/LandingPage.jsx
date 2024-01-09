@@ -1,17 +1,20 @@
 //import React from "react"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
-import LandingPageNavbar from "../components/LandingPageNavbar";
-import Footer from "../components/Footer";
-import Preview from "../assets/preview.png";
-import Upload from "../assets/upload.png";
+import LandingPageNavbar from "../components/LandingPageNavbar"
+import Footer from "../components/Footer"
+import Preview from "../assets/preview.png"
+import Upload from "../assets/upload.png"
+import { useAuth } from "../hooks/AuthContext"
 
 const LandingPage = () => {
   const imageStyle = {
     border: "2px solid #000", // Adjust the border style as needed
     borderRadius: "8px", // Optional: Add border-radius for rounded corners
     boxShadow: "0 20px 20px rgba(0, 0, 0, 0.1)",
-  };
+  }
+
+  const { user } = useAuth()
 
   return (
     <div>
@@ -28,12 +31,21 @@ const LandingPage = () => {
             effortlessly express your unique fashion sense.
           </p>
           <div className="pt-10 items-center justify-center space-y-3 sm:space-x-6 sm:space-y-0 sm:flex lg:justify-start">
-            <Link
-              to="/signup"
-              className="px-7 py-3 w-36 bg-white text-gray-800 text-center rounded-md shadow-md block sm:w-36 mx-auto  sm:mx-0 hover:bg-opacity-80"
-            >
-              Get started
-            </Link>
+            {user ? (
+              <Link
+                to="/app"
+                className="px-7 py-3 w-36 bg-white text-gray-800 text-center rounded-md shadow-md block sm:w-36 mx-auto  sm:mx-0 hover:bg-opacity-80"
+              >
+                Enter App
+              </Link>
+            ) : (
+              <Link
+                to="/signup"
+                className="px-7 py-3 w-36 bg-white text-gray-800 text-center rounded-md shadow-md block sm:w-36 mx-auto  sm:mx-0 hover:bg-opacity-80"
+              >
+                Get started
+              </Link>
+            )}
           </div>
         </div>
         <div className="flex-1 text-center mt-7 lg:mt-0 lg:ml-3">
@@ -73,7 +85,7 @@ const LandingPage = () => {
       </section>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default LandingPage;
+export default LandingPage

@@ -129,6 +129,24 @@ const Suggestions = () => {
       setOutfits(getRecommendations.data?.data?.outfits);
   }, [getRecommendations.isSuccess, getRecommendations.data]);
 
+  useEffect(() => {
+    if(saveGeneratedOutfit.isSuccess) {
+    setOutfits((prevOutfits) => {
+      //Find the current outfit
+      let withoutOutfit = prevOutfits.filter((item) => item.id !== selectedOutfit.id);
+      //Update its ID to the databases id
+      console.log(saveGeneratedOutfit.data)
+      selectedOutfit.id = saveGeneratedOutfit?.data.data.favorite._id;
+      withoutOutfit.push(selectedOutfit)
+      //Thats our new list
+      return withoutOutfit;
+     })
+     setSelectedOutfit(null);
+     setOutfitName("");
+     setSelectedItems([]);
+    }
+  }, [saveGeneratedOutfit.isSuccess])
+
   // Function to handle toggling favorites
   const handleToggleFavorite = async (outfit) => {
     try {
@@ -137,6 +155,7 @@ const Suggestions = () => {
 
       if (isInFavorites(outfit.id)) {
         await removeFavoriteItem.mutate(outfit.id); // Remove from favorites
+
       } 
 
       toggleFavorite(outfit);
@@ -160,13 +179,18 @@ const Suggestions = () => {
         savedId: generateOutfitId(),
       };
 
-      await saveGeneratedOutfit.mutate(newOutfit); // Save generated outfit to the database
+     await saveGeneratedOutfit.mutate(newOutfit); // Save generated outfit to the database
+
+    
+
+
+     
+     
 
 
       // Reset states for the next selection
-      setSelectedOutfit(null);
-      setOutfitName("");
-      setSelectedItems([]);
+      
+
     } catch (error) {
       console.error("Error saving outfit:", error);
     }
