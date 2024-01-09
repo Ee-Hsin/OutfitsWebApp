@@ -16,7 +16,7 @@ import {
 import { FailureModal } from "../components/UI/FailureModal";
 
 const Suggestions = () => {
-  const { toggleFavorite, isInFavorites } = useFavorites();
+  const { toggleFavorite_s, isInFavorites_s } = useFavorites();
   //let getCloset = useGetCloset();
   const [validCloset, setValidCloset] = useState(false);
   const [showErrorModal, setShowError] = useState(false);
@@ -153,12 +153,12 @@ const Suggestions = () => {
       // Blur effect
       setSelectedItems([outfit.id]);
 
-      if (isInFavorites(outfit.id)) {
+      if (isInFavorites_s(outfit.id)) {
         await removeFavoriteItem.mutate(outfit.id); // Remove from favorites
 
       } 
 
-      toggleFavorite(outfit);
+      toggleFavorite_s(outfit);
       setSelectedOutfit(outfit); // Set the selected outfit for input display
     } catch (error) {
       console.error("Error toggling favorite:", error);
@@ -238,7 +238,7 @@ const Suggestions = () => {
                            key={outfit.savedId}
                          >
                            {/* Display input and save button for the selected outfit */}
-                           {selectedOutfit && selectedOutfit.id === outfit.id && isInFavorites(outfit.id) && (
+                           {selectedOutfit && selectedOutfit.id === outfit.id && isInFavorites_s(outfit.id) && (
              <div className="absolute bottom-8 left-2 z-20">
                <div className="relative flex flex-col items-center">
                  <input
@@ -275,7 +275,7 @@ const Suggestions = () => {
                   <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.name}</h3>
                   <p className={`text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]
                   ${
-                    (selectedItems.includes(outfit.id) && isInFavorites(outfit.id))
+                    (selectedItems.includes(outfit.id) && isInFavorites_s(outfit.id))
                     ? "blur-[3px]" : ""
                   }`}
                   >
@@ -287,7 +287,7 @@ const Suggestions = () => {
                   onClick={() => handleToggleFavorite(outfit)}
                   className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
                 >
-                  {isInFavorites(outfit.id) ? (
+                  {isInFavorites_s(outfit.id) ? (
                     <BsHeartFill className="text-white" />
                   ) : (
                     <BsHeart className="text-white opacity-100" />

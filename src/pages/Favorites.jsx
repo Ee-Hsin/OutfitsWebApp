@@ -93,7 +93,7 @@ const Favorites = () => {
   const [favoritedItems, setFavoritedItems] = useState([]);
   const { data: favoritedItemsData, isPending: favoritedPending } = useGetFavorites();
   const { data: outfitsData, isPending: outfitsPending } = useGetOutfits();
-  const {toggleFavorite, isInFavorites } = useFavorites();
+  const {toggleFavorite_f, isInFavorites_f } = useFavorites();
   const removeFavoriteItem = useRemoveFavoriteItem();
 
   
@@ -101,7 +101,7 @@ const Favorites = () => {
     try {
       console.log('Toggling favorite:', favItem);
   
-      if (isInFavorites(favItem.id)) {
+      if (isInFavorites_f(favItem.id)) {
         console.log('Removing from favorites:', favItem._id);
   
         // Use the onSuccess callback to update the state after a successful removal
@@ -115,12 +115,14 @@ const Favorites = () => {
         });
       }
   
-      toggleFavorite(favItem);
+      toggleFavorite_f(favItem);
       console.log('Favorite toggled successfully.');
     } catch (error) {
       console.error('Error toggling favorite:', error);
     }
   };
+
+  // let reminder = "Click again to remove item from favorites!";
   
   
   
