@@ -258,8 +258,8 @@ const useRemoveFavoriteItem = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (itemId) =>
-      API.delete(`/api/favorites/${itemId}`, {
+    mutationFn: (name) =>
+      API.delete(`/api/favorites/${name}`, {
         headers: {
           "x-access-token": user,
         },
