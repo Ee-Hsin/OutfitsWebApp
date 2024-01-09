@@ -1,7 +1,7 @@
-export const TESTING = false
+export const TESTING = false;
 export const API_URL = TESTING
   ? "http://localhost:8080"
-  : "https://fitss.up.railway.app"
+  : "https://fitss.up.railway.app";
 
 export const COLORS = [
   { value: "black", label: "black" },
@@ -13,7 +13,11 @@ export const COLORS = [
   { value: "yellow", label: "yellow" },
   { value: "brown", label: "brown" },
   { value: "green", label: "green" },
-]
+  { value: "orange", label: "orange" },
+  { value: "pink", label: "pink" },
+  { value: "floral", label: "floral" },
+  { value: "stripes", label: "stripes" },
+];
 
 export const CLOTHING_CATEGORIES = [
   { value: "Tops", label: "top" },
@@ -23,8 +27,10 @@ export const CLOTHING_CATEGORIES = [
   { value: "Outerwear", label: "outerwear" },
   { value: "Accessories", label: "accessories" },
   { value: "Activewear", label: "activewear" },
-]
-
+];
+export const validTopsFields = ["Tops", "Outerwear"];
+export const validBottomsFields = ["Bottoms", "Activewear"];
+export const validFootwearFields = ["Footwear"];
 export const CLOTHING_SUBCATEGORIES = {
   Tops: [
     "t-shirt",
@@ -39,7 +45,15 @@ export const CLOTHING_SUBCATEGORIES = {
   Footwear: ["sneakers", "boots", "sandals", "flats", "heels", "slippers"],
   Dresses: ["casual", "formal", "maxi", "midi", "mini", "evening gown"],
   Outerwear: ["coat", "jacket", "blazer", "vest", "parka", "poncho"],
-  Accessories: ["scarf", "hat", "glove", "belt", "sunglasses", "tie"],
+  Accessories: [
+    "scarf",
+    "hat",
+    "glove",
+    "belt",
+    "sunglasses",
+    "tie",
+    "jewelry",
+  ],
   Activewear: [
     "sports bra",
     "athletic tank",
@@ -48,4 +62,4 @@ export const CLOTHING_SUBCATEGORIES = {
     "track suit",
     "performance top",
   ],
-}
+};

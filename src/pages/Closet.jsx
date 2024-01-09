@@ -5,6 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 import { useDeleteItem, useGetCloset } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
+import { CLOTHING_CATEGORIES } from "../services/constants"
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -24,10 +25,10 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
 };
 
 const ClosetItem = ({ item }) => {
-  const mutation = useDeleteItem();
+  const deleteItem = useDeleteItem();
   const navigate = useNavigate();
   const handleDelete = () => {
-    mutation.mutate(item._id);
+    deleteItem.mutate(item._id);
   };
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const handleDeleteClick = () => {
@@ -56,6 +57,7 @@ const ClosetItem = ({ item }) => {
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
         onClick={handleDeleteClick}
       />
+      {deleteItem.isPending ? <div className="flex flex-col justify-center h-full"><Loader/></div> : <>
       <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
         {/* img */}
         <img
@@ -71,7 +73,7 @@ const ClosetItem = ({ item }) => {
           #{item.category} #{item.subcategory} #{item.color}{" "}
           {item.hasGraphic ? "#graphic" : "#plain"}
         </div>
-      </div>
+      </div></>}
     </div>
   );
 };
@@ -80,6 +82,15 @@ const Closet = () => {
   const navigate = useNavigate()
 
   const { data: uploadedItems , isPending} = useGetCloset()
+
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  const filteredItems = uploadedItems?.filter((item) =>
+    selectedCategory ? item.category === selectedCategory : true
+  );
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
@@ -91,23 +102,38 @@ const Closet = () => {
   return (
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
-        <div className="border-b-2 border-[#201B21] border-opacity-60 w-40 sm:w-[30%] pl-2 sm:pl-4 pb-4">
+        <div className="hidden sm:block border-b-2 border-[#201B21] border-opacity-60 w-40 sm:w-[30%] pl-2 sm:pl-4 pb-4">
           Uploaded items
         </div>
-        <input
-          type="file"
-          id="fileInput"
-          onChange={handleFileInput}
-          accept="image/*" // only accept image
-          style={{ display: "none" }} // hide default input style
-        />
-        <button
-          onClick={() => document.getElementById("fileInput").click()}
-          className="flex items-center bg-white bg-opacity-40 w-32 h-[42px] pl-8 rounded-3xl shadow-xl hover:bg-opacity-50 "
-        >
-          upload
-          <IoIosAdd className="text-2xl" />
-        </button>
+        <div className="flex">
+          <select 
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="px-1 py-2 sm:p-2 mr-2 sm:mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100">
+          <option value="">
+            All / filter by category
+          </option>
+            {CLOTHING_CATEGORIES.map((type) => (
+              <option key={type.value} value={type.value}>
+                {type.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="file"
+            id="fileInput"
+            onChange={handleFileInput}
+            accept="image/*" // only accept image
+            style={{ display: "none" }} // hide default input style
+          />
+          <button
+            onClick={() => document.getElementById("fileInput").click()}
+            className="flex items-center bg-white bg-opacity-40 w-32 h-[42px] pl-8 rounded-3xl shadow-xl hover:bg-opacity-50 "
+          >
+            upload
+            <IoIosAdd className="text-2xl" />
+          </button>
+        </div>
       </div>
       {console.log("isPending", isPending)}
       {isPending ? (
@@ -118,7 +144,7 @@ const Closet = () => {
       <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {console.log("uploaded Items:", uploadedItems)}
-          {uploadedItems?.map((item) => (
+          {filteredItems?.map((item) => (
             <ClosetItem key={item._id} item={item} />
           ))}
         </div>

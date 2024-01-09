@@ -12,7 +12,9 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   return (
     <div className="absolute text-white font-montserrat text-center bg-black bg-opacity-60 z-10 w-[300px] mx-[-14px] my-[100px] shadow-xl rounded-3xl border-white border-[1px]">
       <div className="modal-content">
-        <p className="px-4 py-4">Are you sure you want to delete this Outfit?</p>
+        <p className="px-4 py-4">
+          Are you sure you want to delete this Outfit?
+        </p>
         <div className="pb-6">
           <button className="px-4 hover:scale-110" onClick={onConfirm}>
             Yes
@@ -71,12 +73,16 @@ const OutfitCard = ({ outfit, index }) => {
         ))}
       </div>
       <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+        {/* name and tag */}
         <div className=" mb-[9px] mt-[5px] ml-[9px]">
           {" "}
           {outfit.name || `outfit-${index + 1}`}
         </div>
         <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-          {[...new Set(outfit.clothes.map((item) => `#${item.subcategory}`))].join(" ")}
+          {/* Tags or additional outfit info */}
+
+          {[...new Set(outfit.clothes.map(item => `#${item.subcategory}`))].join(" ")}
+
         </div>
       </div>
     </div>

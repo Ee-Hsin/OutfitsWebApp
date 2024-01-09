@@ -2,21 +2,68 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useFavorites } from "../hooks/FavoritesContext";
-import { useGetCloset } from "../hooks/query";
+import { useGetCloset, useGetRecommendations } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
 import {
   useRemoveFavoriteItem,
   useSaveGeneratedOutfit,
 } from "../hooks/query";
+import {
+  validBottomsFields,
+  validFootwearFields,
+  validTopsFields,
+} from "../services/constants";
+import { FailureModal } from "../components/UI/FailureModal";
 
 const Suggestions = () => {
   const { toggleFavorite, isInFavorites } = useFavorites();
+  //let getCloset = useGetCloset();
+  const [validCloset, setValidCloset] = useState(false);
+  const [showErrorModal, setShowError] = useState(false);
+  const getRecommendations = useGetRecommendations(validCloset);
+  const getCloset = useGetCloset();
   const saveGeneratedOutfit = useSaveGeneratedOutfit();
   const removeFavoriteItem = useRemoveFavoriteItem();
+
+  const [outfits, setOutfits] = useState([]);
+  useEffect(() => {
+    if (getCloset.isPending) {
+      return;
+    }
+    //A valid closet has atleast one top, one bottom and one piece of footwear
+    const closet = getCloset.data;
+    //Group the closet items by type
+    const groupedItems = closet.reduce((groups, item) => {
+      if (!groups[item.category]) {
+        groups[item.category] = [];
+      }
+      groups[item.category].push(item);
+
+      return groups;
+    }, {});
+    //Make sure the user has atleast one of each mandatory clothing item
+    //Bk wrote this code, not chatgpt! (if it doesn't work though, then Bk didn't write it)
+    const isValidCloset = [
+      validTopsFields,
+      validBottomsFields,
+      validFootwearFields,
+    ]
+      .map((validFields) =>
+        validFields.reduce(
+          (acc, field) => acc + (groupedItems[field]?.length ?? 0),
+          0
+        )
+      )
+      .every((count) => count >= 1);
+
+    setValidCloset(isValidCloset);
+    setShowError(!isValidCloset);
+  }, [getCloset.isPending]);
+  // useEffect to generate outfits initially and on component mount
   const [outfitName, setOutfitName] = useState("");
   const [selectedOutfit, setSelectedOutfit] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [outfits, setOutfits] = useState([]);
+  
 
   let { data: uploadedItems, isPending } = useGetCloset();
   if (!uploadedItems) {
@@ -78,9 +125,9 @@ const Suggestions = () => {
   };
 
   useEffect(() => {
-    const initialOutfits = generateOutfits();
-    setOutfits(initialOutfits);
-  }, [isPending]);
+    if (getRecommendations.isSuccess)
+      setOutfits(getRecommendations.data?.data?.outfits);
+  }, [getRecommendations.isSuccess]);
 
   // Function to handle toggling favorites
   const handleToggleFavorite = async (outfit) => {
@@ -124,6 +171,15 @@ const Suggestions = () => {
       console.error("Error saving outfit:", error);
     }
   };
+  if (showErrorModal) {
+    return (
+      <FailureModal
+        mainMessage="You don't have enough clothes!"
+        subMessage="Add more types of clothing for a complete fit"
+        redirectLink={"/app/closet"}
+      />
+    );
+  }
 
   return (
     <div>
@@ -138,48 +194,48 @@ const Suggestions = () => {
           <div>suggestions</div>
         </div>
       </div>
-
-      {isPending ? (
+      {getRecommendations.isPending ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>
       ) : (
         <section className="flex justify-center sm:justify-start">
           <div className="flex flex-wrap justify-left mx-[120px]">
-            {outfits.map((outfit) => (
-              <article
-                className={`relative bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform
-                ${
-                  selectedItems.includes(outfit.id)
-                    ? "border-white border-2"
-                    : ""
-                  }`}
-    
-                key={outfit.savedId}
-              >
-                {/* Display input and save button for the selected outfit */}
-                {selectedOutfit && selectedOutfit.id === outfit.id && isInFavorites(outfit.id) && (
-  <div className="absolute bottom-8 left-2 z-20">
-    <div className="relative flex flex-col items-center">
-      <input
-        type="text"
-        placeholder="Enter outfit name"
-        value={outfitName}
-        onChange={handleOutfitNameChange}
-        className="p-2 font-montserrat border-white border-b focus:outline-none focus:border-white-500 placeholder-[#EBEBF5] placeholder-opacity-60 text-center text-white bg-white bg-opacity-0 w-[160px] sm:w-[200px]"
-      />
-      <button
-        className="font-montserrat mt-2 bg-white bg-opacity-20 px-2 py-1 rounded-md text-xs text-white hover:bg-opacity-30"
-        onClick={handleSaveButtonClick}
-      >
-        Save
-      </button>
-    </div>
-  </div>
-)}
-
+            {outfits?.map((outfit, outfitIndex) => (
+                           <article
+                           className={`relative bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform
+                           ${
+                             selectedItems.includes(outfit.id)
+                               ? "border-white border-2"
+                               : ""
+                             }`}
+               
+                           key={outfit.savedId}
+                         >
+                           {/* Display input and save button for the selected outfit */}
+                           {selectedOutfit && selectedOutfit.id === outfit.id && isInFavorites(outfit.id) && (
+             <div className="absolute bottom-8 left-2 z-20">
+               <div className="relative flex flex-col items-center">
+                 <input
+                   type="text"
+                   placeholder="Enter outfit name"
+                   value={outfitName}
+                   onChange={handleOutfitNameChange}
+                   className="p-2 font-montserrat border-white border-b focus:outline-none focus:border-white-500 placeholder-[#EBEBF5] placeholder-opacity-60 text-center text-white bg-white bg-opacity-0 w-[160px] sm:w-[200px]"
+                 />
+                 <button
+                   className="font-montserrat mt-2 bg-white bg-opacity-20 px-2 py-1 rounded-md text-xs text-white hover:bg-opacity-30"
+                   onClick={handleSaveButtonClick}
+                 >
+                   Save
+                 </button>
+               </div>
+             </div>
+           )}
+           
+                
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                  {outfit.items.map((item, itemIndex) => (
+                  {outfit?.clothes?.map((item, itemIndex) => (
                     <img
                       key={itemIndex}
                       src={item.image}
@@ -191,14 +247,14 @@ const Suggestions = () => {
                 </div>
 
                 <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-                  <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.title}</h3>
+                  <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.name}</h3>
                   <p className={`text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]
                   ${
                     (selectedItems.includes(outfit.id) && isInFavorites(outfit.id))
                     ? "blur-[3px]" : ""
                   }`}
                   >
-                    {outfit.items.map((item) => `#${item.subcategory} `)}
+                    {outfit?.clothes?.map((item) => `#${item.subcategory} `)}
                   </p>
                 </div>
 
