@@ -23,7 +23,7 @@ const LandingPage = () => {
         <div className="space-y-4 px-4 flex-1 text-center sm:text-center lg:text-left">
           <h1 className="text-white font-bold text-4xl xl:text-5xl">
             Welcome to
-            <span className="text-indigo-300"> OuFFix!</span>
+            <span className="text-indigo-300"> Ouffix!</span>
           </h1>
           <p className="text-gray-300 max-w-xl leading-relaxed sm:mx-auto lg:ml-0">
             An application designed to elevate your style game and simplify your

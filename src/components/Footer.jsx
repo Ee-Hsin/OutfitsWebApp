@@ -21,7 +21,7 @@ const Footer = () => {
           <img src={Logo} className="w-40 mx-auto" alt="Logo" />
         </div>
         <div className="mt-10 py-10 border-t items-center justify-between sm:flex">
-          <p>© 2023 OuFFix. All rights reserved.</p>
+          <p>© 2023 Ouffix. All rights reserved.</p>
           <ul className="flex flex-wrap items-center gap-4 mt-6 sm:text-sm sm:mt-0">
             {footerNavs.map((item, idx) => (
               <li

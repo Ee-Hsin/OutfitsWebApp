@@ -36,7 +36,7 @@ const LandingPageNavbar = () => {
           <div className="flex items-center justify-between p-4">
             <Link to="/" className="flex items-center">
               <h1 className="font-monoton text-4xl text-white hover:text-[#d6ccde]">
-                OuFFix
+                Ouffix
               </h1>
               <img src={Logo} className="h-14 ml-2" alt="Logo" />{" "}
               {/* Adjust the width and height as needed */}

@@ -48,7 +48,7 @@ function LoginPage() {
       <div className="max-w-sm w-full text-gray-300 p-10 rounded-xl bg-[#111827]">
         <div className="text-center">
           <Link to={"/"} className="mx-auto w-32">
-            <h1 className="font-monoton text-3xl text-indigo-300">OuFFix</h1>
+            <h1 className="font-monoton text-3xl text-indigo-300">Ouffix</h1>
           </Link>
           <div className="mt-5 space-y-2">
             <h1 className="text-white text-2xl font-bold sm:text-3xl">
