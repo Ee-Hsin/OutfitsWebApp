@@ -29,7 +29,7 @@ const Navbar = () => {
                 className="h-14 ml-2 ml-[-30px] md:ml-[-20px] lg:ml-[-75px] sm:mr-3 lg:mr-5"
                 alt="Logo"
               />{" "}
-              <h1 className="font-monoton text-3xl">Ouffix</h1>
+              <h1 className="font-monoton text-3xl">OuFFix</h1>
             </Link>
             <div className="md:hidden">
               <button
