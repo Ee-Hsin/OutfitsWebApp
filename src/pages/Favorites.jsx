@@ -2,7 +2,7 @@ import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useFavorites } from "../hooks/FavoritesContext.jsx";
 import { BsHeartFill } from "react-icons/bs";
-import { useGetOutfits, useDeleteOutfit } from "../hooks/query.js";
+import { useGetOutfits, useDeleteOutfit, useGetFavorites } from "../hooks/query.js";
 import { useEffect, useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { Loader } from "../components/UI/Loader";
@@ -30,7 +30,6 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
 
 const OutfitCard = ({ outfit, index }) => {
   const mutation = useDeleteOutfit();
-  //const navigate = useNavigate();
   const handleDelete = () => {
     mutation.mutate(outfit._id);
   };
@@ -46,17 +45,14 @@ const OutfitCard = ({ outfit, index }) => {
     setDeleteModalOpen(false);
   };
 
-  // delete the outfit when there's only one item
   useEffect(() => {
     if (outfit.clothes.length <= 1) {
       handleDelete();
     }
   }, [outfit]);
 
-
   return (
     <div className="group relative bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl">
-      {/* container for one card */}
       <DeleteModal
         isOpen={isDeleteModalOpen}
         onClose={handleCancelDelete}
@@ -95,15 +91,19 @@ const OutfitCard = ({ outfit, index }) => {
 
 const Favorites = () => {
   const [outfits, setOutfits] = useState([]);
-
-  let { data: data, isPending } = useGetOutfits();
-
-  const { favorites, toggleFavorite } = useFavorites();
+  const [favoritedItems, setFavoritedItems] = useState([]);
+  const { data: outfitsData, isPending: outfitsPending } = useGetOutfits();
+  const { data: favoritedItemsData, isPending: favoritedPending } = useGetFavorites();
+  const { toggleFavorite } = useFavorites();
 
   useEffect(() => {
-    console.log(data);
-    setOutfits(data?.data?.outfits);
-  }, [data]);
+    setOutfits(outfitsData?.data?.outfits || []);
+  }, [outfitsData]);
+
+  useEffect(() => {
+    setFavoritedItems(favoritedItemsData?.data?.favoritedItems || []);
+  }, [favoritedItemsData]);
+
   return (
     <div>
       <div className="flex justify-between text-white font-montserrat px-2 sm:px-6 md:px-36 py-4">
@@ -125,26 +125,24 @@ const Favorites = () => {
         </Link>
       </div>
 
-      {isPending ? (
+      {outfitsPending || favoritedPending ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
         </div>
       ) : (
         <section className="flex justify-center sm:justify-start">
           <div className="flex flex-wrap mx-[120px]">
-            {/* container for all cards */}
-            {outfits &&
-              outfits?.map((outfit, index) => (
-                <OutfitCard key={outfit._id} outfit={outfit} index={index} />
-              ))}
+            {outfits?.map((outfit, index) => (
+              <OutfitCard key={outfit._id} outfit={outfit} index={index} />
+            ))}
 
-            {favorites?.map((item, key) => (
+            {favoritedItems.map((item, key) => (
               <div
                 className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
                 key={key}
               >
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-                  {item?.clothes?.map((clothingItem, index) => (
+                  {item.items.map((clothingItem, index) => (
                     <img
                       key={index}
                       src={clothingItem.image}
@@ -154,11 +152,9 @@ const Favorites = () => {
                   ))}
                 </div>
                 <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-                  <div className=" mb-[9px] mt-[5px] ml-[9px]">
-                    {item.title}
-                  </div>
+                  <div className="mb-[9px] mt-[5px] ml-[9px]">{item.name}</div>
                   <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
-                    {item?.clothes?.map((item) => `#${item.subcategory} `)}
+                    {item.items.map((item) => `#${item.subcategory} `)}
                   </div>
                 </div>
                 <button
