@@ -21,6 +21,8 @@ import { useAuth } from "./hooks/AuthContext"
 import ForgotPassword from "./pages/ForgotPassword"
 import ResetPassword from "./pages/ResetPassword"
 import { FailureModal } from "./components/UI/FailureModal"
+import { ContactUsForm } from "./pages/ContactUsForm"
+import LandingPageNavbar from "./components/LandingPageNavbar"
 
 const queryClient = new QueryClient()
 
@@ -47,6 +49,15 @@ function AppRoutes() {
         <Route path="signup" element={<Signup />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password/:id/:token" element={<ResetPassword />} />
+        <Route
+          path="contact"
+          element={
+            <>
+              <LandingPageNavbar />
+              <ContactUsForm />
+            </>
+          }
+        />
         {/* To protect app routes */}
         {user && (
           <>

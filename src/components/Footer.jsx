@@ -6,11 +6,11 @@ const Footer = () => {
     
     {
       name: "Help",
-      href: "/",
+      href: "/contact",
     },
     {
       name: "Contact us",
-      href: "/",
+      href: "/contact",
     },
   ];
 
