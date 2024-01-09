@@ -60,12 +60,12 @@ const Suggestions = () => {
 
     setValidCloset(isValidCloset);
     setShowError(!isValidCloset);
-  }, [getCloset.isPending]);
+  }, [getCloset.isPending, getCloset.data]);
   // useEffect to generate outfits initially and on component mount
   useEffect(() => {
     if (getRecommendations.isSuccess)
       setOutfits(getRecommendations.data?.data?.outfits);
-  }, [getRecommendations.isSuccess]);
+  }, [getRecommendations.isSuccess, getRecommendations.data]);
 
   // Function to handle toggling favorites
   const handleToggleFavorite = async (outfit) => {
@@ -87,6 +87,7 @@ const Suggestions = () => {
         mainMessage="You don't have enough clothes!"
         subMessage="Add more types of clothing for a complete fit"
         redirectLink={"/app/closet"}
+        redirectMessage={"Upload More Clothes"}
       />
     );
   }
