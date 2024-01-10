@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import API from "../services/api";
 import { useAuth } from "./AuthContext";
 
@@ -229,11 +225,14 @@ const useGetRecommendations = (enabled) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
-      return API.get(`/api/outfit/recommendation?lat=${latitude}&long=${longitude}`, {
-        headers: {
-          "x-access-token": user,
-        },
-      });
+      return API.get(
+        `/api/outfit/recommendation?lat=${latitude}&long=${longitude}`,
+        {
+          headers: {
+            "x-access-token": user,
+          },
+        }
+      );
     },
 
     enabled: !!user && enabled,

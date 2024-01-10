@@ -1,11 +1,15 @@
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { BsHeartFill } from "react-icons/bs";
-import { useGetOutfits, useDeleteOutfit, useGetFavorites,useRemoveFavoriteItem } from "../hooks/query.js";
+import {
+  useGetOutfits,
+  useDeleteOutfit,
+  useGetFavorites,
+  useRemoveFavoriteItem,
+} from "../hooks/query.js";
 import { useEffect, useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { Loader } from "../components/UI/Loader";
-import { useFavorites } from "../hooks/FavoritesContext";
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
@@ -81,8 +85,9 @@ const OutfitCard = ({ outfit, index }) => {
         <div className="text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]">
           {/* Tags or additional outfit info */}
 
-          {[...new Set(outfit.clothes.map(item => `#${item.subcategory}`))].join(" ")}
-
+          {[
+            ...new Set(outfit.clothes.map((item) => `#${item.subcategory}`)),
+          ].join(" ")}
         </div>
       </div>
     </div>
@@ -91,41 +96,34 @@ const OutfitCard = ({ outfit, index }) => {
 const Favorites = () => {
   const [outfits, setOutfits] = useState([]);
   const [favoritedItems, setFavoritedItems] = useState([]);
-  const { data: favoritedItemsData, isPending: favoritedPending } = useGetFavorites();
+  const { data: favoritedItemsData, isPending: favoritedPending } =
+    useGetFavorites();
   const { data: outfitsData, isPending: outfitsPending } = useGetOutfits();
-  const {toggleFavorite_f, isInFavorites_f } = useFavorites();
   const removeFavoriteItem = useRemoveFavoriteItem();
 
-  
   const handleToggleFavorite = async (favItem) => {
     try {
-      console.log('Toggling favorite:', favItem);
-  
-      if (isInFavorites_f(favItem.id)) {
-        console.log('Removing from favorites:', favItem._id);
-  
+      console.log("Toggling favorite:", favItem);
+
+      if (favoritedItems.some((item) => item._id == favItem._id)) {
+        console.log("Removing from favorites:", favItem._id);
+
         // Use the onSuccess callback to update the state after a successful removal
-        await removeFavoriteItem.mutate(favItem._id, {
-          onSuccess: () => {
-            // Filter out the unfavored item from the state
-            setFavoritedItems((prevItems) =>
-              prevItems.filter((item) => item._id !== favItem._id)
-            );
-          },
-        });
+        removeFavoriteItem.mutate(favItem._id);
+        setFavoritedItems((prevItems) =>
+          prevItems.filter((item) => item._id != favItem._id)
+        );
+      } else {
+        setFavoritedItems([...favoritedItems, favItem]);
       }
-  
-      toggleFavorite_f(favItem);
-      console.log('Favorite toggled successfully.');
+      console.log("Favorite toggled successfully.");
     } catch (error) {
-      console.error('Error toggling favorite:', error);
+      console.error("Error toggling favorite:", error);
     }
   };
 
   // let reminder = "Click again to remove item from favorites!";
-  
-  
-  
+
   useEffect(() => {
     setFavoritedItems(favoritedItemsData?.data?.favorites || []);
   }, [favoritedItemsData]);
@@ -133,7 +131,6 @@ const Favorites = () => {
   useEffect(() => {
     setOutfits(outfitsData?.data?.outfits || []);
   }, [outfitsData]);
-
 
   return (
     <div>
@@ -163,9 +160,9 @@ const Favorites = () => {
       ) : (
         <section className="flex justify-center sm:justify-start">
           <div className="flex flex-wrap mx-[120px]">
-             {outfits?.map((outfit, index) => (
+            {outfits?.map((outfit, index) => (
               <OutfitCard key={outfit._id} outfit={outfit} index={index} />
-            ))} 
+            ))}
 
             {favoritedItems.map((item, key) => (
               <div

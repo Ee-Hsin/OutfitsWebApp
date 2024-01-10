@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
-import { useFavorites } from "../hooks/FavoritesContext";
 import { useGetCloset, useGetRecommendations } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
-import {
-  useRemoveFavoriteItem,
-  useSaveGeneratedOutfit,
-} from "../hooks/query";
+import { useRemoveFavoriteItem, useSaveGeneratedOutfit } from "../hooks/query";
 import {
   validBottomsFields,
   validFootwearFields,
@@ -16,8 +12,8 @@ import {
 import { FailureModal } from "../components/UI/FailureModal";
 
 const Suggestions = () => {
-  const { toggleFavorite_s, isInFavorites_s } = useFavorites();
   //let getCloset = useGetCloset();
+  const [favoritedItems, setFavorites] = useState([]);
   const [validCloset, setValidCloset] = useState(false);
   const [showErrorModal, setShowError] = useState(false);
   const getRecommendations = useGetRecommendations(validCloset);
@@ -63,21 +59,12 @@ const Suggestions = () => {
   const [outfitName, setOutfitName] = useState("");
   const [selectedOutfit, setSelectedOutfit] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
-  
 
   let { data: uploadedItems, isPending } = useGetCloset();
   if (!uploadedItems) {
     uploadedItems = [];
   }
 
-  // Function to generate a unique outfitId
-  const generateOutfitId = () => {
-    const timestamp = new Date().getTime();
-    const randomSuffix = Math.floor(Math.random() * 1000);
-    return `${timestamp}_${randomSuffix}`;
-  };
-
-  
   // const generateOutfits = () => {
   //   const generatedOutfits = [];
 
@@ -130,22 +117,25 @@ const Suggestions = () => {
   }, [getRecommendations.isSuccess, getRecommendations.data]);
 
   useEffect(() => {
-    if(saveGeneratedOutfit.isSuccess) {
-    setOutfits((prevOutfits) => {
-      //Find the current outfit
-      let withoutOutfit = prevOutfits.filter((item) => item.id !== selectedOutfit.id);
-      //Update its ID to the databases id
-      console.log(saveGeneratedOutfit.data)
-      selectedOutfit.id = saveGeneratedOutfit?.data.data.favorite._id;
-      withoutOutfit.push(selectedOutfit)
-      //Thats our new list
-      return withoutOutfit;
-     })
-     setSelectedOutfit(null);
-     setOutfitName("");
-     setSelectedItems([]);
+    if (saveGeneratedOutfit.isSuccess) {
+      setOutfits((prevOutfits) => {
+        //Hands down the dumbest thing i've ever written
+        //Remove the current outfit
+        let withoutOutfit = prevOutfits.filter(
+          (item) => item.id !== selectedOutfit.id
+        );
+        //Update its ID to the databases id
+        console.log(saveGeneratedOutfit.data);
+        selectedOutfit.id = saveGeneratedOutfit?.data.data.favorite._id;
+        withoutOutfit.push(selectedOutfit);
+        //Thats our new list
+        return withoutOutfit;
+      });
+      setSelectedOutfit(null);
+      setOutfitName("");
+      setSelectedItems([]);
     }
-  }, [saveGeneratedOutfit.isSuccess])
+  }, [saveGeneratedOutfit.isSuccess]);
 
   // Function to handle toggling favorites
   const handleToggleFavorite = async (outfit) => {
@@ -153,13 +143,13 @@ const Suggestions = () => {
       // Blur effect
       setSelectedItems([outfit.id]);
 
-      if (isInFavorites_s(outfit.id)) {
-        await removeFavoriteItem.mutate(outfit.id); // Remove from favorites
-
-      } 
-
-      toggleFavorite_s(outfit);
-      setSelectedOutfit(outfit); // Set the selected outfit for input display
+      if (favoritedItems.some((item) => item.id === outfit.id)) {
+        removeFavoriteItem.mutate(outfit.id); // Remove from favorites
+        setFavorites(favoritedItems.filter((item) => item.id !== outfit.id));
+      } else {
+        setFavorites([...favoritedItems, outfit]);
+        setSelectedOutfit(outfit); // Set the selected outfit for input display
+      }
     } catch (error) {
       console.error("Error toggling favorite:", error);
     }
@@ -176,21 +166,11 @@ const Suggestions = () => {
       const newOutfit = {
         ...selectedOutfit,
         title: outfitName,
-        savedId: generateOutfitId(),
       };
 
-     await saveGeneratedOutfit.mutate(newOutfit); // Save generated outfit to the database
-
-    
-
-
-     
-     
-
+      saveGeneratedOutfit.mutate(newOutfit); // Save generated outfit to the database
 
       // Reset states for the next selection
-      
-
     } catch (error) {
       console.error("Error saving outfit:", error);
     }
@@ -227,38 +207,38 @@ const Suggestions = () => {
         <section className="flex justify-center sm:justify-start">
           <div className="flex flex-wrap justify-left mx-[120px]">
             {outfits?.map((outfit, outfitIndex) => (
-                           <article
-                           className={`relative bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform
+              <article
+                className={`relative bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform
                            ${
                              selectedItems.includes(outfit.id)
                                ? "border-white border-2"
                                : ""
-                             }`}
-               
-                           key={outfit.savedId}
-                         >
-                           {/* Display input and save button for the selected outfit */}
-                           {selectedOutfit && selectedOutfit.id === outfit.id && isInFavorites_s(outfit.id) && (
-             <div className="absolute bottom-8 left-2 z-20">
-               <div className="relative flex flex-col items-center">
-                 <input
-                   type="text"
-                   placeholder="Enter outfit name"
-                   value={outfitName}
-                   onChange={handleOutfitNameChange}
-                   className="p-2 font-montserrat border-white border-b focus:outline-none focus:border-white-500 placeholder-[#EBEBF5] placeholder-opacity-60 text-center text-white bg-white bg-opacity-0 w-[160px] sm:w-[200px]"
-                 />
-                 <button
-                   className="font-montserrat mt-2 bg-white bg-opacity-20 px-2 py-1 rounded-md text-xs text-white hover:bg-opacity-30"
-                   onClick={handleSaveButtonClick}
-                 >
-                   Save
-                 </button>
-               </div>
-             </div>
-           )}
-           
-                
+                           }`}
+                key={outfit.savedId}
+              >
+                {/* Display input and save button for the selected outfit */}
+                {selectedOutfit &&
+                  selectedOutfit.id === outfit.id &&
+                  favoritedItems.some((item) => item.id === outfit.id) && (
+                    <div className="absolute bottom-8 left-2 z-20">
+                      <div className="relative flex flex-col items-center">
+                        <input
+                          type="text"
+                          placeholder="Enter outfit name"
+                          value={outfitName}
+                          onChange={handleOutfitNameChange}
+                          className="p-2 font-montserrat border-white border-b focus:outline-none focus:border-white-500 placeholder-[#EBEBF5] placeholder-opacity-60 text-center text-white bg-white bg-opacity-0 w-[160px] sm:w-[200px]"
+                        />
+                        <button
+                          className="font-montserrat mt-2 bg-white bg-opacity-20 px-2 py-1 rounded-md text-xs text-white hover:bg-opacity-30"
+                          onClick={handleSaveButtonClick}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                 <div className="flex flex-wrap justify-left w-[240px] h-[240px] rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
                   {outfit?.clothes?.map((item, itemIndex) => (
                     <img
@@ -273,10 +253,13 @@ const Suggestions = () => {
 
                 <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
                   <h3 className="mb-[9px] mt-[5px] ml-[9px]">{outfit.name}</h3>
-                  <p className={`text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]
+                  <p
+                    className={`text-[#EBEBF5] text-opacity-60 ml-[9px] w-[155px]
                   ${
-                    (selectedItems.includes(outfit.id) && isInFavorites_s(outfit.id))
-                    ? "blur-[3px]" : ""
+                    selectedItems.includes(outfit.id) &&
+                    favoritedItems.some((item) => item.id === outfit.id)
+                      ? "blur-[3px]"
+                      : ""
                   }`}
                   >
                     {outfit?.clothes?.map((item) => `#${item.subcategory} `)}
@@ -287,7 +270,7 @@ const Suggestions = () => {
                   onClick={() => handleToggleFavorite(outfit)}
                   className={`absolute bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full focus:outline-none hover:bg-opacity-30 transition duration-300`}
                 >
-                  {isInFavorites_s(outfit.id) ? (
+                  {favoritedItems.some((item) => item.id === outfit.id) ? (
                     <BsHeartFill className="text-white" />
                   ) : (
                     <BsHeart className="text-white opacity-100" />
