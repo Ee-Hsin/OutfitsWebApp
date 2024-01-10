@@ -79,7 +79,10 @@ function NavbarWithOutlet() {
   return (
     <>
       <Navbar />
-      {user ? <Outlet /> : <FailureModal />}
+      {user ? <Outlet /> : <FailureModal mainMessage="You are NOT authenticated"
+      subMessage="Please login to access the page you are looking for"
+      redirectLink="/login"
+      redirectMessage="Click here to go to Login Page"/>}
     </>
   )
 }
