@@ -4,7 +4,7 @@ import App from "./App.jsx"
 import "./index.css"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { AuthContextProvider } from "./hooks/AuthContext.jsx"
-import { FavoritesProvider } from "./hooks/FavoritesContext.jsx"
+// import { FavoritesProvider } from "./hooks/FavoritesContext.jsx"
 // import { ClosetProvider } from "./hooks/ClosetContext.jsx"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -12,10 +12,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
       <AuthContextProvider>
         {/* <ClosetProvider> */}
-        <FavoritesProvider>
+        {/* <FavoritesProvider> */}
       
             <App />
-            </FavoritesProvider>
+            {/* </FavoritesProvider> */}
      
         {/* </ClosetProvider> */}
       </AuthContextProvider>

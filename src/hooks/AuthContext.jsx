@@ -4,6 +4,7 @@ const UserContext = createContext()
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState()
+  const [notLoggedIn, setNotLoggedIn] = useState(false)
 
   //For when page is refreshed, puts the existing user back in state.
   useEffect(() => {
@@ -12,6 +13,7 @@ export const AuthContextProvider = ({ children }) => {
     if (existingUser) {
       console.log("this", existingUser)
       setUser(existingUser)
+      setNotLoggedIn
     }
   }, [])
 
