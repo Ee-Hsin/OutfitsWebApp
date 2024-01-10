@@ -39,7 +39,7 @@ function App() {
 }
 
 function AppRoutes() {
-  const { user } = useAuth()
+  const { user, loggedIn } = useAuth()
 
   return (
     <>
@@ -59,7 +59,7 @@ function AppRoutes() {
           }
         />
         {/* To protect app routes */}
-        {user && (
+        {(user || loggedIn) && (
           <>
             <Route path="/app" exact element={<Navigate to="/app/closet" />} />
             <Route path="/app" element={<NavbarWithOutlet />}>

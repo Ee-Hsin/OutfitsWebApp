@@ -164,7 +164,7 @@ const Favorites = () => {
               <OutfitCard key={outfit._id} outfit={outfit} index={index} />
             ))}
 
-            {favoritedItems.map((item, key) => (
+            {favoritedItems.map((item) => (
               <div
                 className="bg-white bg-opacity-20 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl relative"
                 key={item._id}
