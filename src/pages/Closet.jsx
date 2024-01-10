@@ -135,7 +135,7 @@ const Closet = () => {
           </button>
         </div>
       </div>
-      {console.log("isPending", isPending)}
+      {/* {console.log("isPending", isPending)} */}
       {isPending ? (
         <div className="flex mt-40 justify-center h-screen">
           <Loader />
@@ -143,7 +143,7 @@ const Closet = () => {
       ) : (
       <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
-          {console.log("uploaded Items:", uploadedItems)}
+          {/* {console.log("uploaded Items:", uploadedItems)} */}
           {filteredItems?.map((item) => (
             <ClosetItem key={item._id} item={item} />
           ))}

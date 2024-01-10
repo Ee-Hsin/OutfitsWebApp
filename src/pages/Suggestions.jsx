@@ -125,7 +125,7 @@ const Suggestions = () => {
           (item) => item.id !== selectedOutfit.id
         );
         //Update its ID to the databases id
-        console.log(saveGeneratedOutfit.data);
+        // console.log(saveGeneratedOutfit.data);
         selectedOutfit.id = saveGeneratedOutfit?.data.data.favorite._id;
         withoutOutfit.push(selectedOutfit);
         //Thats our new list

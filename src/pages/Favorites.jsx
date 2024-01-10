@@ -103,10 +103,10 @@ const Favorites = () => {
 
   const handleToggleFavorite = async (favItem) => {
     try {
-      console.log("Toggling favorite:", favItem);
+      // console.log("Toggling favorite:", favItem);
 
       if (favoritedItems.some((item) => item._id == favItem._id)) {
-        console.log("Removing from favorites:", favItem._id);
+        // console.log("Removing from favorites:", favItem._id);
 
         // Use the onSuccess callback to update the state after a successful removal
         removeFavoriteItem.mutate(favItem._id);
@@ -116,7 +116,7 @@ const Favorites = () => {
       } else {
         setFavoritedItems([...favoritedItems, favItem]);
       }
-      console.log("Favorite toggled successfully.");
+      // console.log("Favorite toggled successfully.");
     } catch (error) {
       console.error("Error toggling favorite:", error);
     }
