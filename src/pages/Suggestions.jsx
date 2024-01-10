@@ -219,7 +219,7 @@ const Suggestions = () => {
                 {/* Display input and save button for the selected outfit */}
                 {selectedOutfit &&
                   selectedOutfit.id === outfit.id &&
-                  isInFavorites_s(outfit.id) && (
+                  favoritedItems.some((item) => item.id === outfit.id) && (
                     <div className="absolute bottom-8 left-2 z-20">
                       <div className="relative flex flex-col items-center">
                         <input

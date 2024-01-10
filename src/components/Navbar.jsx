@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Logo from "../assets/logoTop.PNG";
+import Logo from "../assets/logoTop.png";
 
 const Navbar = () => {
   const [state, setState] = useState(false);
