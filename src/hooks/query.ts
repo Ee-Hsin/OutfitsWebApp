@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import API from "../services/api";
 import { useAuth } from "./AuthContext";
+import { ForgotPasswordFormData } from '../types/interfaces'
 
 /* **************************************************************************** */
 /* AUTHENTICATION */
@@ -52,7 +53,7 @@ const useCreateGoogleUser = () => {
 
 //User gives us their email and requests to change password (POST)
 const useForgotPassword = () => {
-  return useMutation({
+  return useMutation<void, Error, ForgotPasswordFormData>({
     mutationFn: (data) => API.post("/users/forget-password", data),
   });
 };

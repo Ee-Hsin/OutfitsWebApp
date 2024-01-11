@@ -3,8 +3,9 @@ import { useForgotPassword } from "../hooks/query"
 import { FailureModal } from "../components/UI/FailureModal"
 import { SuccessModal } from "../components/UI/SuccessModal"
 import { Loader } from "../components/UI/Loader"
+import { AxiosError, ForgotPasswordFormData } from "../types/interfaces"
 
-function ForgotPassword() {
+const ForgotPassword: React.FC = () => {
   const mutation = useForgotPassword()
 
   const {
@@ -12,10 +13,9 @@ function ForgotPassword() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm()
+  } = useForm<ForgotPasswordFormData>()
 
-  const onSubmit = (data, e) => {
-    e.preventDefault()
+  const onSubmit = (data: ForgotPasswordFormData) => {
 
     //sends info to the server
     mutation.mutate(data)
@@ -28,10 +28,8 @@ function ForgotPassword() {
       {/* TODO: Add mutation.isError and mutation.isPending */}
       {mutation.isError && (
         <FailureModal
-          mainMessage={
-            mutation?.error?.response?.data?.message ||
-            "There may not be an account with this email."
-          }
+          mainMessage={(mutation.error as AxiosError)?.response?.data?.message ||
+            "There may not be an account with this email."}
           subMessage="Please try again and contact us if the error persists"
         />
       )}
@@ -61,7 +59,6 @@ function ForgotPassword() {
             <div>
               <label className="font-medium">Email</label>
               <input
-                name="email"
                 type="email"
                 autoComplete="email"
                 {...register("email", {

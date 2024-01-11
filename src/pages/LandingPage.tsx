@@ -7,7 +7,7 @@ import Preview from "../assets/preview.png"
 import Upload from "../assets/upload.png"
 import { useAuth } from "../hooks/AuthContext"
 
-const LandingPage = () => {
+const LandingPage: React.FC = () => {
   const imageStyle = {
     border: "2px solid #000", // Adjust the border style as needed
     borderRadius: "8px", // Optional: Add border-radius for rounded corners
