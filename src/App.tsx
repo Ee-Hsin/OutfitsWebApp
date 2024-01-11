@@ -57,7 +57,7 @@ function AppRoutes() {
           }
         />
         {/* To protect app routes */}
-        <Route path="/app" exact element={<Navigate to="/app/closet" />} />
+        <Route path="/app" element={<Navigate to="/app/closet" />} />
         <Route path="/app" element={<NavbarWithOutlet />}>
           <Route path="closet" element={<Closet />} />
           <Route path="favorites" element={<Favorites />} />
