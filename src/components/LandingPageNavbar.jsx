@@ -30,9 +30,9 @@ const LandingPageNavbar = () => {
     <>
       <nav
         ref={navRef}
-        className="sticky z-20 bg-[#201B21] bg-opacity-60 w-full h-28 top-0 border-none"
+        className="sticky z-20 bg-[#201B21] bg-opacity-60 w-full h-[90px] md:h-28 top-0 border-none"
       >
-        <div className="items-center px-4 pt-5 max-w-screen-xl mx-auto md:px-8 md:flex">
+        <div className="items-center px-4 md:pt-3 max-w-screen-xl mx-auto md:px-8 md:flex">
           <div className="flex items-center justify-between p-4">
             <Link to="/" className="flex items-center">
               <h1 className="font-monoton text-4xl text-white hover:text-[#d6ccde]">
@@ -130,44 +130,3 @@ const LandingPageNavbar = () => {
 }
 
 export default LandingPageNavbar
-{
-  /* <div
-          className={`flex-1 justify-between flex-row-reverse md:overflow-visible md:flex md:pb-0 md:pr-0 md:h-auto ${
-            state ? "h-screen pb-20 overflow-auto pr-4" : "hidden"
-          }`}
-        >
-          <div>
-            <ul className="flex flex-col-reverse space-x-0 md:space-x-6 md:flex-row">
-              {user ? (
-                <li className="mt-8 md:mt-0">
-                  <Link
-                    to="/app"
-                    className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%] transition-all duration-100"
-                  >
-                    Enter App
-                  </Link>
-                </li>
-              ) : (
-                <>
-                  <li className="mt-4 md:mt-0">
-                    <Link
-                      to="/login"
-                      className="py-3 px-4 bg-[#ddd8e6]  text-center bordertext-[#201B21] md:text-white hover:bg-white md:hover:bg-opacity-0 shadow-md hover:shadow-xl rounded-md mx-auto block md:inline md:border-0 md:bg-opacity-0 w-[40%] "
-                    >
-                      Login
-                    </Link>
-                  </li>
-                  <li className="mt-8 md:mt-0">
-                    <Link
-                      to="/signup"
-                      className="py-3 px-4 text-center text-[#201B21] bg-[#d5cffa] md:bg-[#cfc9d6] hover:bg-white shadow-md hover:shadow-xl rounded-md mx-auto block md:inline w-[40%] transition-all duration-100"
-                    >
-                      Sign Up
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div> 
-      </div>*/
-}
