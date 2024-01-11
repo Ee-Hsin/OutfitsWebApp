@@ -108,6 +108,7 @@ const Closet = () => {
   }
   useEffect(() => {
     window.addEventListener("resize", handleWindowSizeChange);
+    console.log("THEY SEE ME SCROLLING, THEY HATING");
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange);
     };
