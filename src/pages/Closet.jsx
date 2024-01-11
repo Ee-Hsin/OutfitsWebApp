@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router";
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRegEdit } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 import { useDeleteItem, useGetCloset } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
-import { CLOTHING_CATEGORIES } from "../services/constants"
-
+import { CLOTHING_CATEGORIES } from "../services/constants";
+const MAX_MOBILE_WIDTH = 768;
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
   return (
@@ -14,10 +14,12 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
       <div className="modal-content">
         <p className="px-4 py-4">Are you sure you want to delete this item?</p>
         <div className="pb-6">
-          <button className="px-4 hover:scale-110" 
-            onClick={onConfirm}>Yes</button>
-          <button className="px-4  hover:scale-110"
-            onClick={onClose}>No</button>
+          <button className="px-4 hover:scale-110" onClick={onConfirm}>
+            Yes
+          </button>
+          <button className="px-4  hover:scale-110" onClick={onClose}>
+            No
+          </button>
         </div>
       </div>
     </div>
@@ -57,33 +59,40 @@ const ClosetItem = ({ item }) => {
         className="opacity-0 absolute text-white group-hover:opacity-100 hover:text-opacity-70 text-[30px] z-10 ml-[240px] mt-[-11px] hover:scale-110 transition-opacity"
         onClick={handleDeleteClick}
       />
-      {deleteItem.isPending ? <div className="flex flex-col justify-center h-full"><Loader/></div> : <>
-      <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
-        {/* img */}
-        <img
-          src={item.image}
-          alt="uploaded img"
-          className="w-full h-full object-cover rounded-[22px]"
-        />
-      </div>
-      <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
-        {/* name and tag */}
-        <div className="mb-[9px] mt-[5px]">{item.name}</div>
-        <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
-          #{item.category} #{item.subcategory} #{item.color}{" "}
-          {item.hasGraphic ? "#graphic" : "#plain"}
+      {deleteItem.isPending ? (
+        <div className="flex flex-col justify-center h-full">
+          <Loader />
         </div>
-      </div></>}
+      ) : (
+        <>
+          <div className="relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-3xl my-[16px] mx-[15px]">
+            {/* img */}
+            <img
+              src={item.image}
+              alt="uploaded img"
+              className="w-full h-full object-cover rounded-[22px]"
+            />
+          </div>
+          <div className="font-montserrat text-white mx-[20px] h-[107px] overflow-hidden">
+            {/* name and tag */}
+            <div className="mb-[9px] mt-[5px]">{item.name}</div>
+            <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
+              #{item.category} #{item.subcategory} #{item.color}{" "}
+              {item.hasGraphic ? "#graphic" : "#plain"}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
 const Closet = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const { data: uploadedItems , isPending} = useGetCloset()
+  const { data: uploadedItems, isPending } = useGetCloset();
 
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
   };
@@ -91,6 +100,21 @@ const Closet = () => {
   const filteredItems = uploadedItems?.filter((item) =>
     selectedCategory ? item.category === selectedCategory : true
   );
+
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    console.log("THEY SEE ME SCROLLING, THEY HATING");
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
+  const isMobile = width <= MAX_MOBILE_WIDTH;
 
   const handleFileInput = async (e) => {
     const file = e.target.files[0];
@@ -106,13 +130,12 @@ const Closet = () => {
           Uploaded items
         </div>
         <div className="flex">
-          <select 
+          <select
             value={selectedCategory}
             onChange={handleCategoryChange}
-            className="px-1 py-2 sm:p-2 mr-2 sm:mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100">
-          <option value="">
-            All / filter by category
-          </option>
+            className="px-1 py-2 sm:p-2 mr-2 sm:mr-6 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
+          >
+            <option value="">All / filter by category</option>
             {CLOTHING_CATEGORIES.map((type) => (
               <option key={type.value} value={type.value}>
                 {type.label}
@@ -141,14 +164,26 @@ const Closet = () => {
           <Loader />
         </div>
       ) : (
-      <div className="flex justify-center sm:justify-start">
-        <div className="flex flex-wrap justify-left mx-[120px]">
-          {/* {console.log("uploaded Items:", uploadedItems)} */}
-          {filteredItems?.map((item) => (
-            <ClosetItem key={item._id} item={item} />
-          ))}
+        <div
+          className="flex justify-center sm:justify-start"
+          style={
+            isMobile
+              ? {
+                  height: "600px",
+                  overflowY: "scroll",
+                  whiteSpace: "nowrap",
+                }
+              : {}
+          }
+        >
+          <div className="flex flex-wrap justify-left mx-[120px]">
+            {/* {console.log("uploaded Items:", uploadedItems)} */}
+            {filteredItems?.map((item) => (
+              <ClosetItem key={item._id} item={item} />
+            ))}
+          </div>
         </div>
-      </div>)}
+      )}
     </div>
   );
 };
