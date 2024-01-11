@@ -63,3 +63,4 @@ export const CLOTHING_SUBCATEGORIES = {
     "performance top",
   ],
 };
+export const MAX_MOBILE_WIDTH = 768;

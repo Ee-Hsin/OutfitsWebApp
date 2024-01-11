@@ -5,8 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
 import { useDeleteItem, useGetCloset } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
-import { CLOTHING_CATEGORIES } from "../services/constants";
-const MAX_MOBILE_WIDTH = 768;
+import { CLOTHING_CATEGORIES, MAX_MOBILE_WIDTH } from "../services/constants";
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
   return (

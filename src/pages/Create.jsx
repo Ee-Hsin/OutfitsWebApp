@@ -5,6 +5,7 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { useGetCloset, useSaveOutfit } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
+import { MAX_MOBILE_WIDTH } from "../services/constants";
 
 const Create = () => {
   const { data: uploadedItems, isPending } = useGetCloset();
@@ -14,8 +15,26 @@ const Create = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const saveOutfit = useSaveOutfit();
 
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
   useEffect(() => {
-    setButtonActive(selectedItems.length >= 2 && selectedItems.length <= 4 && outfitName.length > 0);
+    window.addEventListener("resize", handleWindowSizeChange);
+    console.log("THEY SEE ME SCROLLING, THEY HATING");
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
+  const isMobile = width <= MAX_MOBILE_WIDTH;
+  useEffect(() => {
+    setButtonActive(
+      selectedItems.length >= 2 &&
+        selectedItems.length <= 4 &&
+        outfitName.length > 0
+    );
   }, [selectedItems, outfitName]);
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prevSelectedItems) => {
@@ -37,12 +56,11 @@ const Create = () => {
   };
 
   let reminder = "Please enter the name of your Outfit";
-  if(selectedItems.length > 4){
+  if (selectedItems.length > 4) {
     reminder = "Please select up to four items ";
-  } else if(selectedItems.length < 2){
+  } else if (selectedItems.length < 2) {
     reminder = "Please select at least two items";
   }
-  
 
   return (
     <div>
@@ -104,48 +122,60 @@ const Create = () => {
           )}
         </div>
       </div>
-              
+
       <div className="flex justify-center sm:justify-start">
-      {isPending ? (
-         <Loader className=" mt-40"/>
-      ) : (
-        <div className="flex flex-wrap justify-left mx-[120px]">
-          {uploadedItems.map((item) => (
-            <div
-              onClick={() => toggleSelectItem(item._id)}
-              key={item._id}
-              className={`card relative flex-col justify-center bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform
+        {isPending ? (
+          <Loader className=" mt-40" />
+        ) : (
+          <div
+            className="flex flex-wrap justify-left mx-[120px]"
+            style={
+              isMobile
+                ? {
+                    height: "600px",
+                    overflowY: "scroll",
+                    whiteSpace: "nowrap",
+                  }
+                : {}
+            }
+          >
+            {uploadedItems.map((item) => (
+              <div
+                onClick={() => toggleSelectItem(item._id)}
+                key={item._id}
+                className={`card relative flex-col justify-center bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform
               ${
                 selectedItems.includes(item._id) ? "border-white border-2" : ""
               }`}
-            >
-              <IoIosCheckmarkCircleOutline
-                className={`absolute text-white text-6xl z-10 ml-[105px] mt-[303px] 
-              ${selectedItems.includes(item._id) ? "" : "hidden"}`}
-              />
-              <div className="card-hover:scale-110 relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-xl my-[16px] mx-[15px]">
-                {/* img */}
-                <img
-                  src={item.image}
-                  alt="uploaded img"
-                  className="w-full h-full object-cover rounded-[22px]"
-                />
-              </div>
-              <div
-                className={`font-montserrat text-white mx-[20px] h-[107px] 
-              ${selectedItems.includes(item._id) ? "blur-[2px]" : ""}`}
               >
-                {/* name and tag */}
-                <div className="mb-[9px] mt-[5px]">{item.name}</div>
-                <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
-                  #{item.category} #{item.subcategory} #{item.color}{" "}
-                  {item.hasGraphic ? "#graphic" : "#plain"}
+                <IoIosCheckmarkCircleOutline
+                  className={`absolute text-white text-6xl z-10 ml-[105px] mt-[303px] 
+              ${selectedItems.includes(item._id) ? "" : "hidden"}`}
+                />
+                <div className="card-hover:scale-110 relative w-[240px] h-[240px] bg-white rounded-[22px] shadow-xl my-[16px] mx-[15px]">
+                  {/* img */}
+                  <img
+                    src={item.image}
+                    alt="uploaded img"
+                    className="w-full h-full object-cover rounded-[22px]"
+                  />
+                </div>
+                <div
+                  className={`font-montserrat text-white mx-[20px] h-[107px] 
+              ${selectedItems.includes(item._id) ? "blur-[2px]" : ""}`}
+                >
+                  {/* name and tag */}
+                  <div className="mb-[9px] mt-[5px]">{item.name}</div>
+                  <div className="text-[#EBEBF5] text-opacity-60 w-[155px]">
+                    #{item.category} #{item.subcategory} #{item.color}{" "}
+                    {item.hasGraphic ? "#graphic" : "#plain"}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}</div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
