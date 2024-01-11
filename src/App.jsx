@@ -39,8 +39,6 @@ function App() {
 }
 
 function AppRoutes() {
-  const { user } = useAuth()
-
   return (
     <>
       <Routes>
@@ -59,20 +57,15 @@ function AppRoutes() {
           }
         />
         {/* To protect app routes */}
-        {user && (
-          <>
-            <Route path="/app" exact element={<Navigate to="/app/closet" />} />
-            <Route path="/app" element={<NavbarWithOutlet />}>
-              <Route path="closet" element={<Closet />} />
-              <Route path="favorites" element={<Favorites />} />
-              <Route path="suggestions" element={<Suggestions />} />
-              <Route path="upload" element={<Upload />} />
-              <Route path="create" element={<Create />} />
-              <Route path="update" element={<Update />} />
-            </Route>
-          </>
-        )}
-
+        <Route path="/app" exact element={<Navigate to="/app/closet" />} />
+        <Route path="/app" element={<NavbarWithOutlet />}>
+          <Route path="closet" element={<Closet />} />
+          <Route path="favorites" element={<Favorites />} />
+          <Route path="suggestions" element={<Suggestions />} />
+          <Route path="upload" element={<Upload />} />
+          <Route path="create" element={<Create />} />
+          <Route path="update" element={<Update />} />
+        </Route>
         {/* Catch-all Route */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
@@ -81,10 +74,15 @@ function AppRoutes() {
 }
 
 function NavbarWithOutlet() {
+  const { user } = useAuth()
+
   return (
     <>
       <Navbar />
-      <Outlet />
+      {user ? <Outlet /> : <FailureModal mainMessage="You are NOT authenticated"
+      subMessage="Please login to access the page you are looking for"
+      redirectLink="/login"
+      redirectMessage="Click here to go to Login Page"/>}
     </>
   )
 }

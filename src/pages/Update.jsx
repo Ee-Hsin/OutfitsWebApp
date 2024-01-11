@@ -127,7 +127,7 @@ const Update = () => {
                   id="secondSelect"
                   className="w-[110px] px-1 py-2 sm:p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
                 >
-                  {console.log(selectedCategory)}
+                  {/* {console.log(selectedCategory)} */}
                   {CLOTHING_SUBCATEGORIES[selectedCategory]?.map(
                     (option, index) => (
                       <option key={index} value={option}>

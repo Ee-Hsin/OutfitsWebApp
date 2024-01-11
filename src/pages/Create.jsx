@@ -64,20 +64,15 @@ const Create = () => {
         <div className="flex mr-6 md:mr-8 lg:mr-36">
           {/* top right */}
           {/* Input for outfit name */}
-          <div className="relative">
-            {" "}
-            {/* for the shadow */}
-            <input
-              type="text"
-              placeholder="Enter outfit name"
-              value={outfitName}
-              onChange={(e) => {
-                setOutfitName(e.target.value);
-              }}
-              className="p-2 border-white border-b border- focus:outline-none focus:border-white-500 placeholder-[#EBEBF5] placeholder-opacity-60 text-center bg-white bg-opacity-0 mx-6 sm:mx-8 w-[160px] sm:w-[200px]"
-            />
-            <div className="absolute inset-x-8 bottom-0 h-[1px] shadow-xl"></div>
-          </div>
+          <input
+            type="text"
+            placeholder="Enter outfit name"
+            value={outfitName}
+            onChange={(e) => {
+              setOutfitName(e.target.value);
+            }}
+            className="p-2 border-white border-b border- focus:outline-none focus:border-white-500 placeholder-[#EBEBF5] placeholder-opacity-60 text-center bg-white bg-opacity-0 mx-6 sm:mx-8 w-[160px] sm:w-[200px]"
+          />
           <button
             onClick={() => {
               // Clear selected items when cancel is clicked
@@ -137,7 +132,7 @@ const Create = () => {
                 />
               </div>
               <div
-                className={`font-montserrat text-white mx-[20px] h-[107px] overflow-hidden
+                className={`font-montserrat text-white mx-[20px] h-[107px] 
               ${selectedItems.includes(item._id) ? "blur-[2px]" : ""}`}
               >
                 {/* name and tag */}

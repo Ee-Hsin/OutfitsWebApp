@@ -22,7 +22,7 @@ const Navbar = () => {
         }`}
       >
         <div className="items-center gap-x-14 px-8 max-w-screen-xl mx-auto md:flex md:h-28">
-          <div className="flex items-center justify-between py-5 md:block">
+          <div className="flex items-center justify-between py-3 md:py-5 md:block">
             <Link to={"/"} className="flex items-center">
               <img
                 src={Logo}

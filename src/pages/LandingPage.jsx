@@ -19,7 +19,7 @@ const LandingPage = () => {
   return (
     <div>
       <LandingPageNavbar />
-      <section className="mt-24 mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
+      <section className="mt-16 md:mt-24 mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
         <div className="space-y-4 px-4 flex-1 text-center sm:text-center lg:text-left">
           <h1 className="text-white font-bold text-4xl xl:text-5xl">
             Welcome to
