@@ -1,9 +1,9 @@
-import { useForm } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form"
 import { useForgotPassword } from "../hooks/query"
 import { FailureModal } from "../components/UI/FailureModal"
 import { SuccessModal } from "../components/UI/SuccessModal"
 import { Loader } from "../components/UI/Loader"
-import { AxiosError, ForgotPasswordFormData } from "../types/interfaces"
+import { CustomError, ForgotPasswordFormData } from "../types/interfaces"
 
 const ForgotPassword: React.FC = () => {
   const mutation = useForgotPassword()
@@ -15,7 +15,7 @@ const ForgotPassword: React.FC = () => {
     reset,
   } = useForm<ForgotPasswordFormData>()
 
-  const onSubmit = (data: ForgotPasswordFormData) => {
+  const onSubmit: SubmitHandler<ForgotPasswordFormData> = (data) => {
 
     //sends info to the server
     mutation.mutate(data)
@@ -28,7 +28,7 @@ const ForgotPassword: React.FC = () => {
       {/* TODO: Add mutation.isError and mutation.isPending */}
       {mutation.isError && (
         <FailureModal
-          mainMessage={(mutation.error as AxiosError)?.response?.data?.message ||
+          mainMessage={(mutation.error as CustomError)?.response?.data?.message ||
             "There may not be an account with this email."}
           subMessage="Please try again and contact us if the error persists"
         />

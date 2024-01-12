@@ -2,7 +2,7 @@ import emailjs from "@emailjs/browser"
 import { useState } from "react"
 import { SuccessModal } from "../components/UI/SuccessModal"
 import { FailureModal } from "../components/UI/FailureModal"
-import { useForm } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form"
 import { Loader } from "../components/UI/Loader"
 import { ContactUsFormData } from "../types/interfaces"
 
@@ -21,7 +21,7 @@ export const ContactUsForm: React.FC = () => {
     reset,
   } = useForm<ContactUsFormData>()
 
-  const onSubmit = (data: ContactUsFormData, e: any) => {
+  const onSubmit: SubmitHandler <ContactUsFormData> = (data, e) => {
     // console.log(e)
     // console.log(data)
     setLoading(true)

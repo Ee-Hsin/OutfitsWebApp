@@ -1,35 +1,36 @@
-import { Link, Navigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
-import { useSignInUser, useSignInGoogleUser } from "../hooks/query";
-import { useForm } from "react-hook-form";
-import { FailureModal } from "../components/UI/FailureModal";
-import { Loader } from "../components/UI/Loader";
+import { Link, Navigate } from "react-router-dom"
+import { GoogleLogin } from "@react-oauth/google"
+import { useSignInUser, useSignInGoogleUser } from "../hooks/query"
+import { useForm, SubmitHandler } from "react-hook-form"
+import { FailureModal } from "../components/UI/FailureModal"
+import { Loader } from "../components/UI/Loader"
+import { CustomError, LoginFormData } from "../types/interfaces"
 
-function LoginPage() {
-  const mutation = useSignInUser();
-  const googleMutation = useSignInGoogleUser();
+const LoginPage: React.FC = () => {
+  const mutation = useSignInUser()
+  const googleMutation = useSignInGoogleUser()
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm<LoginFormData>()
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
     //sends info to the server
-    mutation.mutate(data);
-    reset();
-  };
+    mutation.mutate(data)
+    reset()
+  }
 
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
       {mutation.isSuccess && <Navigate to="/app/closet" />}
+      {/* {mutation.isError && console.log(mutation.error)} */}
       {mutation.isError && (
         <FailureModal
           mainMessage={
-            mutation?.error?.response?.data?.message ||
+            (mutation.error as CustomError)?.response?.data?.message ||
             "Oops, looks like something went wrong"
           }
           subMessage="Your email or password may be incorrect"
@@ -39,7 +40,7 @@ function LoginPage() {
       {googleMutation.isError && (
         <FailureModal
           mainMessage={
-            googleMutation?.error?.response?.data?.message ||
+            (googleMutation.error as CustomError)?.response?.data?.message ||
             "Oops, looks like something went wrong"
           }
           subMessage="Please try again and contact us if the error persists"
@@ -65,8 +66,10 @@ function LoginPage() {
             </p>
           </div>
         </div>
-        {(mutation.isPending || googleMutation.isPending) ? (
-          <div className="my-6"><Loader /></div>
+        {mutation.isPending || googleMutation.isPending ? (
+          <div className="my-6">
+            <Loader />
+          </div>
         ) : (
           <form
             method="post"
@@ -76,7 +79,6 @@ function LoginPage() {
             <div>
               <label className="font-medium">Email</label>
               <input
-                name="email"
                 type="email"
                 autoComplete="email"
                 {...register("email", {
@@ -93,7 +95,6 @@ function LoginPage() {
             <div>
               <label className="font-medium">Password</label>
               <input
-                name="password"
                 type="password"
                 autoComplete="new-password"
                 {...register("password", {
@@ -137,7 +138,7 @@ function LoginPage() {
         </div>
       </div>
     </main>
-  );
+  )
 }
 
-export default LoginPage;
+export default LoginPage
