@@ -96,7 +96,7 @@ const LoginPage: React.FC = () => {
               <label className="font-medium">Password</label>
               <input
                 type="password"
-                autoComplete="new-password"
+                autoComplete="password"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {

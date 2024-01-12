@@ -10,6 +10,12 @@ export interface LoginFormData {
   password: string
 }
 
+export interface SignUpFormData {
+  username: string
+  email: string
+  password: string
+}
+
 export interface GoogleFormData {
   googleId?: string
   googleCred?: string
@@ -39,6 +45,8 @@ export interface LoaderProps {
 //   }
 // }
 
+//This is a bit sus, idk why it works even though the error returned
+//is more than just these fields
 export interface CustomError {
   response?: {
     data?: {

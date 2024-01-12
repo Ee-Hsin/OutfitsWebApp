@@ -5,6 +5,7 @@ import {
   ForgotPasswordFormData,
   LoginFormData,
   GoogleFormData,
+  SignUpFormData,
 } from "../types/interfaces"
 
 /* **************************************************************************** */
@@ -39,7 +40,7 @@ const useSignInGoogleUser = () => {
 const useCreateUser = () => {
   const { signIn } = useAuth()
 
-  return useMutation({
+  return useMutation<any, Error, SignUpFormData>({
     mutationFn: (data) => API.post("/users", data),
     //backend returns {{ user: token }}
     //and we want to pass the token
@@ -51,7 +52,7 @@ const useCreateUser = () => {
 const useCreateGoogleUser = () => {
   const { signIn } = useAuth()
 
-  return useMutation({
+  return useMutation<any, Error, GoogleFormData>({
     // {}
     mutationFn: (data) => API.post("/users", data),
     onSuccess: (data) => signIn(data.data.user),
