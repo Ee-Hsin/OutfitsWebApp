@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import Logo from "../assets/logoBottom.png";
 
-const Footer = () => {
-  const footerNavs = [
-    
+const Footer: React.FC = () => {
+
+  interface FooterNav {
+    name: string;
+    href: string;
+  }
+  
+  const footerNavs: FooterNav[] = [
     {
       name: "Help",
       href: "/contact",

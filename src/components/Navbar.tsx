@@ -4,8 +4,8 @@ import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logoTop.png";
 
-const Navbar = () => {
-  const [state, setState] = useState(false);
+const Navbar: React.FC = () => {
+  const [state, setState] = useState<boolean>(false);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
 

@@ -3,11 +3,16 @@ export interface ForgotPasswordFormData {
 }
 
 export interface ModalProps {
-    mainMessage?: string;
-    subMessage?: string;
-    redirectMessage?: string;
-    redirectLink?: string;
-  }
+  mainMessage?: string
+  subMessage?: string
+  redirectMessage?: string
+  redirectLink?: string
+}
+
+export interface LoaderProps {
+  small?: boolean
+  className?: string
+}
 
 export interface AxiosError {
   response?: {

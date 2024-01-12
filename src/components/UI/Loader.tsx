@@ -1,4 +1,6 @@
-export const Loader = ({ small = false, className = "" }) => {
+import { LoaderProps } from "../../types/interfaces"
+
+export const Loader: React.FC <LoaderProps> = ({ small = false, className = "" }) => {
   return (
     <div className="flex w-full justify-center">
       <div
