@@ -1,14 +1,9 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { ModalProps } from "../../types/interfaces"
 
-interface FailureModalProps {
-  mainMessage?: string;
-  subMessage?: string;
-  redirectMessage?: string;
-  redirectLink?: string;
-}
 
-export const FailureModal: React.FC<FailureModalProps> = ({
+export const FailureModal: React.FC<ModalProps> = ({
   mainMessage = "Error!",
   subMessage = "Looks like something went wrong, you might want to try again ",
   redirectMessage,

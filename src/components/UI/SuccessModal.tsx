@@ -1,13 +1,14 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { ModalProps } from "../../types/interfaces"
 
-export const SuccessModal = ({
+export const SuccessModal: React.FC <ModalProps> = ({
   mainMessage = "Success!",
   subMessage,
   redirectMessage,
   redirectLink,
 }) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState<boolean>(true)
 
   return open ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">

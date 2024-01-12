@@ -4,9 +4,9 @@ import "./LandingPageNavbar.css"
 import Logo from "../assets/logoTop.png"
 import { useAuth } from "../hooks/AuthContext"
 
-const LandingPageNavbar = () => {
-  const [state, setState] = useState(false)
-  const navRef = useRef()
+const LandingPageNavbar : React.FC = () => {
+  const [state, setState] = useState<boolean>(false)
+  const navRef = useRef<HTMLDivElement>(null)
   const { user } = useAuth()
 
   useEffect(() => {
