@@ -6,6 +6,8 @@ import {
   LoginFormData,
   GoogleFormData,
   SignUpFormData,
+  ResetPasswordFormData,
+  ResetPasswordParams,
 } from "../types/interfaces"
 
 /* **************************************************************************** */
@@ -67,8 +69,8 @@ const useForgotPassword = () => {
 }
 
 //User has reset link, and is using that to reset their password (POST)
-const useResetPassword = ({ id, token }) => {
-  return useMutation({
+const useResetPassword = ({ id , token }: ResetPasswordParams) => {
+  return useMutation<void, Error, ResetPasswordFormData>({
     mutationFn: (data) =>
       API.post(`/users/reset-password/${id}/${token}`, data),
   })

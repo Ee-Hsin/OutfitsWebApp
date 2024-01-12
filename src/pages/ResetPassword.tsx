@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom"
-import { useForm } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { useResetPassword } from "../hooks/query"
 import { FailureModal } from "../components/UI/FailureModal"
 import { SuccessModal } from "../components/UI/SuccessModal"
 import { Loader } from "../components/UI/Loader"
+import { CustomError, ResetPasswordFormData } from "../types/interfaces"
 
 function ResetPassword() {
   const { id, token } = useParams()
@@ -14,11 +15,9 @@ function ResetPassword() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm()
+  } = useForm<ResetPasswordFormData>()
 
-  const onSubmit = (data, e) => {
-    e.preventDefault()
-
+  const onSubmit: SubmitHandler<ResetPasswordFormData> = (data) => {
     //sends info to the server
     mutation.mutate(data)
 
@@ -31,7 +30,7 @@ function ResetPassword() {
       {mutation.isError && (
         <FailureModal
           mainMessage={
-            mutation?.error?.response?.data?.message ||
+            (mutation?.error as CustomError)?.response?.data?.message ||
             "Something went wrong"
           }
           subMessage="Please try again and contact us if the error persists"
@@ -63,7 +62,6 @@ function ResetPassword() {
             <div>
               <label className="font-medium">New Password</label>
               <input
-                name="password"
                 type="password"
                 autoComplete="new-password"
                 {...register("password", {

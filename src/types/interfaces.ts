@@ -1,10 +1,4 @@
-export interface ContactUsFormData {
-  firstName: string
-  lastName: string
-  email: string
-  message: string
-}
-
+//FORM DATA:
 export interface LoginFormData {
   email: string
   password: string
@@ -25,6 +19,18 @@ export interface ForgotPasswordFormData {
   email: string
 }
 
+export interface ResetPasswordFormData{
+  password: string
+}
+
+export interface ContactUsFormData {
+  firstName: string
+  lastName: string
+  email: string
+  message: string
+}
+
+//PROPS:
 export interface ModalProps {
   mainMessage?: string
   subMessage?: string
@@ -36,6 +42,8 @@ export interface LoaderProps {
   small?: boolean
   className?: string
 }
+
+//RESPONSES AND ERRORS AND STUFF
 
 //I think I'm doing this wrong but idk
 // export interface SignInResponse {
@@ -55,4 +63,10 @@ export interface CustomError {
     // ... other properties of Axios response
   }
   // ... other properties of Axios error
+}
+
+//FUNCTION PARAMETERS:
+export interface ResetPasswordParams {
+  id?: string;
+  token?: string;
 }
