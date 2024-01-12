@@ -40,6 +40,9 @@ export const ContactUsForm: React.FC = () => {
       return
     }
 
+    //In case e is undefined for some reason
+    if (!e) return
+
     emailjs
       .sendForm(
         import.meta.env.VITE_SERVICE_ID,
