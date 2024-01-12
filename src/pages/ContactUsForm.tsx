@@ -4,23 +4,24 @@ import { SuccessModal } from "../components/UI/SuccessModal"
 import { FailureModal } from "../components/UI/FailureModal"
 import { useForm } from "react-hook-form"
 import { Loader } from "../components/UI/Loader"
+import { ContactUsFormData } from "../types/interfaces"
 
-export const ContactUsForm = () => {
-  const [openSuccessModal, setOpenSuccessModal] = useState(false)
-  const [openFailureModal, setOpenFailureModal] = useState(false)
-  const [loading, setLoading] = useState(false)
+export const ContactUsForm: React.FC = () => {
+  const [openSuccessModal, setOpenSuccessModal] = useState<boolean>(false)
+  const [openFailureModal, setOpenFailureModal] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   /* 这是一个蜜罐 */
-  const [address, setAddress] = useState("")
+  const [address, setAddress] = useState<string>("")
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm()
+  } = useForm<ContactUsFormData>()
 
-  const onSubmit = (data, e) => {
+  const onSubmit = (data: ContactUsFormData, e: any) => {
     // console.log(e)
     // console.log(data)
     setLoading(true)
@@ -94,7 +95,7 @@ export const ContactUsForm = () => {
                     type="text"
                     name="address"
                     placeholder="Your Address"
-                    tabIndex="-1"
+                    tabIndex={-1}
                     autoComplete="new-password"
                     className="text-3xl absolute left-[-9999px] "
                     value={address}

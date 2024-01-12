@@ -1,3 +1,10 @@
+export interface ContactUsFormData {
+  firstName: string
+  lastName: string
+  email: string
+  message: string
+}
+
 export interface ForgotPasswordFormData {
   email: string
 }
