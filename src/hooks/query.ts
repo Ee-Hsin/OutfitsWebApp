@@ -84,7 +84,7 @@ const useUploadItem = () => {
   const { user } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
+  return useMutation<any, Error, FormData>({
     mutationFn: (data) =>
       API.post("/api/closet/uploadItem", data, {
         headers: {

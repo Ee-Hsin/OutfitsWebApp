@@ -1,3 +1,5 @@
+import { ClothingSubcategories } from "../types/interfaces";
+
 export const TESTING = false;
 export const API_URL = TESTING
   ? "http://localhost:8080"
@@ -31,7 +33,8 @@ export const CLOTHING_CATEGORIES = [
 export const validTopsFields = ["Tops", "Outerwear"];
 export const validBottomsFields = ["Bottoms", "Activewear"];
 export const validFootwearFields = ["Footwear"];
-export const CLOTHING_SUBCATEGORIES = {
+
+export const CLOTHING_SUBCATEGORIES: ClothingSubcategories = {
   Tops: [
     "t-shirt",
     "blouse",

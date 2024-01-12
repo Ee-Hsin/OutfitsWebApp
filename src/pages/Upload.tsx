@@ -1,7 +1,7 @@
 import { useLocation } from "react-router"
 import { Link, Navigate } from "react-router-dom"
 import { IoIosArrowBack } from "react-icons/io"
-import { useForm } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { useUploadItem } from "../hooks/query"
 import {
   CLOTHING_CATEGORIES,
@@ -10,6 +10,7 @@ import {
 } from "../services/constants"
 import { Loader } from "../components/UI/Loader"
 import { useEffect } from "react"
+import { ClothingSubcategories, UploadFormData } from "../types/interfaces"
 
 const Upload = () => {
   const location = useLocation()
@@ -21,11 +22,11 @@ const Upload = () => {
     watch,
     setValue,
     reset,
-  } = useForm({
+  } = useForm<UploadFormData>({
     defaultValues: {
       category: "Tops",
       color: "black",
-      hasGraphic: "noGraphic",
+      hasGraphic: "no",
     },
   })
   const sendUploadItem = useUploadItem()
@@ -35,22 +36,22 @@ const Upload = () => {
   useEffect(() => {
     // Reset or update the subcategory when the category changes
     if (selectedCategory) {
-      setValue("subcategory", CLOTHING_SUBCATEGORIES[selectedCategory][0])
+      setValue("subcategory", CLOTHING_SUBCATEGORIES[selectedCategory as keyof ClothingSubcategories][0])
     }
   }, [selectedCategory, setValue])
 
-  const onSubmit = (data, e) => {
-    e.preventDefault()
+  const onSubmit : SubmitHandler<UploadFormData> = (data) => {
     //sends info to the server
 
     const formData = new FormData()
     formData.append("image", file)
 
-    //converting the yesGraphic and noGraphic to boolean before we send
-    if (data.hasGraphic === "noGraphic") {
+    //converting the hasGraphic to boolean before we send 
+    //(since radio buttons don't take true or false)
+    if (data.hasGraphic === "no") {
       data.hasGraphic = false
     } else {
-      data.hasGraphic = "true"
+      data.hasGraphic = true
     }
 
     formData.append("details", JSON.stringify(data))
@@ -135,7 +136,7 @@ const Upload = () => {
                   className="w-[110px] px-1 py-2 sm:p-2 rounded-3xl bg-white bg-opacity-20 shadow-xl text-center focus:outline-none hover:bg-opacity-30 transition-all duration-100"
                 >
                   {/* {console.log(selectedCategory)} */}
-                  {CLOTHING_SUBCATEGORIES[selectedCategory]?.map(
+                  {CLOTHING_SUBCATEGORIES[selectedCategory as keyof ClothingSubcategories]?.map(
                     (option, index) => (
                       <option key={index} value={option}>
                         {option}
@@ -165,7 +166,7 @@ const Upload = () => {
                   <div className="p-2">yes</div>
                   <input
                     type="radio"
-                    value="yesGraphic"
+                    value="yes"
                     {...register("hasGraphic")}
                     className="border border-gray-200 p-2 rounded-md bg-black bg-opacity-30"
                   />
@@ -174,7 +175,7 @@ const Upload = () => {
                   <div className="p-2">no</div>
                   <input
                     type="radio"
-                    value="noGraphic"
+                    value="no"
                     {...register("hasGraphic")}
                     className="border border-gray-200 p-2 rounded-md bg-black bg-opacity-30"
                   />

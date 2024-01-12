@@ -30,6 +30,15 @@ export interface ContactUsFormData {
   message: string
 }
 
+export interface UploadFormData {
+  name: string,
+  category: string;
+  subcategory: string;
+  color: string;
+  hasGraphic: string | boolean;
+  // add other fields as necessary
+}
+
 //PROPS:
 export interface ModalProps {
   mainMessage?: string
@@ -69,4 +78,15 @@ export interface CustomError {
 export interface ResetPasswordParams {
   id?: string;
   token?: string;
+}
+
+
+export interface ClothingSubcategories {
+  Tops: string[];
+  Bottoms: string[];
+  Footwear: string[];
+  Dresses: string[];
+  Outerwear: string[];
+  Accessories: string[];
+  Activewear: string[];
 }
