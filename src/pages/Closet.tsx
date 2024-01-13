@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useState } from 'react';
+import React, { useState , ChangeEvent} from 'react';
 import { IoIosAdd } from "react-icons/io";
 import { FaRegEdit } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
@@ -7,7 +7,23 @@ import { useDeleteItem, useGetCloset } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
 import { CLOTHING_CATEGORIES } from "../services/constants"
 
-const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
+interface Item {
+  _id: any;
+  image: string;
+  name: string;
+  category: string;
+  subcategory: string;
+  color: string;
+  hasGraphic: boolean;
+}
+
+interface DeleteModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+}
+
+const DeleteModal : React.FC<DeleteModalProps> = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
   return (
     <div className="absolute text-white font-montserrat text-center bg-black bg-opacity-60 z-10 w-[300px] mx-[-14px] my-[100px] shadow-xl rounded-3xl border-white border-[1px]">
@@ -24,7 +40,11 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 
-const ClosetItem = ({ item }) => {
+interface ClosetItemProps {
+  item: Item;
+}
+
+const ClosetItem : React.FC<ClosetItemProps> = ({ item }) => {
   const deleteItem = useDeleteItem();
   const navigate = useNavigate();
   const handleDelete = () => {
@@ -78,22 +98,22 @@ const ClosetItem = ({ item }) => {
   );
 };
 
-const Closet = () => {
+const Closet : React.FC = () => {
   const navigate = useNavigate()
 
   const { data: uploadedItems , isPending} = useGetCloset()
 
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const handleCategoryChange = (event) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(event.target.value);
   };
 
-  const filteredItems = uploadedItems?.filter((item) =>
+  const filteredItems = uploadedItems?.filter((item : any) =>
     selectedCategory ? item.category === selectedCategory : true
   );
 
-  const handleFileInput = async (e) => {
-    const file = e.target.files[0];
+  const handleFileInput = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       navigate("/app/upload", { state: { file: file } });
     }
@@ -127,7 +147,7 @@ const Closet = () => {
             style={{ display: "none" }} // hide default input style
           />
           <button
-            onClick={() => document.getElementById("fileInput").click()}
+            onClick={() => document.getElementById("fileInput")?.click()}
             className="flex items-center bg-white bg-opacity-40 w-32 h-[42px] pl-8 rounded-3xl shadow-xl hover:bg-opacity-50 "
           >
             upload
@@ -144,7 +164,7 @@ const Closet = () => {
       <div className="flex justify-center sm:justify-start">
         <div className="flex flex-wrap justify-left mx-[120px]">
           {/* {console.log("uploaded Items:", uploadedItems)} */}
-          {filteredItems?.map((item) => (
+          {filteredItems?.map((item : any) => (
             <ClosetItem key={item._id} item={item} />
           ))}
         </div>
