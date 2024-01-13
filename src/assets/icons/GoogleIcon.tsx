@@ -1,4 +1,12 @@
-export const GoogleIcon = ({ className }) => (
+import { FC, ReactElement } from 'react';
+
+interface GoogleIconProps {
+  className?: string;
+}
+
+
+export const GoogleIcon: FC<GoogleIconProps> = ({ className }): ReactElement => (
+  
   <svg
     className={`w-5 h-5 ${className || ""}`}
     viewBox="0 0 48 48"
