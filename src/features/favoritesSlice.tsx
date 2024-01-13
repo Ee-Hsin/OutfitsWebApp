@@ -1,20 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
-    favoritesItems: localStorage.getItem("favoritesItems") ? JSON.parse(localStorage.getItem("favoritesItems")) : [],
+interface FavoritesState {
+    favoritesItems: Array<{ _id?: string }>;
+  }
+
+const initialState : FavoritesState = {
+    favoritesItems: localStorage.getItem("favoritesItems") ? JSON.parse(localStorage.getItem("favoritesItems")!) : [],
 }
 
 export const favoritesSlice = createSlice({
     name: 'favorites',
     initialState,
     reducers: {
-        addToFavoritesList: (state, action) => {
+        addToFavoritesList: (state, action : PayloadAction<{ _id?: string}>) => {
             let eachFavproductIndex = state.favoritesItems.findIndex((item) => item?._id === action.payload?._id);
 
             if (eachFavproductIndex >= 0) {
                 alert('You cannot add this to Favorites anymore it is married!');
             } else {
-                let assembledItem;
+                let assembledItem : { _id?: string}; 
                 assembledItem = { ...action.payload }
                 state.favoritesItems.push(assembledItem);
                 localStorage.setItem("favoritesItems", JSON.stringify(state.favoritesItems));
@@ -23,18 +27,18 @@ export const favoritesSlice = createSlice({
 
         //remove from wishlist
 
-        removeFavoritesList: (state, action) => {
+        removeFavoritesList: (state, action : PayloadAction<{ _id?: string}>) => {
 
             const updatedFavorites = state.favoritesItems?.filter((item) => item?._id !== action.payload?._id)
 
-            state.favoritesItems = updatedFavorites;
+            state.favoritesItems = updatedFavorites || [];
 
             localStorage.setItem("favoritesItems", JSON.stringify(state.favoritesItems));
 
         },
 
-        clearFavorites: (state, action) => {
-            state.faoritesItems = [];
+        clearFavorites: (state) => {
+            state.favoritesItems = [];
             localStorage.setItem("favoritesItems", JSON.stringify(state.favoritesItems));
         }
 
