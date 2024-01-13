@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import React, { useState , ChangeEvent} from 'react';
+import { useState , ChangeEvent} from 'react';
 import { IoIosAdd } from "react-icons/io";
 import { FaRegEdit } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
