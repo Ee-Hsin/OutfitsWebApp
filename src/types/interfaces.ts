@@ -93,12 +93,7 @@ export interface ClothingSubcategories {
   Accessories: string[];
   Activewear: string[];
 }
-export interface SignUpData {
-  username: string;
-  email: string;
-  password: string;
-  // Add other form fields as needed
-}
+
 //Request Details
 export interface FavoriteDetails {}
 

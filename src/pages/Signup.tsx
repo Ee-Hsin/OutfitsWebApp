@@ -1,13 +1,12 @@
 import { Link, Navigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateUser, useCreateGoogleUser } from "../hooks/query";
 import { FailureModal } from "../components/UI/FailureModal";
 import { Loader } from "../components/UI/Loader";
-import React from "react";
-import { SignUpData } from "../types/interfaces";
+import { CustomError, SignUpFormData } from "../types/interfaces";
 
-function Signup() {
+const Signup: React.FC = () => {
   const mutation = useCreateUser();
   const googleMutation = useCreateGoogleUser();
 
@@ -16,11 +15,9 @@ function Signup() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<SignUpData>();
+  } = useForm<SignUpFormData>();
 
-  function onSubmit(data: any, e: any) {
-    e.preventDefault();
-
+  const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
     //sends info to the server
     mutation.mutate(data);
 
@@ -34,7 +31,7 @@ function Signup() {
       {mutation.isError && (
         <FailureModal
           mainMessage={
-            mutation?.error?.response?.data?.message ||
+            (mutation.error as CustomError)?.response?.data?.message ||
             "Oops, looks like something went wrong"
           }
           subMessage="Please try again and contact us if the error persists"
@@ -44,7 +41,7 @@ function Signup() {
       {googleMutation.isError && (
         <FailureModal
           mainMessage={
-            googleMutation?.error?.response?.data?.message ||
+            (googleMutation.error as CustomError)?.response?.data?.message ||
             "Oops, looks like something went wrong"
           }
           subMessage="Please try again and contact us if the error persists"
@@ -70,7 +67,7 @@ function Signup() {
             </p>
           </div>
         </div>
-        {mutation.isPending || googleMutation.isPending ? (
+        {(mutation.isPending || googleMutation.isPending) ? (
           <Loader />
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
