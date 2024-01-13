@@ -1,37 +1,37 @@
 //FORM DATA:
 export interface LoginFormData {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface SignUpFormData {
-  username: string
-  email: string
-  password: string
+  username: string;
+  email: string;
+  password: string;
 }
 
 export interface GoogleFormData {
-  googleId?: string
-  googleCred?: string
+  googleId?: string;
+  googleCred?: string;
 }
 
 export interface ForgotPasswordFormData {
-  email: string
+  email: string;
 }
 
-export interface ResetPasswordFormData{
-  password: string
+export interface ResetPasswordFormData {
+  password: string;
 }
 
 export interface ContactUsFormData {
-  firstName: string
-  lastName: string
-  email: string
-  message: string
+  firstName: string;
+  lastName: string;
+  email: string;
+  message: string;
 }
 
 export interface UploadFormData {
-  name: string,
+  name: string;
   category: string;
   subcategory: string;
   color: string;
@@ -39,17 +39,21 @@ export interface UploadFormData {
   // add other fields as necessary
 }
 
+export interface UpdateItemDetailsProps {
+  itemId: string;
+}
+
 //PROPS:
 export interface ModalProps {
-  mainMessage?: string
-  subMessage?: string
-  redirectMessage?: string
-  redirectLink?: string
+  mainMessage?: string;
+  subMessage?: string;
+  redirectMessage?: string;
+  redirectLink?: string;
 }
 
 export interface LoaderProps {
-  small?: boolean
-  className?: string
+  small?: boolean;
+  className?: string;
 }
 
 //RESPONSES AND ERRORS AND STUFF
@@ -67,10 +71,10 @@ export interface LoaderProps {
 export interface CustomError {
   response?: {
     data?: {
-      message?: string
-    }
+      message?: string;
+    };
     // ... other properties of Axios response
-  }
+  };
   // ... other properties of Axios error
 }
 
@@ -79,7 +83,6 @@ export interface ResetPasswordParams {
   id?: string;
   token?: string;
 }
-
 
 export interface ClothingSubcategories {
   Tops: string[];
@@ -90,3 +93,13 @@ export interface ClothingSubcategories {
   Accessories: string[];
   Activewear: string[];
 }
+export interface SignUpData {
+  username: string;
+  email: string;
+  password: string;
+  // Add other form fields as needed
+}
+//Request Details
+export interface FavoriteDetails {}
+
+export interface OutfitDetails {}

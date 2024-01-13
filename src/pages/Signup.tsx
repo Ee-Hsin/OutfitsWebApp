@@ -1,12 +1,13 @@
 import { Link, Navigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useCreateUser, useCreateGoogleUser } from "../hooks/query";
 import { FailureModal } from "../components/UI/FailureModal";
 import { Loader } from "../components/UI/Loader";
-import { CustomError, SignUpFormData } from "../types/interfaces";
+import React from "react";
+import { SignUpData } from "../types/interfaces";
 
-const Signup: React.FC = () => {
+function Signup() {
   const mutation = useCreateUser();
   const googleMutation = useCreateGoogleUser();
 
@@ -15,14 +16,16 @@ const Signup: React.FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<SignUpFormData>();
+  } = useForm<SignUpData>();
 
-  const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
+  function onSubmit(data: any, e: any) {
+    e.preventDefault();
+
     //sends info to the server
     mutation.mutate(data);
 
     reset();
-  };
+  }
 
   return (
     <main className="fixed w-full h-screen flex flex-col items-center justify-center px-4 ">
@@ -31,7 +34,7 @@ const Signup: React.FC = () => {
       {mutation.isError && (
         <FailureModal
           mainMessage={
-            (mutation.error as CustomError)?.response?.data?.message ||
+            mutation?.error?.response?.data?.message ||
             "Oops, looks like something went wrong"
           }
           subMessage="Please try again and contact us if the error persists"
@@ -41,7 +44,7 @@ const Signup: React.FC = () => {
       {googleMutation.isError && (
         <FailureModal
           mainMessage={
-            (mutation.error as CustomError)?.response?.data?.message ||
+            googleMutation?.error?.response?.data?.message ||
             "Oops, looks like something went wrong"
           }
           subMessage="Please try again and contact us if the error persists"
@@ -67,7 +70,7 @@ const Signup: React.FC = () => {
             </p>
           </div>
         </div>
-        {(mutation.isPending || googleMutation.isPending) ? (
+        {mutation.isPending || googleMutation.isPending ? (
           <Loader />
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
@@ -97,6 +100,7 @@ const Signup: React.FC = () => {
                 })}
                 className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
               />
+
               {errors.email && (
                 <p role="alert" className="text-red-500">
                   {errors.email.message}
