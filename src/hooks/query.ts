@@ -1,14 +1,18 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import API from "../services/api"
-import { useAuth } from "./AuthContext"
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import API from '../services/api'
+import { useAuth } from './AuthContext'
 import {
-  ForgotPasswordFormData,
-  LoginFormData,
-  GoogleFormData,
-  SignUpFormData,
-  ResetPasswordFormData,
-  ResetPasswordParams,
-} from "../types/interfaces"
+    ForgotPasswordFormData,
+    LoginFormData,
+    GoogleFormData,
+    SignUpFormData,
+    ResetPasswordFormData,
+    ResetPasswordParams,
+    UpdateItemDetailsProps,
+    FavoriteDetails,
+    OutfitDetails,
+    CustomError,
+} from '../types/interfaces'
 
 /* **************************************************************************** */
 /* AUTHENTICATION */
@@ -17,63 +21,63 @@ import {
 //Sends post request to Sign In user on backend.
 //Updates the frontend with the token that is returned from the backend
 const useSignInUser = () => {
-  const { signIn } = useAuth()
+    const { signIn } = useAuth()
 
-  return useMutation<any, Error, LoginFormData>({
-    mutationFn: (data) => API.post("/users/login", data),
-    onSuccess: (data) => {
-      // console.log(data)
-      signIn(data.data.user)
-    },
-  })
+    return useMutation<any, Error, LoginFormData>({
+        mutationFn: (data) => API.post('/users/login', data),
+        onSuccess: (data) => {
+            // console.log(data)
+            signIn(data.data.user)
+        },
+    })
 }
 
 // Signs in Google User (POST)
 const useSignInGoogleUser = () => {
-  const { signIn } = useAuth()
+    const { signIn } = useAuth()
 
-  return useMutation<any, Error, GoogleFormData>({
-    mutationFn: (data) => API.post("/users/login/google", data),
-    onSuccess: (data) => signIn(data.data.user),
-  })
+    return useMutation<any, Error, GoogleFormData>({
+        mutationFn: (data) => API.post('/users/login/google', data),
+        onSuccess: (data) => signIn(data.data.user),
+    })
 }
 
 //Signs up Email and Password User (POST), logs them in after.
 const useCreateUser = () => {
-  const { signIn } = useAuth()
+    const { signIn } = useAuth()
 
-  return useMutation<any, Error, SignUpFormData>({
-    mutationFn: (data) => API.post("/users", data),
-    //backend returns {{ user: token }}
-    //and we want to pass the token
-    onSuccess: (data) => signIn(data.data.user),
-  })
+    return useMutation<any, CustomError, SignUpFormData>({
+        mutationFn: (data) => API.post('/users', data),
+        //backend returns {{ user: token }}
+        //and we want to pass the token
+        onSuccess: (data) => signIn(data.data.user),
+    })
 }
 
 //Signs up Google User, logs them in after. (POST)
 const useCreateGoogleUser = () => {
-  const { signIn } = useAuth()
+    const { signIn } = useAuth()
 
-  return useMutation<any, Error, GoogleFormData>({
-    // {}
-    mutationFn: (data) => API.post("/users", data),
-    onSuccess: (data) => signIn(data.data.user),
-  })
+    return useMutation<any, CustomError, GoogleFormData>({
+        // {}
+        mutationFn: (data) => API.post('/users', data),
+        onSuccess: (data) => signIn(data.data.user),
+    })
 }
 
 //User gives us their email and requests to change password (POST)
 const useForgotPassword = () => {
-  return useMutation<void, Error, ForgotPasswordFormData>({
-    mutationFn: (data) => API.post("/users/forget-password", data),
-  })
+    return useMutation<void, Error, ForgotPasswordFormData>({
+        mutationFn: (data) => API.post('/users/forget-password', data),
+    })
 }
 
 //User has reset link, and is using that to reset their password (POST)
-const useResetPassword = ({ id , token }: ResetPasswordParams) => {
-  return useMutation<void, Error, ResetPasswordFormData>({
-    mutationFn: (data) =>
-      API.post(`/users/reset-password/${id}/${token}`, data),
-  })
+const useResetPassword = ({ id, token }: ResetPasswordParams) => {
+    return useMutation<void, Error, ResetPasswordFormData>({
+        mutationFn: (data) =>
+            API.post(`/users/reset-password/${id}/${token}`, data),
+    })
 }
 
 /* **************************************************************************** */
@@ -81,75 +85,75 @@ const useResetPassword = ({ id , token }: ResetPasswordParams) => {
 
 //User uploads a new item (POST)
 const useUploadItem = () => {
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
 
-  return useMutation<any, Error, FormData>({
-    mutationFn: (data) =>
-      API.post("/api/closet/uploadItem", data, {
-        headers: {
-          "x-access-token": user,
+    return useMutation<any, Error, FormData>({
+        mutationFn: (data) =>
+            API.post('/api/closet/uploadItem', data, {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        onSuccess: () => {
+            // Invalidate so that the useGetCloset query will refetch
+            queryClient.invalidateQueries({ queryKey: ['closet', user] })
         },
-      }),
-    onSuccess: () => {
-      // Invalidate so that the useGetCloset query will refetch
-      queryClient.invalidateQueries(["closet", user])
-    },
-  })
+    })
 }
 
 //User updates an item (POST)
 const useUpdateItem = () => {
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (data) =>
-      API.put(`/api/closet/updateItemDetails/${data.itemId}`, data, {
-        headers: {
-          "x-access-token": user,
+    return useMutation({
+        mutationFn: (data: UpdateItemDetailsProps) =>
+            API.put(`/api/closet/updateItemDetails/${data.itemId}`, data, {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        onSuccess: () => {
+            // Invalidate so that the useGetCloset query will refetch
+            queryClient.invalidateQueries({ queryKey: ['closet', user] })
         },
-      }),
-    onSuccess: () => {
-      // Invalidate so that the useGetCloset query will refetch
-      queryClient.invalidateQueries(["closet", user])
-    },
-  })
+    })
 }
 
 //User deletes an item (DELETE)
 const useDeleteItem = () => {
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (itemId) =>
-      API.delete(`/api/closet/closetItem/${itemId}`, {
-        headers: {
-          "x-access-token": user,
+    return useMutation({
+        mutationFn: (itemId: string) =>
+            API.delete(`/api/closet/closetItem/${itemId}`, {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['closet', user] })
         },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["closet", user])
-    },
-  })
+    })
 }
 
 //To get the user's closet items (GET)
 const useGetCloset = () => {
-  const { user } = useAuth()
+    const { user } = useAuth()
 
-  return useQuery({
-    queryKey: ["closet", user],
-    queryFn: () =>
-      API.get("/api/closet", {
-        headers: {
-          "x-access-token": user,
-        },
-      }),
-    enabled: !!user,
-    select: (response) => response.data.items,
-  })
+    return useQuery({
+        queryKey: ['closet', user],
+        queryFn: () =>
+            API.get('/api/closet', {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        enabled: !!user,
+        select: (response) => response.data.items,
+    })
 }
 
 //TO IMPLEMENT (NEED TO CHANGE BACKEND TO ACCOMODATE), FOR FETCHING INFINITE SCROLL.
@@ -165,89 +169,96 @@ const useGetCloset = () => {
 
 //User uploads a new outfit (POST)
 const useSaveOutfit = () => {
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (data) =>
-      API.post("/api/outfit", data, {
-        headers: {
-          "x-access-token": user,
+    return useMutation({
+        mutationFn: (data) =>
+            API.post('/api/outfit', data, {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['outfit', user] })
         },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["outfit", user])
-    },
-  })
+    })
 }
 
 //To get the user's outfits (GET)
 const useGetOutfits = () => {
-  const { user } = useAuth()
+    const { user } = useAuth()
 
-  return useQuery({
-    queryKey: ["outfit", user],
-    queryFn: () =>
-      API.get("/api/outfit", {
-        headers: {
-          "x-access-token": user,
-        },
-      }),
-  })
+    return useQuery({
+        queryKey: ['outfit', user],
+        queryFn: () =>
+            API.get('/api/outfit', {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+    })
 }
 
 //User deletes an outfit (DELETE)
 const useDeleteOutfit = () => {
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (outfitId) =>
-      API.delete(`/api/outfit/${outfitId}`, {
-        headers: {
-          "x-access-token": user,
+    return useMutation({
+        mutationFn: (outfitId: string) =>
+            API.delete(`/api/outfit/${outfitId}`, {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['outfit', user] })
         },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["outfit", user])
-    },
-  })
+    })
 }
 
 //To get recommendations for the user's outfits (GET)
-const getCurrentPositionPromise = () => {
-  return new Promise((resolve, reject) => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => resolve(position),
-        (error) => reject(error)
-      )
-    } else {
-      reject(new Error("Geolocation is not supported by this browser."))
-    }
-  })
-}
-const useGetRecommendations = (enabled) => {
-  const { user } = useAuth()
-  return useQuery({
-    queryKey: ["recommendation", user],
-    queryFn: async () => {
-      let position = await getCurrentPositionPromise()
-      const latitude = position.coords.latitude
-      const longitude = position.coords.longitude
-
-      return API.get(
-        `/api/outfit/recommendation?lat=${latitude}&long=${longitude}`,
-        {
-          headers: {
-            "x-access-token": user,
-          },
+const getCurrentPositionPromise = (): Promise<GeolocationPosition | Error> => {
+    return new Promise((resolve, reject) => {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => resolve(position),
+                (error) => reject(error)
+            )
+        } else {
+            reject(new Error('Geolocation is not supported by this browser.'))
         }
-      )
-    },
+    })
+}
+function isError(value: GeolocationPosition | Error): value is Error {
+    return value instanceof Error
+}
+const useGetRecommendations = (enabled: boolean) => {
+    const { user } = useAuth()
+    return useQuery({
+        queryKey: ['recommendation', user],
+        queryFn: async () => {
+            let position = await getCurrentPositionPromise()
+            if (isError(position)) {
+                throw position
+            }
 
-    enabled: !!user && enabled,
-  })
+            const latitude = position.coords.latitude
+            const longitude = position.coords.longitude
+
+            return API.get(
+                `/api/outfit/recommendation?lat=${latitude}&long=${longitude}`,
+                {
+                    headers: {
+                        'x-access-token': user,
+                    },
+                }
+            )
+        },
+
+        enabled: !!user && enabled,
+    })
 }
 
 /* **************************************************************************** */
@@ -256,92 +267,92 @@ const useGetRecommendations = (enabled) => {
 // To add an outfit to favorite (POST)
 // Use this mutation for saving favorite
 const useSaveFavoriteItem = () => {
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (data) =>
-      API.post("/api/favorite", data, {
-        headers: {
-          "x-access-token": user,
+    return useMutation({
+        mutationFn: (data: FavoriteDetails) =>
+            API.post('/api/favorite', data, {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['favorite', user] })
         },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["favorite", user])
-    },
-  })
+    })
 }
 
 const useGetFavorites = () => {
-  const { user } = useAuth()
+    const { user } = useAuth()
 
-  return useQuery({
-    queryKey: ["favorite", user],
-    queryFn: (data) =>
-      API.get("/api/favorite", {
-        data,
-        headers: {
-          "x-access-token": user,
-        },
-      }),
-    enabled: !!user,
-  })
+    return useQuery({
+        queryKey: ['favorite', user],
+        queryFn: (data) =>
+            API.get('/api/favorite', {
+                data,
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        enabled: !!user,
+    })
 }
 
 // To remove an outfit from favorite (DELETE)
 const useRemoveFavoriteItem = () => {
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (id) =>
-      API.delete(`/api/favorite/${id}`, {
-        headers: {
-          "x-access-token": user,
+    return useMutation({
+        mutationFn: (id: string) =>
+            API.delete(`/api/favorite/${id}`, {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['favorite', user] })
         },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["favorite", user])
-    },
-  })
+    })
 }
 
 // In query.js
 const useSaveGeneratedOutfit = () => {
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: (data) =>
-      API.post("/api/favorite", data, {
-        headers: {
-          "x-access-token": user,
+    return useMutation({
+        mutationFn: (data: OutfitDetails) =>
+            API.post('/api/favorite', data, {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['favorite', user] })
         },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["favorite", user])
-    },
-  })
+    })
 }
 
 export {
-  useSignInUser,
-  useSignInGoogleUser,
-  useCreateUser,
-  useCreateGoogleUser,
-  useForgotPassword,
-  useResetPassword,
-  useUploadItem,
-  useUpdateItem,
-  useDeleteItem,
-  useSaveOutfit,
-  useGetCloset,
-  //   useGetInfiniteScrollCloset,
-  useGetOutfits,
-  useDeleteOutfit,
-  useGetRecommendations,
-  useSaveFavoriteItem,
-  useGetFavorites,
-  useRemoveFavoriteItem,
-  useSaveGeneratedOutfit,
+    useSignInUser,
+    useSignInGoogleUser,
+    useCreateUser,
+    useCreateGoogleUser,
+    useForgotPassword,
+    useResetPassword,
+    useUploadItem,
+    useUpdateItem,
+    useDeleteItem,
+    useSaveOutfit,
+    useGetCloset,
+    //   useGetInfiniteScrollCloset,
+    useGetOutfits,
+    useDeleteOutfit,
+    useGetRecommendations,
+    useSaveFavoriteItem,
+    useGetFavorites,
+    useRemoveFavoriteItem,
+    useSaveGeneratedOutfit,
 }

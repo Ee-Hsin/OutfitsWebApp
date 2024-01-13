@@ -1,59 +1,60 @@
 //FORM DATA:
 export interface LoginFormData {
-  email: string;
-  password: string;
+    email: string
+    password: string
 }
 
 export interface SignUpFormData {
-  username: string;
-  email: string;
-  password: string;
+    username: string
+    email: string
+    password: string
 }
 
 export interface GoogleFormData {
-  googleId?: string;
-  googleCred?: string;
+    googleId?: string
+    googleCred?: string
 }
 
 export interface ForgotPasswordFormData {
-  email: string;
+    email: string
 }
 
 export interface ResetPasswordFormData {
-  password: string;
+    password: string
 }
 
 export interface ContactUsFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  message: string;
+    firstName: string
+    lastName: string
+    email: string
+    message: string
 }
 
 export interface UploadFormData {
-  name: string;
-  category: string;
-  subcategory: string;
-  color: string;
-  hasGraphic: string | boolean;
-  // add other fields as necessary
+    name: string
+    category: string
+    subcategory: string
+    color: string
+    hasGraphic: string | boolean
+    // add other fields as necessary
 }
 
 export interface UpdateItemDetailsProps {
-  itemId: string;
+    itemId: string
+    details: ClosetItem
 }
 
 //PROPS:
 export interface ModalProps {
-  mainMessage?: string;
-  subMessage?: string;
-  redirectMessage?: string;
-  redirectLink?: string;
+    mainMessage?: string
+    subMessage?: string
+    redirectMessage?: string
+    redirectLink?: string
 }
 
 export interface LoaderProps {
-  small?: boolean;
-  className?: string;
+    small?: boolean
+    className?: string
 }
 
 //RESPONSES AND ERRORS AND STUFF
@@ -69,32 +70,51 @@ export interface LoaderProps {
 //This is a bit sus, idk why it works even though the error returned
 //is more than just these fields
 export interface CustomError {
-  response?: {
-    data?: {
-      message?: string;
-    };
-    // ... other properties of Axios response
-  };
-  // ... other properties of Axios error
+    response?: {
+        data?: {
+            message?: string
+        }
+        // ... other properties of Axios response
+    }
+    // ... other properties of Axios error
 }
 
 //FUNCTION PARAMETERS:
 export interface ResetPasswordParams {
-  id?: string;
-  token?: string;
+    id?: string
+    token?: string
 }
 
 export interface ClothingSubcategories {
-  Tops: string[];
-  Bottoms: string[];
-  Footwear: string[];
-  Dresses: string[];
-  Outerwear: string[];
-  Accessories: string[];
-  Activewear: string[];
+    Tops: string[]
+    Bottoms: string[]
+    Footwear: string[]
+    Dresses: string[]
+    Outerwear: string[]
+    Accessories: string[]
+    Activewear: string[]
 }
 
 //Request Details
 export interface FavoriteDetails {}
 
 export interface OutfitDetails {}
+
+// Clothing Item
+export interface ClosetItem {
+    _id: string
+    image: string
+    name: string
+    category: string
+    subcategory: string
+    color: string
+    hasGraphic: string | boolean
+}
+export type ClothingCategory =
+    | 'Tops'
+    | 'Bottoms'
+    | 'Activewear'
+    | 'Footwear'
+    | 'Dresses'
+    | 'Outerwear'
+    | 'Accessories'
