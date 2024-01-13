@@ -6,18 +6,18 @@ import { Tooltip } from "react-tooltip";
 import { useGetCloset, useSaveOutfit } from "../hooks/query";
 import { Loader } from "../components/UI/Loader";
 
-const Create = () => {
+const Create : React.FC = () => {
   const { data: uploadedItems, isPending } = useGetCloset();
-  const [outfitName, setOutfitName] = useState("");
-  const [buttonActive, setButtonActive] = useState(false);
+  const [outfitName, setOutfitName] = useState<string>("");
+  const [buttonActive, setButtonActive] = useState<boolean>(false);
   //const [loading, setLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const saveOutfit = useSaveOutfit();
 
   useEffect(() => {
     setButtonActive(selectedItems.length >= 2 && selectedItems.length <= 4 && outfitName.length > 0);
   }, [selectedItems, outfitName]);
-  const toggleSelectItem = (itemId) => {
+  const toggleSelectItem = (itemId: string) => {
     setSelectedItems((prevSelectedItems) => {
       if (prevSelectedItems.includes(itemId)) {
         // Item is already selected, remove it
@@ -110,7 +110,7 @@ const Create = () => {
          <Loader className=" mt-40"/>
       ) : (
         <div className="flex flex-wrap justify-left mx-[120px]">
-          {uploadedItems.map((item) => (
+          {uploadedItems.map((item : any ) => (
             <div
               onClick={() => toggleSelectItem(item._id)}
               key={item._id}
