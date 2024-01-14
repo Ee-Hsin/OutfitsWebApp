@@ -39,6 +39,11 @@ export interface UploadFormData {
     // add other fields as necessary
 }
 
+export interface CreateOutfitData {
+  clothes: string[];
+  outfitName: string;
+}
+
 export interface UpdateItemDetailsProps {
     itemId: string
     details: ClosetItem

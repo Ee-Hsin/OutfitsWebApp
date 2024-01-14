@@ -12,6 +12,7 @@ import {
     FavoriteDetails,
     OutfitDetails,
     CustomError,
+    CreateOutfitData,
 } from '../types/interfaces'
 
 /* **************************************************************************** */
@@ -107,8 +108,8 @@ const useUpdateItem = () => {
     const { user } = useAuth()
     const queryClient = useQueryClient()
 
-    return useMutation({
-        mutationFn: (data: UpdateItemDetailsProps) =>
+    return useMutation<any, Error, UpdateItemDetailsProps >({
+        mutationFn: (data) =>
             API.put(`/api/closet/updateItemDetails/${data.itemId}`, data, {
                 headers: {
                     'x-access-token': user,
@@ -172,7 +173,7 @@ const useSaveOutfit = () => {
     const { user } = useAuth()
     const queryClient = useQueryClient()
 
-    return useMutation({
+    return useMutation<any, Error, CreateOutfitData>({
         mutationFn: (data) =>
             API.post('/api/outfit', data, {
                 headers: {
