@@ -24,6 +24,8 @@ import {
 const useSignInUser = () => {
     const { signIn } = useAuth()
 
+    //<any, Error, LoginFormData> 
+    // Is: <*response type*, *error type*, *the sent data type*>
     return useMutation<any, Error, LoginFormData>({
         mutationFn: (data) => API.post('/users/login', data),
         onSuccess: (data) => {
