@@ -10,7 +10,7 @@ import {
 } from "../services/constants"
 import { Loader } from "../components/UI/Loader"
 import { useEffect } from "react"
-import { ClothingSubcategories, UploadFormData } from "../types/interfaces"
+import { ClothingCategory, ClothingSubcategories, UploadFormData } from "../types/interfaces"
 
 const Upload = () => {
   const location = useLocation()
@@ -31,7 +31,7 @@ const Upload = () => {
   })
   const sendUploadItem = useUploadItem()
 
-  const selectedCategory = watch("category")
+  const selectedCategory = watch("category") as ClothingCategory
 
   useEffect(() => {
     // Reset or update the subcategory when the category changes

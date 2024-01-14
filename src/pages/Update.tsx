@@ -10,7 +10,7 @@ import {
 } from '../services/constants'
 import { Loader } from '../components/UI/Loader'
 import { useEffect } from 'react'
-import { ClosetItem, ClothingCategory } from '../types/interfaces'
+import { ClosetItem, ClothingCategory, ClothingSubcategories } from '../types/interfaces'
 
 const Update = () => {
     const location = useLocation()
@@ -42,7 +42,7 @@ const Update = () => {
     useEffect(() => {
         // Reset or update the subcategory when the category changes
         if (selectedCategory) {
-            setValue('subcategory', CLOTHING_SUBCATEGORIES[selectedCategory][0])
+            setValue('subcategory', CLOTHING_SUBCATEGORIES[selectedCategory as keyof ClothingSubcategories][0])
         }
     }, [selectedCategory, setValue])
 
