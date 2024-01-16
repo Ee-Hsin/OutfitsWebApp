@@ -80,7 +80,7 @@ const Upload = () => {
       {sendUploadItem.isSuccess && <Navigate to="/app/closet" />}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-wrap items-center justify-center mx-4 my-0 lg:my-24
+        className="flex flex-wrap items-center justify-center mx-4 my-0 lg:my-8
        text-white font-montserrat"
       >
         {sendUploadItem.isPending ? (
