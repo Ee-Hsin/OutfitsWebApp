@@ -6,7 +6,7 @@ import {
   useDeleteOutfit,
   useGetFavorites,
   useRemoveFavoriteItem,
-} from "../hooks/query.js";
+} from "../hooks/query";
 import { useEffect, useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { Loader } from "../components/UI/Loader";
