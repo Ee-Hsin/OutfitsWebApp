@@ -237,7 +237,7 @@ const getCurrentPositionPromise = (): Promise<GeolocationPosition | Error> => {
 function isError(value: GeolocationPosition | Error): value is Error {
     return value instanceof Error
 }
-const useGetRecommendations = (enabled: boolean) => {
+const useGetRecommendations = () => {
     const { user } = useAuth()
     return useQuery({
         queryKey: ['recommendation', user],
@@ -259,8 +259,6 @@ const useGetRecommendations = (enabled: boolean) => {
                 }
             )
         },
-
-        enabled: !!user && enabled,
     })
 }
 

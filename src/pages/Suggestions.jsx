@@ -1,144 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BsHeart, BsHeartFill } from 'react-icons/bs'
-import { useGetCloset, useGetRecommendations } from '../hooks/query'
+import { useGetRecommendations } from '../hooks/query'
 import { Loader } from '../components/UI/Loader'
 import { useRemoveFavoriteItem, useSaveGeneratedOutfit } from '../hooks/query'
-import {
-    validBottomsFields,
-    validFootwearFields,
-    validTopsFields,
-} from '../services/constants'
 import { FailureModal } from '../components/UI/FailureModal'
 
 const Suggestions = () => {
-    //let getCloset = useGetCloset();
-    const [favoritedItems, setFavorites] = useState([])
-    const [validCloset, setValidCloset] = useState(false)
-    const [showErrorModal, setShowError] = useState(false)
-    const getRecommendations = useGetRecommendations(validCloset)
-    const getCloset = useGetCloset()
     const saveGeneratedOutfit = useSaveGeneratedOutfit()
     const removeFavoriteItem = useRemoveFavoriteItem()
+    //To get the recommendations
+    const getRecommendations = useGetRecommendations()
 
-    const [outfits, setOutfits] = useState([])
-    useEffect(() => {
-        if (getCloset.isPending) {
-            return
-        }
-        //A valid closet has atleast one top, one bottom and one piece of footwear
-        const closet = getCloset.data
-        //Group the closet items by type
-        const groupedItems = closet.reduce((groups, item) => {
-            if (!groups[item.category]) {
-                groups[item.category] = []
-            }
-            groups[item.category].push(item)
-
-            return groups
-        }, {})
-        //Make sure the user has atleast one of each mandatory clothing item
-        //Bk wrote this code, not chatgpt! (if it doesn't work though, then Bk didn't write it)
-        const isValidCloset = [
-            validTopsFields,
-            validBottomsFields,
-            validFootwearFields,
-        ]
-            .map((validFields) =>
-                validFields.reduce(
-                    (acc, field) => acc + (groupedItems[field]?.length ?? 0),
-                    0
-                )
-            )
-            .every((count) => count >= 1)
-
-        setValidCloset(isValidCloset)
-        setShowError(!isValidCloset)
-    }, [getCloset.isPending, getCloset.data])
-    // useEffect to generate outfits initially and on component mount
+    // const [outfits, setOutfits] = useState([])
+    const [favoritedItems, setFavorites] = useState([])
     const [outfitName, setOutfitName] = useState('')
     const [selectedOutfit, setSelectedOutfit] = useState(null)
     const [selectedItems, setSelectedItems] = useState([])
-
-    let { data: uploadedItems } = useGetCloset()
-    if (!uploadedItems) {
-        uploadedItems = []
-    }
-
-    // const generateOutfits = () => {
-    //   const generatedOutfits = [];
-
-    //   for (let i = 0; i < 4; i++) {
-    //     const shuffledItems = [...uploadedItems].sort(() => Math.random() - 0.5);
-    //     const outfitItems = [];
-
-    //     for (const category of [
-    //       "Tops",
-    //       "Bottoms",
-    //       "Footwear",
-    //       "Accessories",
-    //       "Dresses",
-    //       "Activewear",
-    //     ]) {
-    //       let selectedItems = shuffledItems.filter(
-    //         (item) =>
-    //           item.category === category &&
-    //           !outfitItems.some(
-    //             (outfitItem) => outfitItem.category === category
-    //           )
-    //       );
-
-    //       while (outfitItems.length < 4 && selectedItems.length > 0) {
-    //         const selectedItem =
-    //           selectedItems[Math.floor(Math.random() * selectedItems.length)];
-    //         outfitItems.push(selectedItem);
-    //         selectedItems = selectedItems.filter(
-    //           (item) => item.id !== selectedItem.id
-    //         );
-    //       }
-    //     }
-
-    //     const outfit = {
-    //       id: i + 1,
-    //       title: `Outfit ${i + 1}`,
-    //       items: outfitItems,
-    //       savedId: generateOutfitId(),
-    //     };
-
-    //     generatedOutfits.push(outfit);
-    //   }
-
-    //   return generatedOutfits;
-    // };
-
-    useEffect(() => {
-        if (getRecommendations.isSuccess)
-            setOutfits(getRecommendations.data?.data?.outfits)
-    }, [getRecommendations.isSuccess, getRecommendations.data])
-
-    useEffect(() => {
-        if (saveGeneratedOutfit.isSuccess) {
-            setOutfits((prevOutfits) => {
-                //Hands down the dumbest thing i've ever written
-                //Remove the current outfit
-                let withoutOutfit = prevOutfits.filter(
-                    (item) => item.id !== selectedOutfit.id
-                )
-                //Update its ID to the databases id
-                // console.log(saveGeneratedOutfit.data);
-                selectedOutfit.id = saveGeneratedOutfit?.data.data.favorite._id
-                withoutOutfit.push(selectedOutfit)
-                //Thats our new list
-                return withoutOutfit
-            })
-            setSelectedOutfit(null)
-            setOutfitName('')
-            setSelectedItems([])
-        }
-    }, [
-        saveGeneratedOutfit.isSuccess,
-        saveGeneratedOutfit?.data.data.favorite._id,
-    ])
 
     // Function to handle toggling favorites
     const handleToggleFavorite = async (outfit) => {
@@ -165,30 +43,16 @@ const Suggestions = () => {
         setOutfitName(e.target.value)
     }
 
-    // Function to handle save button click
-    const handleSaveButtonClick = async () => {
-        try {
-            const newOutfit = {
-                ...selectedOutfit,
-                title: outfitName,
-            }
-
-            saveGeneratedOutfit.mutate(newOutfit) // Save generated outfit to the database
-
-            // Reset states for the next selection
-        } catch (error) {
-            console.error('Error saving outfit:', error)
+    // Function to handle saving the generated outfit
+    const handleSaveButtonClick = () => {
+        if (!outfitName) {
+            console.log("Your outfit needs a name")
+            return
         }
-    }
-    if (showErrorModal) {
-        return (
-            <FailureModal
-                mainMessage="You don't have enough clothes!"
-                subMessage="Add more types of clothing for a complete fit"
-                redirectLink={'/app/closet'}
-                redirectMessage={'Upload More Clothes'}
-            />
-        )
+        saveGeneratedOutfit.mutate({
+            ...selectedOutfit,
+            title: outfitName,
+        })
     }
 
     return (
@@ -204,6 +68,13 @@ const Suggestions = () => {
                     <div>suggestions</div>
                 </div>
             </div>
+            {getRecommendations.isError && (
+                <FailureModal
+                // mainMessage={(getRecommendations.error as CustomError)?.response?.data?.message ||
+                //     "There may not be an account with this email."}
+                // subMessage="Please try again and contact us if the error persists"
+                />
+            )}
             {getRecommendations.isPending ? (
                 <div className="flex mt-40 justify-center h-screen">
                     <Loader />
@@ -211,7 +82,7 @@ const Suggestions = () => {
             ) : (
                 <section className="flex justify-center sm:justify-start">
                     <div className="flex flex-wrap justify-left mx-[120px]">
-                        {outfits?.map((outfit) => (
+                        {getRecommendations.data?.data?.outfits?.map((outfit, index) => (
                             <article
                                 className={`relative bg-white bg-opacity-20 hover:bg-opacity-30 w-[270px] h-[408px] mx-[20px] my-[20px] rounded-[30px] shadow-xl hover:scale-105 transition-transform transform
                            ${
@@ -219,7 +90,7 @@ const Suggestions = () => {
                                    ? 'border-white border-2'
                                    : ''
                            }`}
-                                key={outfit.savedId}
+                                key={outfit.savedId || index}
                             >
                                 {/* Display input and save button for the selected outfit */}
                                 {selectedOutfit &&
