@@ -1,8 +1,8 @@
-# Ouffix - Frontend
+# Ouffix - Frontend📱
 
 Welcome to the frontend repository for [Ouffix.com](https://ouffix.com), an application designed to elevate your style game and simplify your daily routine. Our web app empowers you to effortlessly express your unique fashion sense with a well-organized digital closet and customized clothing recommendations.
 
-## Features
+## Features💡
 
 -   **Digital Closet**: A virtual space to keep track of all your clothes and accessories.
 -   **Customized Recommendations**: Receive outfit suggestions tailored to your personal style.
@@ -10,7 +10,7 @@ Welcome to the frontend repository for [Ouffix.com](https://ouffix.com), an appl
 -   **Daily Routine Simplification**: Save time every day by planning your outfits with ease.
 -   **Free to Use**: Full access to all features without any cost.
 
-## Technology Stack
+## Technology Stack📂
 
 Our application is built on the MERN stack:
 
@@ -19,7 +19,7 @@ Our application is built on the MERN stack:
 -   **React**: A JavaScript library for building user interfaces.
 -   **Node.js**: A JavaScript runtime built on Chrome's V8 JavaScript engine.
 
-## Usage
+## Usage⚙️
 
 Once the app is running, you can use it to organize your outfits and get personalized style recommendations:
 
@@ -28,7 +28,7 @@ Once the app is running, you can use it to organize your outfits and get persona
 3. **Get Recommendations**: Use the recommendation feature to get outfit suggestions based on your style.
 4. **Plan Ahead**: Schedule your outfits for the week with our easy-to-use calendar.
 
-## Contributors
+## Contributors🧸
 
 Special thanks to the individuals who have contributed to the development of Ouffix:
 
@@ -37,21 +37,25 @@ Special thanks to the individuals who have contributed to the development of Ouf
 -   Bokang Keith - [@SirMixalotMixalot](https://github.com/SirMixalotMixalot)
 -   Rita Xiang - [@ritaxiang](https://github.com/ritaxiang)
 
-## Contributing
+## Contributing📩
 
 We welcome contributions to Ouffix. If you have an idea or suggestion, please open an issue or submit a pull request.
 
-## Installation
+## Installation🔧
 
 To set up the front end of Ouffix on your local machine, follow these steps:
 
 1. Clone the repository:
+     ```bash
    git clone https://github.com/Ee-Hsin/OutfitsWebApp.git
-2. Enter the directory:
+3. Enter the directory:
+     ```bash
    cd OutfitsWebApp
-3. Install Dependencies:
+5. Install Dependencies:
+     ```bash
    npm install
-4. Run it locally:
+7. Run it locally:
+     ```bash
    npm run dev
 
 This will run the app in development mode. Open http://localhost:3000 to view it in the browser.
