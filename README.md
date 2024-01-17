@@ -58,10 +58,6 @@ This will run the app in development mode. Open http://localhost:3000 to view it
 
 **Important Note:** Our Contact Us Form requires environment variable to run.
 
-## License
-
-Ouffix is open source software [licensed as MIT](LICENSE).
-
 ---
 
 Elevate your style with Ouffix - Your fashion, your way.
