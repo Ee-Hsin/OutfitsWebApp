@@ -1,0 +1,4 @@
+# .gitattributes
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+/dist/* linguist-vendored
