@@ -13,9 +13,12 @@ const Signup: React.FC = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     reset,
   } = useForm<SignUpFormData>();
+
+  const password = watch("password");
 
   const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
     //sends info to the server
@@ -121,6 +124,24 @@ const Signup: React.FC = () => {
               {errors.password && (
                 <p role="alert" className="text-red-500">
                   {errors.password.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="font-medium">Confirm Password</label>
+              <input
+                type="password"
+                autoComplete="new-password"
+                {...register("confirmPassword", {
+                  required: "Confirm Password is required",
+                  validate: (value) =>
+                    value === password || "The passwords do not match",
+                })}
+                className="w-full mt-2 text-gray-300 bg-gray-800 focus:bg-gray-900 focus:border-gray-800"
+              />
+              {errors.confirmPassword && (
+                <p role="alert" className="text-red-500">
+                  {errors.confirmPassword.message}
                 </p>
               )}
             </div>
