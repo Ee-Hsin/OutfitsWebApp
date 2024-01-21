@@ -7,7 +7,7 @@ import {
     CLOTHING_CATEGORIES,
     CLOTHING_SUBCATEGORIES,
     COLORS,
-} from '../services/constants'
+} from '../services/categoryConstants'
 import { Loader } from '../components/UI/Loader'
 import { useEffect } from 'react'
 import { ClosetItem, ClothingCategory, ClothingSubcategories } from '../types/interfaces'

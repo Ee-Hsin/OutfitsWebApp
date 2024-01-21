@@ -5,7 +5,7 @@ import { FaRegEdit } from 'react-icons/fa'
 import { RxCrossCircled } from 'react-icons/rx'
 import { useDeleteItem, useGetCloset } from '../hooks/query'
 import { Loader } from '../components/UI/Loader'
-import { CLOTHING_CATEGORIES } from '../services/constants'
+import { CLOTHING_CATEGORIES } from '../services/categoryConstants'
 
 interface Item {
     _id: any
