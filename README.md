@@ -9,6 +9,7 @@ Welcome to the frontend repository for [Ouffix.com](https://ouffix.com), an appl
 -   **Style Discovery**: Explore new looks and combinations to refresh your wardrobe.
 -   **Daily Routine Simplification**: Save time every day by planning your outfits with ease.
 -   **Free to Use**: Full access to all features without any cost.
+![image](https://github.com/Ee-Hsin/OutfitsWebApp/assets/75463789/e6d9ea30-a7fc-45d9-bce5-ce770864656b)
 
 ## Technology Stack 📂
 
