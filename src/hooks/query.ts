@@ -170,8 +170,24 @@ const useGetCloset = () => {
 /* **************************************************************************** */
 /* OUTFITS */
 
-//User uploads a new outfit (POST)
-const useSaveOutfit = () => {
+//THESE ARE FOR THE FAVORITES PAGE:
+//To get the user's outfits (GET)
+const useGetOutfits = () => {
+    const { user } = useAuth()
+
+    return useQuery({
+        queryKey: ['outfit', user],
+        queryFn: () =>
+            API.get('/api/outfit', {
+                headers: {
+                    'x-access-token': user,
+                },
+            }),
+    })
+}
+
+//User Creates a new outfit and this saves it (POST)
+const useCreateOutfit = () => {
     const { user } = useAuth()
     const queryClient = useQueryClient()
 
@@ -185,21 +201,6 @@ const useSaveOutfit = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['outfit', user] })
         },
-    })
-}
-
-//To get the user's outfits (GET)
-const useGetOutfits = () => {
-    const { user } = useAuth()
-
-    return useQuery({
-        queryKey: ['outfit', user],
-        queryFn: () =>
-            API.get('/api/outfit', {
-                headers: {
-                    'x-access-token': user,
-                },
-            }),
     })
 }
 
@@ -221,7 +222,9 @@ const useDeleteOutfit = () => {
     })
 }
 
-//To get recommendations for the user's outfits (GET)
+//THESE ARE FOR THE SUGGESTIONS PAGE:
+
+//To get the User's location
 const getCurrentPositionPromise = (): Promise<GeolocationPosition | Error> => {
     return new Promise((resolve, reject) => {
         if ('geolocation' in navigator) {
@@ -237,6 +240,9 @@ const getCurrentPositionPromise = (): Promise<GeolocationPosition | Error> => {
 function isError(value: GeolocationPosition | Error): value is Error {
     return value instanceof Error
 }
+
+//To get reccomendations for the user
+//TODO: This should be a POST Request
 const useGetRecommendations = () => {
     const { user } = useAuth()
     return useQuery({
@@ -262,17 +268,14 @@ const useGetRecommendations = () => {
     })
 }
 
-/* **************************************************************************** */
-/* FAVORITES */
-// To add an outfit to favorite (POST)
-// To add an outfit to favorite (POST)
-// Use this mutation for saving favorite
-const useSaveFavoriteItem = () => {
+// import { useRemoveFavoriteItem, useSaveGeneratedOutfit, useGetRecommendations } from '../hooks/query'
+
+const useSaveGeneratedOutfit = () => {
     const { user } = useAuth()
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: (data: FavoriteDetails) =>
+        mutationFn: (data: OutfitDetails) =>
             API.post('/api/favorite', data, {
                 headers: {
                     'x-access-token': user,
@@ -281,22 +284,6 @@ const useSaveFavoriteItem = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['favorite', user] })
         },
-    })
-}
-
-const useGetFavorites = () => {
-    const { user } = useAuth()
-
-    return useQuery({
-        queryKey: ['favorite', user],
-        queryFn: (data) =>
-            API.get('/api/favorite', {
-                data,
-                headers: {
-                    'x-access-token': user,
-                },
-            }),
-        enabled: !!user,
     })
 }
 
@@ -318,24 +305,6 @@ const useRemoveFavoriteItem = () => {
     })
 }
 
-// In query.js
-const useSaveGeneratedOutfit = () => {
-    const { user } = useAuth()
-    const queryClient = useQueryClient()
-
-    return useMutation({
-        mutationFn: (data: OutfitDetails) =>
-            API.post('/api/favorite', data, {
-                headers: {
-                    'x-access-token': user,
-                },
-            }),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['favorite', user] })
-        },
-    })
-}
-
 export {
     useSignInUser,
     useSignInGoogleUser,
@@ -346,14 +315,12 @@ export {
     useUploadItem,
     useUpdateItem,
     useDeleteItem,
-    useSaveOutfit,
+    useCreateOutfit,
     useGetCloset,
     //   useGetInfiniteScrollCloset,
     useGetOutfits,
     useDeleteOutfit,
     useGetRecommendations,
-    useSaveFavoriteItem,
-    useGetFavorites,
     useRemoveFavoriteItem,
     useSaveGeneratedOutfit,
 }

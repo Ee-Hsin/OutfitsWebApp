@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BsHeart, BsHeartFill } from 'react-icons/bs'
-import { useGetRecommendations } from '../hooks/query'
 import { Loader } from '../components/UI/Loader'
-import { useRemoveFavoriteItem, useSaveGeneratedOutfit } from '../hooks/query'
+import { useRemoveFavoriteItem, useSaveGeneratedOutfit, useGetRecommendations } from '../hooks/query'
 import { FailureModal } from '../components/UI/FailureModal'
 
 const Suggestions = () => {
