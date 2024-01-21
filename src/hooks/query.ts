@@ -266,7 +266,7 @@ const useGetSuggestions = () => {
 
 //When the user is on the suggestions page, 
 //they can save an outfit to their favorites (POST)
-const useSaveSuggestion = () => {
+const useSaveSuggestions = () => {
     const { user } = useAuth()
     const queryClient = useQueryClient()
 
@@ -300,10 +300,9 @@ export {
     useDeleteFavorites,
     useCreateSuggestions,
     useGetSuggestions,
-    useSaveSuggestion,
+    useSaveSuggestions,
     // useRemoveFavoriteItem,
 }
-
 
 // To remove an outfit from favorite (DELETE)
 // const useRemoveFavoriteItem = () => {

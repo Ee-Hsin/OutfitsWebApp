@@ -1,6 +1,7 @@
 import { IoIosAdd } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 import {
+    useDeleteFavorites,
     useGetFavorites,
 } from '../hooks/query'
 import { useEffect, useState } from 'react'
@@ -49,6 +50,7 @@ const Favorites = () => {
                                 key={outfit._id}
                                 outfit={outfit}
                                 index={index}
+                                customDeleteMutation={useDeleteFavorites}
                             />
                         ))}
                     </div>
