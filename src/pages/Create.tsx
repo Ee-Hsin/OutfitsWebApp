@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { IoIosArrowBack } from 'react-icons/io'
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io'
 import { Tooltip } from 'react-tooltip'
-import { useGetCloset, useCreateOutfit } from '../hooks/query'
+import { useGetCloset, useCreateFavorites } from '../hooks/query'
 import { Loader } from '../components/UI/Loader'
 
 const Create = () => {
@@ -11,7 +11,7 @@ const Create = () => {
     const [outfitName, setOutfitName] = useState<string>('')
     const [buttonActive, setButtonActive] = useState<boolean>(false)
     const [selectedItems, setSelectedItems] = useState<string[]>([])
-    const createOutfit = useCreateOutfit()
+    const createFavoriteOutfit = useCreateFavorites()
 
     useEffect(() => {
         setButtonActive(
@@ -35,7 +35,7 @@ const Create = () => {
     }
 
     const onComplete = () => {
-        createOutfit.mutate({
+        createFavoriteOutfit.mutate({
             clothes: selectedItems,
             outfitName,
         })

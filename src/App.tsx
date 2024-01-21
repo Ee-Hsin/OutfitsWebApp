@@ -23,6 +23,7 @@ import ResetPassword from "./pages/ResetPassword"
 import { FailureModal } from "./components/UI/FailureModal"
 import { ContactUsForm } from "./pages/ContactUsForm"
 import LandingPageNavbar from "./components/LandingPageNavbar"
+import NewSuggestions from "./pages/NewSuggestions"
 
 const queryClient = new QueryClient()
 
@@ -61,7 +62,8 @@ function AppRoutes() {
         <Route path="/app" element={<NavbarWithOutlet />}>
           <Route path="closet" element={<Closet />} />
           <Route path="favorites" element={<Favorites />} />
-          <Route path="suggestions" element={<Suggestions />} />
+          {/* <Route path="suggestions" element={<Suggestions />} /> */}
+          <Route path="suggestions" element={<NewSuggestions />} />
           <Route path="upload" element={<Upload />} />
           <Route path="create" element={<Create />} />
           <Route path="update" element={<Update />} />

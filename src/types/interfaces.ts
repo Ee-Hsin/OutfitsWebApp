@@ -40,7 +40,7 @@ export interface UploadFormData {
     // add other fields as necessary
 }
 
-export interface CreateOutfitData {
+export interface CreateFavoriteData {
   clothes: string[];
   outfitName: string;
 }
@@ -100,11 +100,6 @@ export interface ClothingSubcategories {
     Accessories: string[]
     Activewear: string[]
 }
-
-//Request Details
-export interface FavoriteDetails {}
-
-export interface OutfitDetails {}
 
 // Clothing Item
 export interface ClosetItem {

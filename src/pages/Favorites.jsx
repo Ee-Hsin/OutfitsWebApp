@@ -1,12 +1,13 @@
 import { IoIosAdd } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 import {
-    useGetOutfits,
-    useDeleteOutfit,
+    useGetFavorites,
+    useDeleteFavorites
 } from '../hooks/query'
 import { useEffect, useState } from 'react'
 import { RxCrossCircled } from 'react-icons/rx'
 import { Loader } from '../components/UI/Loader'
+import { FailureModal } from '../components/UI/FailureModal'
 
 const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
     if (!isOpen) return null
@@ -33,7 +34,7 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
 }
 
 const OutfitCard = ({ outfit, index }) => {
-    const mutation = useDeleteOutfit()
+    const mutation = useDeleteFavorites()
     const handleDelete = () => {
         mutation.mutate(outfit._id)
     }
@@ -107,7 +108,7 @@ const OutfitCard = ({ outfit, index }) => {
 }
 const Favorites = () => {
     const [outfits, setOutfits] = useState([])
-    const { data: outfitsData, isPending: outfitsPending } = useGetOutfits()
+    const { data: outfitsData, isPending: outfitsPending, isError } = useGetFavorites()
 
     useEffect(() => {
         setOutfits(outfitsData?.data?.outfits || [])
@@ -133,7 +134,7 @@ const Favorites = () => {
                     <IoIosAdd className="text-2xl" />
                 </Link>
             </div>
-
+            {isError && <FailureModal />}
             {outfitsPending ? (
                 <div className="flex mt-40 justify-center h-screen">
                     <Loader />

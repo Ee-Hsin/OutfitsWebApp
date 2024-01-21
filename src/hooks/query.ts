@@ -9,11 +9,10 @@ import {
     ResetPasswordFormData,
     ResetPasswordParams,
     UpdateItemDetailsProps,
-    FavoriteDetails,
-    OutfitDetails,
     CustomError,
-    CreateOutfitData,
+    CreateFavoriteData,
 } from '../types/interfaces'
+import { getCurrentPositionPromise, isError } from './queryHelpers'
 
 /* **************************************************************************** */
 /* AUTHENTICATION */
@@ -171,14 +170,14 @@ const useGetCloset = () => {
 /* OUTFITS */
 
 //THESE ARE FOR THE FAVORITES PAGE:
-//To get the user's outfits (GET)
-const useGetOutfits = () => {
+//To get the user's Favorite Outfits (GET)
+const useGetFavorites = () => {
     const { user } = useAuth()
 
     return useQuery({
-        queryKey: ['outfit', user],
+        queryKey: ['favorites', user],
         queryFn: () =>
-            API.get('/api/outfit', {
+            API.get('/api/favorites', {
                 headers: {
                     'x-access-token': user,
                 },
@@ -186,68 +185,51 @@ const useGetOutfits = () => {
     })
 }
 
-//User Creates a new outfit and this saves it (POST)
-const useCreateOutfit = () => {
+//User Creates a new Favorite outfit and this saves it (POST)
+const useCreateFavorites = () => {
     const { user } = useAuth()
     const queryClient = useQueryClient()
 
-    return useMutation<any, Error, CreateOutfitData>({
+    return useMutation<any, Error, CreateFavoriteData>({
         mutationFn: (data) =>
-            API.post('/api/outfit', data, {
+            API.post('/api/favorites', data, {
                 headers: {
                     'x-access-token': user,
                 },
             }),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['outfit', user] })
+            queryClient.invalidateQueries({ queryKey: ['favorites', user] })
         },
     })
 }
 
 //User deletes an outfit (DELETE)
-const useDeleteOutfit = () => {
+const useDeleteFavorites = () => {
     const { user } = useAuth()
     const queryClient = useQueryClient()
 
     return useMutation({
         mutationFn: (outfitId: string) =>
-            API.delete(`/api/outfit/${outfitId}`, {
+            API.delete(`/api/favorites/${outfitId}`, {
                 headers: {
                     'x-access-token': user,
                 },
             }),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['outfit', user] })
+            queryClient.invalidateQueries({ queryKey: ['favorites', user] })
         },
     })
 }
 
+//************************************************ */
 //THESE ARE FOR THE SUGGESTIONS PAGE:
-
-//To get the User's location
-const getCurrentPositionPromise = (): Promise<GeolocationPosition | Error> => {
-    return new Promise((resolve, reject) => {
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => resolve(position),
-                (error) => reject(error)
-            )
-        } else {
-            reject(new Error('Geolocation is not supported by this browser.'))
-        }
-    })
-}
-function isError(value: GeolocationPosition | Error): value is Error {
-    return value instanceof Error
-}
-
-//To get reccomendations for the user
-//TODO: This should be a POST Request
-const useGetRecommendations = () => {
+//To generate suggestions for the user (POST)
+const useCreateSuggestions = () => {
     const { user } = useAuth()
-    return useQuery({
-        queryKey: ['recommendation', user],
-        queryFn: async () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async () => {
             let position = await getCurrentPositionPromise()
             if (isError(position)) {
                 throw position
@@ -256,45 +238,41 @@ const useGetRecommendations = () => {
             const latitude = position.coords.latitude
             const longitude = position.coords.longitude
 
-            return API.get(
-                `/api/outfit/recommendation?lat=${latitude}&long=${longitude}`,
-                {
-                    headers: {
-                        'x-access-token': user,
-                    },
-                }
-            )
+            return API.post('/api/favorites/suggestions', {latitude, longitude}, {
+                headers: {
+                    'x-access-token': user,
+                },
+            })
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['suggestions', user] })
         },
     })
 }
 
-// import { useRemoveFavoriteItem, useSaveGeneratedOutfit, useGetRecommendations } from '../hooks/query'
-
-const useSaveGeneratedOutfit = () => {
+const useGetSuggestions = () => {
     const { user } = useAuth()
-    const queryClient = useQueryClient()
 
-    return useMutation({
-        mutationFn: (data: OutfitDetails) =>
-            API.post('/api/favorite', data, {
+    return useQuery({
+        queryKey: ['suggestions', user],
+        queryFn: () =>
+            API.get('/api/favorites/suggestions', {
                 headers: {
                     'x-access-token': user,
                 },
             }),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['favorite', user] })
-        },
     })
 }
 
-// To remove an outfit from favorite (DELETE)
-const useRemoveFavoriteItem = () => {
+//When the user is on the suggestions page, 
+//they can save an outfit to their favorites (POST)
+const useSaveSuggestion = () => {
     const { user } = useAuth()
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: (id: string) =>
-            API.delete(`/api/favorite/${id}`, {
+        mutationFn: (data) =>
+            API.post('/api/favorites/suggestions', data, {
                 headers: {
                     'x-access-token': user,
                 },
@@ -315,12 +293,32 @@ export {
     useUploadItem,
     useUpdateItem,
     useDeleteItem,
-    useCreateOutfit,
     useGetCloset,
     //   useGetInfiniteScrollCloset,
-    useGetOutfits,
-    useDeleteOutfit,
-    useGetRecommendations,
-    useRemoveFavoriteItem,
-    useSaveGeneratedOutfit,
+    useCreateFavorites,
+    useGetFavorites,
+    useDeleteFavorites,
+    useCreateSuggestions,
+    useGetSuggestions,
+    useSaveSuggestion,
+    // useRemoveFavoriteItem,
 }
+
+
+// To remove an outfit from favorite (DELETE)
+// const useRemoveFavoriteItem = () => {
+//     const { user } = useAuth()
+//     const queryClient = useQueryClient()
+
+//     return useMutation({
+//         mutationFn: (id: string) =>
+//             API.delete(`/api/favorite/${id}`, {
+//                 headers: {
+//                     'x-access-token': user,
+//                 },
+//             }),
+//         onSuccess: () => {
+//             queryClient.invalidateQueries({ queryKey: ['favorite', user] })
+//         },
+//     })
+// }
