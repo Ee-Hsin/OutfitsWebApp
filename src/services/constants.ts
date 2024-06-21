@@ -3,7 +3,7 @@ import { ClothingSubcategories } from "../types/interfaces";
 export const TESTING = false;
 export const API_URL = TESTING
   ? "http://localhost:8080"
-  : "outfitbackend-production.up.railway.app";
+  : "https://outfitbackend-production.up.railway.app";
 
 export const COLORS = [
   { value: "black", label: "black" },
