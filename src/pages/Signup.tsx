@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
+// import { GoogleLogin } from "@react-oauth/google";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateUser, useCreateGoogleUser } from "../hooks/query";
 import { FailureModal } from "../components/UI/FailureModal";
@@ -127,9 +127,7 @@ const Signup: React.FC = () => {
             <button className="w-full text-gray-800 bg-gray-100 hover:bg-gray-200 ring-offset-2 focus:ring rounded-lg">
               Sign up
             </button>
-            <div className="flex justify-center mt-4">
-              {/* TODO: Have to figure out what exactly Google Login returns on success and
-            how we can use it to update the user in AuthContext */}
+            {/* <div className="flex justify-center mt-4">
               <GoogleLogin
                 onSuccess={(r) =>
                   // Sends clientId and credential from google to backend to create user
@@ -139,7 +137,7 @@ const Signup: React.FC = () => {
                   })
                 }
               />
-            </div>
+            </div> */}
           </form>
         )}
       </div>

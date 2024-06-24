@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom"
-import { GoogleLogin } from "@react-oauth/google"
+// import { GoogleLogin } from "@react-oauth/google"
 import { useSignInUser, useSignInGoogleUser } from "../hooks/query"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { FailureModal } from "../components/UI/FailureModal"
@@ -115,7 +115,7 @@ const LoginPage: React.FC = () => {
             <button className="w-full text-gray-800 bg-gray-100 hover:bg-gray-200 ring-offset-2 focus:ring rounded-lg">
               Sign in
             </button>
-            <div className="flex justify-center mt-4">
+            {/* <div className="flex justify-center mt-4">
               <GoogleLogin
                 onSuccess={(r) =>
                   // Sends clientId and credential from google to backend to create user
@@ -125,7 +125,7 @@ const LoginPage: React.FC = () => {
                   })
                 }
               />
-            </div>
+            </div> */}
           </form>
         )}
         <div className="text-center mt-5 space-y-2">
